@@ -25,7 +25,7 @@ const generateAccounts = (count: number): Account[] => {
     accounts.push({
       id: `acc_${Mock.Random.string('number', 3)}`,
       phoneNo: phoneFormat(),
-      accountLink: `https://t.me/${Mock.Random.string('lower', 8)}`,
+      accountLink: `https://www.tiktok.com/@${Mock.Random.string('lower', 8)}`,
       ownerId: Mock.Random.pick(['u_1001', 'u_1002', 'u_1003', 'u_1004']),
       createdBy: Mock.Random.pick(['u_1001', 'u_1002', 'u_1003', 'u_1004']),
       status: Mock.Random.pick(['ACTIVE', 'DISABLED']),

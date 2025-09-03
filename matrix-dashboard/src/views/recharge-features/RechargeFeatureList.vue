@@ -315,7 +315,7 @@ const fetchData = async () => {
       return {
         id: `rf_${pagination.page}_${index + 1}`,
         phone: phoneFormat(),
-        accountUrl: `https://example.com/account/${index + 1}`,
+        accountUrl: `https://www.tiktok.com/@user${index + 1}`,
         syncStatus: ['synced', 'not_synced', 'sync_failed'][Math.floor(Math.random() * 3)] as 'synced' | 'not_synced' | 'sync_failed',
         featureStatus: Math.random() > 0.3 ? 'has_recharge' : 'no_recharge' as 'has_recharge' | 'no_recharge',
         totalAmount: Math.random() > 0.3 ? Math.floor(Math.random() * 10000) + 100 : null,

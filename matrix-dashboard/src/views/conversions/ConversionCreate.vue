@@ -40,7 +40,7 @@
                   <el-form-item label="账号链接" prop="accountUrl">
                     <el-input
                       v-model="singleForm.accountUrl"
-                      placeholder="请输入账号链接"
+                      placeholder="请输入TikTok账号链接（https://www.tiktok.com/@username）"
                       type="url"
                     />
                   </el-form-item>
@@ -141,7 +141,7 @@
                     v-model="batchForm.data"
                     type="textarea"
                     :rows="10"
-                    placeholder="请输入转化数据，每行一条记录&#10;格式：手机编号,账号链接,转化类型[,转化金额][,备注]&#10;示例：us-1,https://example.com,register,注册转化"
+                    placeholder="请输入转化数据，每行一条记录&#10;格式：手机编号,账号链接,转化类型[,转化金额][,备注]&#10;示例：us-1,https://www.tiktok.com/@user1,register,注册转化"
                   />
                 </el-form-item>
 

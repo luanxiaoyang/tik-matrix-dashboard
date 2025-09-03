@@ -36,7 +36,7 @@
             <el-form-item label="账号链接" prop="accountLink">
               <el-input
                 v-model="form.accountLink"
-                placeholder="请输入Telegram账号链接"
+                placeholder="请输入TikTok账号链接"
                 maxlength="200"
                 show-word-limit
               >
@@ -45,7 +45,7 @@
                 </template>
               </el-input>
               <div class="form-tip">
-                格式：https://t.me/username
+                格式：https://www.tiktok.com/@username
               </div>
             </el-form-item>
           </el-col>
@@ -59,6 +59,7 @@
                 placeholder="选择归属用户"
                 style="width: 100%"
                 filterable
+                :disabled="isOperator"
               >
                 <el-option
                   v-for="user in ownerOptions"
@@ -68,7 +69,7 @@
                 />
               </el-select>
               <div class="form-tip">
-                账号的归属用户，用于权限控制
+                {{ isOperator ? '运营账号创建的账号自动归属于自己' : '账号的归属用户，用于权限控制' }}
               </div>
             </el-form-item>
           </el-col>
@@ -117,7 +118,7 @@
                   v-model="batchData.text"
                   type="textarea"
                   :rows="8"
-                  placeholder="每行一个账号，格式：手机编号,账号链接,归属用户ID\n例如：\nus-1,https://t.me/user1,u_1001\n美国2,https://t.me/user2,u_1002"
+                  placeholder="每行一个账号，格式：手机编号,账号链接,归属用户ID\n例如：\nus-1,https://www.tiktok.com/@user1,u_1001\n美国2,https://www.tiktok.com/@user2,u_1002"
                 />
               </el-tab-pane>
               
@@ -133,7 +134,7 @@
                   <el-button :icon="Upload">选择文件</el-button>
                   <template #tip>
                     <div class="upload-tip">
-                      支持CSV或TXT文件，格式：手机号,账号链接,归属用户ID
+                      支持CSV或TXT文件，格式：手机编号,账号链接,归属用户ID
                     </div>
                   </template>
                 </el-upload>
@@ -198,7 +199,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules, type UploadFile } from 'element-plus'
 import {
@@ -215,6 +216,11 @@ import type { CreateAccountParams } from '@/types/business'
 
 const router = useRouter()
 const userStore = useUserStore()
+
+// 检查是否为运营账号
+const isOperator = computed(() => {
+  return userStore.userInfo?.role === 'OPERATOR'
+})
 
 const formRef = ref<FormInstance>()
 const uploadRef = ref()
@@ -243,13 +249,22 @@ const previewDialog = reactive({
   visible: false
 })
 
-// 用户选项
-const ownerOptions = ref([
-  { label: 'Admin', value: 'u_1001' },
-  { label: 'Manager', value: 'u_1002' },
-  { label: 'Operator1', value: 'u_1003' },
-  { label: 'Operator2', value: 'u_1004' }
-])
+// 用户选项（根据角色过滤）
+const ownerOptions = computed(() => {
+  const allOptions = [
+    { label: 'Admin', value: 'u_1001' },
+    { label: 'Manager', value: 'u_1002' },
+    { label: 'Operator1', value: 'u_1003' },
+    { label: 'Operator2', value: 'u_1004' }
+  ]
+  
+  // 如果是运营账号，只能选择自己
+  if (isOperator.value && userStore.userInfo) {
+    return allOptions.filter(option => option.value === userStore.userInfo?.id)
+  }
+  
+  return allOptions
+})
 
 // 表单验证规则
 const rules: FormRules = {
@@ -259,7 +274,7 @@ const rules: FormRules = {
   ],
   accountLink: [
     { required: true, message: '请输入账号链接', trigger: 'blur' },
-    { pattern: /^https:\/\/t\.me\/[a-zA-Z0-9_]+$/, message: '账号链接格式不正确', trigger: 'blur' }
+    { pattern: /^https:\/\/www\.tiktok\.com\/@[a-zA-Z0-9_.]+$/, message: '账号链接格式不正确，应为 https://www.tiktok.com/@username', trigger: 'blur' }
   ],
   ownerId: [
     { required: true, message: '请选择归属用户', trigger: 'change' }
@@ -338,8 +353,8 @@ const previewBatchData = () => {
         item.error = '手机编号长度不能超过50个字符'
       } else if (!item.accountLink) {
         item.error = '账号链接不能为空'
-      } else if (!/^https:\/\/t\.me\/[a-zA-Z0-9_]+$/.test(item.accountLink)) {
-        item.error = '账号链接格式不正确'
+      } else if (!/^https:\/\/www\.tiktok\.com\/@[a-zA-Z0-9_.]+$/.test(item.accountLink)) {
+        item.error = '账号链接格式不正确，应为 https://www.tiktok.com/@username'
       } else if (!item.ownerId) {
         item.error = '归属用户不能为空'
       }
@@ -470,7 +485,7 @@ const handleReset = () => {
   Object.assign(form, {
     phoneNo: '',
     accountLink: '',
-    ownerId: '',
+    ownerId: isOperator.value && userStore.userInfo ? userStore.userInfo.id : '',
     status: 'active',
     remark: ''
   })
@@ -482,6 +497,14 @@ const handleReset = () => {
     uploadRef.value?.clearFiles()
   }
 }
+
+// 组件初始化
+onMounted(() => {
+  // 如果是运营账号，自动设置归属用户为自己
+  if (isOperator.value && userStore.userInfo) {
+    form.ownerId = userStore.userInfo.id
+  }
+})
 </script>
 
 <style scoped>

@@ -35,7 +35,7 @@ const generateConversions = (count: number): Conversion[] => {
       accountBrief: {
         id: `acc_${Mock.Random.string('number', 3)}`,
         phoneNo,
-        accountLink: `https://t.me/${Mock.Random.string('lower', 8)}`,
+        accountLink: `https://www.tiktok.com/@${Mock.Random.string('lower', 8)}`,
         ownerId: Mock.Random.pick(['u_1001', 'u_1002', 'u_1003', 'u_1004'])
       },
       lastRechargeFeature: Mock.Random.boolean() ? {

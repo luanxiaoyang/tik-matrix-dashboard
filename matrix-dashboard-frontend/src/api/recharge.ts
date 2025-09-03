@@ -12,7 +12,7 @@ export const getRechargeFeatures = (params: {
   userId?: string
   status?: 'active' | 'inactive'
 }) => {
-  return request.get<PaginationResponse<RechargeFeature>>('/recharge-sync/features', { params })
+  return request.get<PaginationResponse<RechargeFeature>>('/recharge-sync/list', { params })
 }
 
 /**

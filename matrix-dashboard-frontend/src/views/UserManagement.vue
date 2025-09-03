@@ -119,7 +119,7 @@
             <el-button
               type="danger"
               size="small"
-              @click="deleteUser(row)"
+              @click="handleDeleteUser(row)"
               v-if="authStore.hasPermission('user:delete')"
             >
               删除
@@ -212,9 +212,9 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
-import { getUserList, getUserById, createUser, updateUser, deleteUser as deleteUserApi, resetUserPassword, batchDeleteUsers } from '@/api/user'
+import { getUserList, getUserById, createUser, updateUser, deleteUser, resetUserPassword, } from '@/api/user'
 import { getAllRoles } from '@/api/rbac'
-import type { User, CreateUserRequest, UpdateUserRequest, Role, GetUsersParams, ResetPasswordResponse } from '@/types/api'
+import type { User, CreateUserRequest, UpdateUserRequest, Role, GetUsersParams, ResetPasswordResponse, PaginationResponse } from '@/types/api'
 
 const authStore = useAuthStore()
 
@@ -298,11 +298,22 @@ const loadUserList = async () => {
       status: searchForm.status as 'active' | 'inactive' | 'banned' | undefined || undefined
     }
     const response = await getUserList(params)
-    userList.value = response.data.data.users || response.data.data.items || []
-    pagination.total = response.data.data.total
+    
+    // 处理后端响应格式 - 后端返回 { users: User[], total: number }
+    if (response) {
+      const data = response.data as unknown as PaginationResponse<User>
+      userList.value = data.users || []
+      pagination.total = data.total || 0
+    } else {
+      userList.value = []
+      pagination.total = 0
+    }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('加载用户列表失败')
-    console.error('加载用户列表失败:', error)
+    // 加载用户列表失败
+    userList.value = []
+    pagination.total = 0
   } finally {
     loading.value = false
   }
@@ -315,8 +326,9 @@ const loadRoleList = async () => {
   try {
     const response = await getAllRoles()
     roleList.value = response.data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.error('加载角色列表失败:', error)
+    // 加载角色列表失败
   }
 }
 
@@ -393,9 +405,10 @@ const showEditDialog = async (user: User) => {
     })
     
     dialogVisible.value = true
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('获取用户信息失败')
-    console.error('获取用户信息失败:', error)
+    // 获取用户信息失败
   }
 }
 
@@ -451,9 +464,10 @@ const handleSubmit = async () => {
     
     dialogVisible.value = false
     loadUserList()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error(isEdit.value ? '用户更新失败' : '用户创建失败')
-    console.error('用户操作失败:', error)
+    // 用户操作失败
   } finally {
     submitting.value = false
   }
@@ -462,7 +476,7 @@ const handleSubmit = async () => {
 /**
  * 删除用户
  */
-const deleteUser = async (user: User) => {
+const handleDeleteUser = async (user: User) => {
   try {
     await ElMessageBox.confirm(
       `确定要删除用户 "${user.username}" 吗？`,
@@ -474,13 +488,13 @@ const deleteUser = async (user: User) => {
       }
     )
     
-    await deleteUserApi(user.id)
+    await deleteUser(user.id)
     ElMessage.success('用户删除成功')
     loadUserList()
   } catch (error) {
     if (error !== 'cancel') {
       ElMessage.error('用户删除失败')
-      console.error('用户删除失败:', error)
+      // 用户删除失败
     }
   }
 }
@@ -506,7 +520,7 @@ const resetPassword = async (user: User) => {
   } catch (error) {
     if (error !== 'cancel') {
       ElMessage.error('密码重置失败')
-      console.error('密码重置失败:', error)
+      // 密码重置失败
     }
   }
 }

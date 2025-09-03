@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { User, LoginRequest, Permission } from '@/types/api'
+import type { User, LoginRequest } from '@/types/api'
 import { login, getProfile, logout } from '@/api/auth'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
@@ -53,7 +53,7 @@ export const useAuthStore = defineStore('auth', () => {
       
       return response
     } catch (error) {
-      console.error('登录失败:', error)
+      // 登录失败
       throw error
     } finally {
       isLoading.value = false
@@ -70,7 +70,7 @@ export const useAuthStore = defineStore('auth', () => {
       localStorage.setItem('user_info', JSON.stringify(response.data))
       return response
     } catch (error) {
-      console.error('获取用户信息失败:', error)
+      // 获取用户信息失败
       // 如果获取用户信息失败，清除本地存储
       clearAuth()
       throw error
@@ -83,8 +83,9 @@ export const useAuthStore = defineStore('auth', () => {
   const userLogout = async () => {
     try {
       await logout()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      console.error('退出登录失败:', error)
+      // 退出登录失败
     } finally {
       clearAuth()
       ElMessage.success('已退出登录')
@@ -117,8 +118,9 @@ export const useAuthStore = defineStore('auth', () => {
       refreshToken.value = refresh
       try {
         user.value = JSON.parse(userInfo)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
-        console.error('解析用户信息失败:', error)
+        // 解析用户信息失败
         clearAuth()
       }
     }

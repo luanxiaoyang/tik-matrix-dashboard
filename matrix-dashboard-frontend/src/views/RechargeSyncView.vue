@@ -330,11 +330,12 @@ const loadFeatureList = async () => {
       status: (searchForm.status as 'active' | 'inactive') || undefined
     }
     const response = await getRechargeFeatures(params)
-    featureList.value = response.data.items
-    pagination.total = response.data.total
+    featureList.value = response.data.items || []
+    pagination.total = response.data.total || 0
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('加载充值功能列表失败')
-    console.error('加载充值功能列表失败:', error)
+    // 加载充值功能列表失败
   } finally {
     loading.value = false
   }
@@ -349,10 +350,11 @@ const testApiConnection = async () => {
     const response = await testApiConnectionApi()
     connectionStatus.value = response.data
     ElMessage.success('API连接测试完成')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     connectionStatus.value = { success: false, message: '连接测试失败' }
     ElMessage.error('API连接测试失败')
-    console.error('API连接测试失败:', error)
+    // API连接测试失败
   } finally {
     testingConnection.value = false
   }
@@ -367,10 +369,11 @@ const debugYayLogin = async () => {
     const response = await debugYayLoginApi()
     debugResult.value = response.data
     ElMessage.success('YAY登录调试完成')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     debugResult.value = { success: false, message: '登录调试失败' }
     ElMessage.error('YAY登录调试失败')
-    console.error('YAY登录调试失败:', error)
+    // YAY登录调试失败
   } finally {
     debuggingLogin.value = false
   }
@@ -437,10 +440,11 @@ const showHistoryDialog = async () => {
     loadingHistory.value = true
     historyDialogVisible.value = true
     const response = await getSyncHistory({})
-    syncHistory.value = response.data.items
+    syncHistory.value = response.data.items || []
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('加载同步历史失败')
-    console.error('加载同步历史失败:', error)
+    // 加载同步历史失败
   } finally {
     loadingHistory.value = false
   }
@@ -465,9 +469,10 @@ const handleSync = async () => {
     } else {
       ElMessage.error(response.data.message || '同步失败')
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('同步失败')
-    console.error('同步失败:', error)
+    // 同步失败
   } finally {
     syncing.value = false
   }
@@ -503,9 +508,10 @@ const handleBatchSync = async () => {
     } else {
       ElMessage.error(response.data.message || '批量同步失败')
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('批量同步失败')
-    console.error('批量同步失败:', error)
+    // 批量同步失败
   } finally {
     batchSyncing.value = false
   }

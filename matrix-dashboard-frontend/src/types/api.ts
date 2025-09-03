@@ -1,5 +1,5 @@
 // 通用API响应结构
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   code: number
   message: string
   data: T
@@ -26,7 +26,7 @@ export interface User {
   avatar?: string
   status: 'active' | 'inactive' | 'banned' // 后端支持banned状态
   larkUserId?: string // 飞书用户ID
-  larkUserInfo?: any // 飞书用户信息
+  larkUserInfo?: Record<string, unknown> // 飞书用户信息
   lastLoginAt?: string
   lastLoginIp?: string // 最后登录IP
   loginCount?: number // 登录次数
@@ -79,7 +79,7 @@ export interface RechargeSyncRequest {
 export interface RechargeSyncResponse {
   success: boolean
   message: string
-  data?: any
+  data?: Record<string, unknown>
 }
 
 // 充值功能查询参数

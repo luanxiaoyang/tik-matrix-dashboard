@@ -215,11 +215,21 @@ const loadPermissionList = async () => {
       code: searchForm.code || undefined
     }
     const response = await getPermissionList(params)
-    permissionList.value = response.data.items || []
-    pagination.total = response.data.total
-  } catch (error) {
+    // 后端直接返回权限数组，不是分页格式
+    if (Array.isArray(response.data)) {
+      permissionList.value = response.data
+      pagination.total = response.data.length
+    } else {
+      // 如果是分页格式
+      permissionList.value = response.data.items || []
+      pagination.total = response.data.total || 0
+    }
+  } catch {
     ElMessage.error('加载权限列表失败')
-    console.error('加载权限列表失败:', error)
+    // 加载权限列表失败
+    // 设置空数据避免页面崩溃
+    permissionList.value = []
+    pagination.total = 0
   } finally {
     loading.value = false
   }
@@ -295,9 +305,10 @@ const showEditDialog = async (permission: Permission) => {
     })
     
     dialogVisible.value = true
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('获取权限信息失败')
-    console.error('获取权限信息失败:', error)
+    // 获取权限信息失败
   }
 }
 
@@ -345,9 +356,10 @@ const handleSubmit = async () => {
     
     dialogVisible.value = false
     loadPermissionList()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error(isEdit.value ? '权限更新失败' : '权限创建失败')
-    console.error('权限操作失败:', error)
+    // 权限操作失败
   } finally {
     submitting.value = false
   }
@@ -374,7 +386,7 @@ const deletePermission = async (permission: Permission) => {
   } catch (error) {
     if (error !== 'cancel') {
       ElMessage.error('权限删除失败')
-      console.error('权限删除失败:', error)
+      // 权限删除失败
     }
   }
 }

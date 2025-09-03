@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <template>
   <div class="home-container">
     <!-- 欢迎区域 -->
@@ -218,9 +219,10 @@ const testConnection = async () => {
     } else {
       ElMessage.warning('API连接异常')
     }
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_error) {
     ElMessage.error('API连接失败')
-    console.error('API连接测试失败:', error)
+    // API连接测试失败
   }
 }
 

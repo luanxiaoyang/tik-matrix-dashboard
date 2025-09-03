@@ -116,8 +116,9 @@ const handleLogin = async () => {
     // 登录成功后跳转
     const redirect = route.query.redirect as string
     router.push(redirect || '/')
-  } catch (error) {
-    console.error('登录失败:', error)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_error) {
+    // 登录失败
   }
 }
 
@@ -129,9 +130,10 @@ const handleLarkLogin = async () => {
     const response = await getLarkAuthUrl()
     // 跳转到飞书授权页面
     window.location.href = response.data.url
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (_error) {
     ElMessage.error('获取飞书授权链接失败')
-    console.error('飞书登录失败:', error)
+    // 飞书登录失败
   }
 }
 

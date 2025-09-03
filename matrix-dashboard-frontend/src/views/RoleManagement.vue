@@ -178,7 +178,7 @@
             :default-checked-keys="selectedPermissionIds"
             @check="handlePermissionCheck"
           >
-            <template #default="{ node, data }">
+            <template #default="{ data }">
               <span class="tree-node">
                 <el-icon v-if="data.type === 'module'" class="module-icon"><Folder /></el-icon>
                 <el-icon v-else class="permission-icon"><Key /></el-icon>
@@ -206,7 +206,7 @@ import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'elem
 import { useAuthStore } from '@/stores/auth'
 import { getRoleList, getRoleById, createRole, updateRole, deleteRole as deleteRoleApi } from '@/api/rbac'
 import { getAllPermissions } from '@/api/rbac'
-import type { Role, Permission, GetRolesParams, CreateRoleRequest, UpdateRoleRequest } from '@/types/api'
+import type { Role, Permission, GetRolesParams, UpdateRoleRequest } from '@/types/api'
 
 const authStore = useAuthStore()
 
@@ -267,16 +267,24 @@ const treeProps = {
 const dialogTitle = computed(() => isEdit.value ? '编辑角色' : '新增角色')
 
 // 权限树数据
+interface TreeNode {
+  id: string
+  name: string
+  code?: string
+  type: 'module' | 'permission'
+  children?: TreeNode[]
+}
+
 const permissionTreeData = computed(() => {
   // 将权限列表转换为树形结构
   const moduleMap = new Map()
-  const result: any[] = []
+  const result: TreeNode[] = []
   
   permissionList.value.forEach(permission => {
-    const [module, action] = permission.code.split(':')
+    const [module] = permission.code.split(':')
     
     if (!moduleMap.has(module)) {
-      const moduleNode = {
+      const moduleNode: TreeNode = {
         id: `module_${module}`,
         name: getModuleName(module),
         code: module,
@@ -333,11 +341,15 @@ const loadRoleList = async () => {
       code: searchForm.code || undefined
     }
     const response = await getRoleList(params)
-    roleList.value = response.data.items || []
-    pagination.total = response.data.total
+    // 后端返回的数据结构是 {code: 200, message: '获取成功', data: Array}
+    // data 直接是角色数组，不是包含 items 和 total 的对象
+    roleList.value = (response.data as unknown as Role[]) || []
+    // 设置总数为数组长度
+    pagination.total = (response.data as unknown as Role[])?.length || 0
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('加载角色列表失败')
-    console.error('加载角色列表失败:', error)
+    // 加载角色列表失败
   } finally {
     loading.value = false
   }
@@ -350,8 +362,9 @@ const loadPermissionList = async () => {
   try {
     const response = await getAllPermissions()
     permissionList.value = response.data
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.error('加载权限列表失败:', error)
+    // 加载权限列表失败
     ElMessage.error('加载权限列表失败')
   }
 }
@@ -426,9 +439,10 @@ const showEditDialog = async (role: Role) => {
     })
     
     dialogVisible.value = true
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('获取角色信息失败')
-    console.error('获取角色信息失败:', error)
+    // 获取角色信息失败
   }
 }
 
@@ -449,9 +463,10 @@ const showPermissionDialog = async (role: Role) => {
     if (permissionTreeRef.value) {
       permissionTreeRef.value.setCheckedKeys(selectedPermissionIds.value)
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('获取角色权限失败')
-    console.error('获取角色权限失败:', error)
+    // 获取角色权限失败
   }
 }
 
@@ -508,9 +523,10 @@ const handleSubmit = async () => {
     
     dialogVisible.value = false
     loadRoleList()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error(isEdit.value ? '角色更新失败' : '角色创建失败')
-    console.error('角色操作失败:', error)
+    // 角色操作失败
   } finally {
     submitting.value = false
   }
@@ -519,10 +535,17 @@ const handleSubmit = async () => {
 /**
  * 权限选择改变
  */
-const handlePermissionCheck = (data: any, checked: any) => {
+interface CheckedInfo {
+  checkedKeys: (string | number)[]
+  checkedNodes: TreeNode[]
+  halfCheckedKeys: (string | number)[]
+  halfCheckedNodes: TreeNode[]
+}
+
+const handlePermissionCheck = (data: TreeNode, checked: CheckedInfo) => {
   // 获取所有选中的权限ID（排除模块节点）
-  const checkedKeys = checked.checkedKeys.filter((key: any) => typeof key === 'number')
-  selectedPermissionIds.value = checkedKeys
+  const checkedKeys = checked.checkedKeys.filter((key: string | number) => typeof key === 'number')
+  selectedPermissionIds.value = checkedKeys as number[]
 }
 
 /**
@@ -540,9 +563,10 @@ const handlePermissionSubmit = async () => {
     ElMessage.success('权限分配成功')
     permissionDialogVisible.value = false
     loadRoleList()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     ElMessage.error('权限分配失败')
-    console.error('权限分配失败:', error)
+    // 权限分配失败
   } finally {
     permissionSubmitting.value = false
   }
@@ -569,7 +593,7 @@ const deleteRole = async (role: Role) => {
   } catch (error) {
     if (error !== 'cancel') {
       ElMessage.error('角色删除失败')
-      console.error('角色删除失败:', error)
+      // 角色删除失败
     }
   }
 }

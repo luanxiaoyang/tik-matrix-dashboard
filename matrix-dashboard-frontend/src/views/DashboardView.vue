@@ -143,11 +143,11 @@ const handleCommand = async (command: string) => {
   switch (command) {
     case 'profile':
       // TODO: 打开个人信息弹窗
-      console.log('打开个人信息')
+      // 打开个人信息
       break
     case 'settings':
       // TODO: 打开系统设置
-      console.log('打开系统设置')
+      // 打开系统设置
       break
     case 'logout':
       await handleLogout()
@@ -171,9 +171,9 @@ const handleLogout = async () => {
     )
     
     await authStore.userLogout()
-  } catch (error) {
+  } catch {
     // 用户取消退出
-    console.log('用户取消退出登录')
+    // 用户取消退出登录
   }
 }
 

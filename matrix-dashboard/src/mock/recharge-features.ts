@@ -1,5 +1,20 @@
 import Mock from 'mockjs'
-import type { AccountRechargeFeature, SyncRechargeFeatureParams } from '@/types/business'
+import type { AccountRechargeFeature } from '@/types/business'
+
+// 已经不再使用的接口，保留作为参考
+interface SyncRechargeFeatureParams {
+  userIds: number[]
+}
+
+interface SyncRechargeFeatureResponse {
+  total: number
+  success: number
+  failed: Array<{
+    userId: number
+    reason: string
+  }>
+  taskId?: string
+}
 
 // 生成模拟充值特征数据
 const generateRechargeFeatures = (): AccountRechargeFeature[] => {

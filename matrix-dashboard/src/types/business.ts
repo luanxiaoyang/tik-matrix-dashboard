@@ -24,12 +24,40 @@ export interface Account {
 }
 
 /**
+ * 账号详情信息（用于详情页面）
+ */
+export interface AccountInfo {
+  id: string
+  phone: string // 手机编号，支持格式如：us-1、美国1、云845等
+  phoneNo: string // 手机编号，支持格式如：us-1、美国1、云845等
+  accountUrl: string
+  accountLink: string
+  owner: string
+  ownerId: string
+  creator?: string
+  createdBy?: string
+  status: string
+  remark?: string
+  createdAt: string
+  updatedAt?: string
+  stats?: {
+    conversionCount: number
+  }
+  lastRechargeFeature?: AccountRechargeFeature
+}
+
+/**
  * 创建账号参数
  */
 export interface CreateAccountParams {
+  phone: string // 手机编号，支持格式如：us-1、美国1、云845等
   phoneNo: string // 手机编号，支持格式如：us-1、美国1、云845等
+  accountUrl: string
   accountLink: string
+  owner?: string
   ownerId?: string
+  status?: string
+  remark?: string
 }
 
 /**

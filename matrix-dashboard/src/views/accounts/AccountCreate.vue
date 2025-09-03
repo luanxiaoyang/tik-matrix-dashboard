@@ -201,7 +201,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, type FormInstance, type FormRules, type UploadFile } from 'element-plus'
+import { ElMessage, ElMessageBox, type FormInstance, type FormRules, type UploadFile } from 'element-plus'
 import {
   ArrowLeft,
   Phone,
@@ -295,8 +295,9 @@ const getUserName = (userId: string) => {
 /**
  * 处理批量模式变化
  */
-const handleBatchModeChange = (enabled: boolean) => {
-  if (!enabled) {
+const handleBatchModeChange = (enabled: boolean | string | number) => {
+  const isEnabled = Boolean(enabled)
+  if (!isEnabled) {
     batchData.text = ''
     batchData.file = null
     batchPreview.value = []
@@ -429,7 +430,7 @@ const handleBatchSubmit = async () => {
   
   if (validItems.length !== batchPreview.value.length) {
     const invalidCount = batchPreview.value.length - validItems.length
-    const confirmed = await ElMessage.confirm(
+    const confirmed = await ElMessageBox.confirm(
       `检测到 ${invalidCount} 条无效数据，是否继续创建 ${validItems.length} 条有效数据？`,
       '确认批量创建',
       {

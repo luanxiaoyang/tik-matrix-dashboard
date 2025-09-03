@@ -188,7 +188,7 @@
     >
       <el-form :model="changeOwnerDialog.form" label-width="80px">
         <el-form-item label="当前归属">
-          <span>{{ getUserName(changeOwnerDialog.account?.ownerId) }}</span>
+          <span>{{ getUserName(changeOwnerDialog.account?.ownerId || '') }}</span>
         </el-form-item>
         <el-form-item label="新归属" required>
           <el-select
@@ -283,8 +283,8 @@ const changeOwnerDialog = reactive({
 /**
  * 获取账号状态类型
  */
-const getStatusType = (status: string) => {
-  return ACCOUNT_STATUS_COLORS[status] || 'info'
+const getStatusType = (status: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  return ACCOUNT_STATUS_COLORS[status] as 'primary' | 'success' | 'warning' | 'info' | 'danger' || 'info'
 }
 
 /**
@@ -337,8 +337,8 @@ const loadAccounts = async () => {
     
     const response = await getAccounts(params)
     
-    tableData.value = response.data.items
-    pagination.total = response.data.total
+    tableData.value = response.data.data.items
+    pagination.total = response.data.data.total
     
   } catch (error: any) {
     errorMessage(error.message || '加载账号列表失败')

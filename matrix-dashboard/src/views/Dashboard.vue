@@ -1,9 +1,13 @@
 <template>
-  <div class="dashboard">
-    <div class="page-header">
-      <h1>仪表板</h1>
+  <ErrorBoundary>
+    <div class="dashboard">
+      <div class="page-header">
+        <h1>仪表板</h1>
+        <div class="header-actions">
+          <el-button size="small" @click="testErrorHandling">测试错误处理</el-button>
+        </div>
+      </div>
       <p>欢迎使用矩阵看板管理系统</p>
-    </div>
     
     <!-- 统计卡片 -->
     <div class="stats-grid">
@@ -99,13 +103,14 @@
         </el-timeline>
       </el-card>
     </div>
-  </div>
+    </div>
+  </ErrorBoundary>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElLoading } from 'element-plus'
 import { 
   User, 
   TrendCharts, 
@@ -117,6 +122,7 @@ import {
   Setting
 } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
+import ErrorBoundary from '@/components/ErrorBoundary.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -166,7 +172,13 @@ const quickActions = computed(() => [
 ])
 
 // 最近活动
-const recentActivities = ref([
+const recentActivities = ref<Array<{
+  id: number
+  title: string
+  description: string
+  timestamp: string
+  type: 'primary' | 'success' | 'warning' | 'info' | 'danger'
+}>>([
   {
     id: 1,
     title: '账号创建',
@@ -198,21 +210,47 @@ const recentActivities = ref([
 ])
 
 /**
- * 加载统计数据
- */
-const loadStats = async () => {
-  try {
-    // 模拟加载统计数据
-    stats.value = {
-      totalAccounts: 156,
-      totalConversions: 2340,
-      totalRecharge: '45,678.90',
-      activeUsers: 89
-    }
-  } catch (error) {
-    console.error('加载统计数据失败:', error)
+   * 加载统计数据
+   * @param forceError 是否强制触发错误（用于测试）
+   */
+  const loadStats = async (forceError = false) => {
+    return new Promise<void>((resolve, reject) => {
+      try {
+        // 模拟API调用
+        setTimeout(() => {
+          try {
+            // 随机模拟错误情况（20%概率）或强制错误
+            if (forceError || Math.random() < 0.2) {
+              throw new Error('数据加载失败，请刷新重试')
+            }
+            
+            // 正常情况
+            stats.value = {
+              totalAccounts: 156,
+              totalConversions: 2340,
+              totalRecharge: '45,678.90',
+              activeUsers: 89
+            }
+            resolve()
+          } catch (innerError) {
+            console.error('加载统计数据失败:', innerError)
+            // 使用message.ts中的loadDataError函数显示错误信息
+            import('@/utils/message').then(({ loadDataError }) => {
+              loadDataError()
+            })
+            reject(innerError)
+          }
+        }, 500)
+      } catch (error) {
+        console.error('加载统计数据失败:', error)
+        // 使用message.ts中的loadDataError函数显示错误信息
+        import('@/utils/message').then(({ loadDataError }) => {
+          loadDataError()
+        })
+        reject(error)
+      }
+    })
   }
-}
 
 /**
  * 处理快捷操作点击
@@ -230,8 +268,23 @@ const handleQuickAction = (action: any) => {
 }
 
 onMounted(() => {
-  loadStats()
+  loadStats().catch(error => {
+    console.error('Dashboard mounted error:', error)
+    import('@/utils/message').then(({ loadDataError }) => {
+      loadDataError()
+    })
+  })
 })
+
+/**
+ * 测试错误处理机制
+ * 强制触发数据加载失败
+ */
+const testErrorHandling = () => {
+  loadStats(true).catch(error => {
+    console.error('测试错误处理:', error)
+  })
+}
 </script>
 
 <style scoped>
@@ -240,7 +293,15 @@ onMounted(() => {
 }
 
 .page-header {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .page-header h1 {

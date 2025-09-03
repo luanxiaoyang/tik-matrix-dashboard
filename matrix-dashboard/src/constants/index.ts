@@ -35,7 +35,7 @@ export const ACCOUNT_STATUS = {
 } as const
 
 // 账号状态标签
-export const ACCOUNT_STATUS_LABELS = {
+export const ACCOUNT_STATUS_LABELS: Record<string, string> = {
   [ACCOUNT_STATUS.ACTIVE]: '正常',
   [ACCOUNT_STATUS.INACTIVE]: '未激活',
   [ACCOUNT_STATUS.SUSPENDED]: '已暂停',
@@ -43,7 +43,7 @@ export const ACCOUNT_STATUS_LABELS = {
 }
 
 // 账号状态颜色
-export const ACCOUNT_STATUS_COLORS = {
+export const ACCOUNT_STATUS_COLORS: Record<string, string> = {
   [ACCOUNT_STATUS.ACTIVE]: 'success',
   [ACCOUNT_STATUS.INACTIVE]: 'info',
   [ACCOUNT_STATUS.SUSPENDED]: 'warning',
@@ -60,7 +60,7 @@ export const CONVERSION_STATUS = {
 } as const
 
 // 转化状态标签
-export const CONVERSION_STATUS_LABELS = {
+export const CONVERSION_STATUS_LABELS: Record<string, string> = {
   [CONVERSION_STATUS.PENDING]: '待处理',
   [CONVERSION_STATUS.PROCESSING]: '处理中',
   [CONVERSION_STATUS.SUCCESS]: '成功',
@@ -69,7 +69,7 @@ export const CONVERSION_STATUS_LABELS = {
 }
 
 // 转化状态颜色
-export const CONVERSION_STATUS_COLORS = {
+export const CONVERSION_STATUS_COLORS: Record<string, string> = {
   [CONVERSION_STATUS.PENDING]: 'info',
   [CONVERSION_STATUS.PROCESSING]: 'warning',
   [CONVERSION_STATUS.SUCCESS]: 'success',
@@ -86,7 +86,7 @@ export const CONVERSION_TYPE = {
 } as const
 
 // 转化类型标签
-export const CONVERSION_TYPE_LABELS = {
+export const CONVERSION_TYPE_LABELS: Record<string, string> = {
   [CONVERSION_TYPE.RECHARGE]: '充值',
   [CONVERSION_TYPE.WITHDRAWAL]: '提现',
   [CONVERSION_TYPE.TRANSFER]: '转账',
@@ -94,7 +94,7 @@ export const CONVERSION_TYPE_LABELS = {
 }
 
 // 转化类型颜色
-export const CONVERSION_TYPE_COLORS = {
+export const CONVERSION_TYPE_COLORS: Record<string, string> = {
   [CONVERSION_TYPE.RECHARGE]: 'success',
   [CONVERSION_TYPE.WITHDRAWAL]: 'warning',
   [CONVERSION_TYPE.TRANSFER]: 'info',

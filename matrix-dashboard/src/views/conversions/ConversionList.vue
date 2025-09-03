@@ -190,19 +190,20 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import { Search, Plus, View } from '@element-plus/icons-vue'
 import { getConversionList } from '@/api/conversions'
 import { useUserStore } from '@/stores/user'
-import type { Conversion } from '@/types/business'
+import type { Conversion, PaginationParams } from '@/types/business'
 import { CONVERSION_STATUS_LABELS, CONVERSION_STATUS_COLORS, CONVERSION_TYPE_LABELS, CONVERSION_TYPE_COLORS, APP_CONFIG } from '@/constants'
 import { errorMessage } from '@/utils/message'
-import { formatDateTime } from '@/utils/date'
+import { formatDateTime as utilFormatDateTime } from '@/utils/date'
 
 const router = useRouter()
 const userStore = useUserStore()
 
 const loading = ref(false)
-const tableData = ref<ConversionRecord[]>([])
+const tableData = ref<Conversion[]>([])
 
 // 搜索表单
 const searchForm = reactive({
@@ -213,7 +214,7 @@ const searchForm = reactive({
 })
 
 // 分页参数
-const pagination = reactive<PaginationParams>({
+const pagination = reactive({
   page: 1,
   pageSize: 20,
   total: 0
@@ -250,8 +251,8 @@ const fetchConversionList = async () => {
     }
 
     const response = await getConversionList(params)
-    tableData.value = response.data.items
-    pagination.total = response.data.total
+    tableData.value = response.data.data.items
+    pagination.total = response.data.data.total
   } catch (error) {
     console.error('获取转化列表失败:', error)
     ElMessage.error('获取转化列表失败')
@@ -304,13 +305,13 @@ const handleCreate = () => {
 }
 
 // 查看详情
-const handleView = (row: ConversionRecord) => {
+const handleView = (row: Conversion) => {
   router.push(`/conversions/detail/${row.id}`)
 }
 
 // 获取转化类型颜色
-const getConversionTypeColor = (type: string) => {
-  const colorMap: Record<string, string> = {
+const getConversionTypeColor = (type: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const colorMap: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     'register': 'success',
     'recharge': 'warning',
     'withdraw': 'danger'
@@ -329,8 +330,8 @@ const getConversionTypeText = (type: string) => {
 }
 
 // 获取状态颜色
-const getStatusColor = (status: string) => {
-  const colorMap: Record<string, string> = {
+const getStatusColor = (status: string): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+  const colorMap: Record<string, 'primary' | 'success' | 'warning' | 'info' | 'danger'> = {
     'pending': 'info',
     'processing': 'warning',
     'success': 'success',
@@ -352,7 +353,7 @@ const getStatusText = (status: string) => {
 
 // 格式化日期时间
 const formatDateTime = (dateStr: string) => {
-  return new Date(dateStr).toLocaleString('zh-CN')
+  return utilFormatDateTime(dateStr)
 }
 
 onMounted(() => {

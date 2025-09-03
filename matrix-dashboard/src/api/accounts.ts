@@ -39,10 +39,10 @@ export const getAccountDetail = (id: string) => {
 /**
  * 更新账号归属
  * @param id 账号ID
- * @param ownerId 新的归属用户ID
+ * @param params 更新参数
  */
-export const updateAccountOwner = (id: string, ownerId: string) => {
-  return request.patch<ApiResponse<Account>>(`/accounts/${id}/owner`, { ownerId })
+export const updateAccountOwner = (id: string, params: { newOwnerId: string }) => {
+  return request.patch<ApiResponse<Account>>(`/accounts/${id}/owner`, params)
 }
 
 // 别名导出，保持向后兼容

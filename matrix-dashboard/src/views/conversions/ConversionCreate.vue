@@ -9,7 +9,7 @@
         >
           返回
         </el-button>
-        <h2>提交转化</h2>
+        <h2>提交用户</h2>
       </div>
     </div>
 
@@ -27,50 +27,56 @@
             >
               <el-row :gutter="20">
                 <el-col :span="12">
-                  <el-form-item label="手机编号" prop="phone">
-                    <el-input
-                      v-model="singleForm.phone"
-                      placeholder="请输入手机编号（如：us-1、美国1、云845）"
-                      maxlength="50"
-                      show-word-limit
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item label="账号链接" prop="accountUrl">
-                    <el-input
-                      v-model="singleForm.accountUrl"
-                      placeholder="请输入TikTok账号链接（https://www.tiktok.com/@username）"
-                      type="url"
+                  <el-form-item label="用户ID" prop="registerUserId">
+                    <el-input-number
+                      v-model="singleForm.registerUserId"
+                      placeholder="请输入7位数用户ID"
+                      :min="1000000"
+                      :max="9999999"
+                      :step="1"
+                      :precision="0"
+                      style="width: 100%"
                     />
                   </el-form-item>
                 </el-col>
               </el-row>
-
+              
               <el-row :gutter="20">
                 <el-col :span="12">
-                  <el-form-item label="转化类型" prop="conversionType">
+                  <el-form-item label="手机编号" prop="phoneNo">
                     <el-select
-                      v-model="singleForm.conversionType"
-                      placeholder="请选择转化类型"
+                      v-model="singleForm.phoneNo"
+                      placeholder="请选择或输入手机编号"
+                      filterable
+                      remote
+                      :remote-method="searchAccounts"
+                      :loading="accountsLoading"
+                      @change="handlePhoneNoChange"
+                      @focus="searchAccounts"
                       style="width: 100%"
                     >
                       <el-option
-                        v-for="option in conversionTypeOptions"
-                        :key="option.value"
-                        :label="option.label"
-                        :value="option.value"
-                      />
+                        v-for="account in accountOptions"
+                        :key="account.id"
+                        :label="`${account.phoneNo} (${account.accountLink})`"
+                        :value="account.phoneNo"
+                        :account-id="account.id"
+                        :account-link="account.accountLink"
+                      >
+                        <div style="display: flex; justify-content: space-between;">
+                          <span>{{ account.phoneNo }}</span>
+                          <span style="color: #8492a6; font-size: 12px;">{{ account.accountLink }}</span>
+                        </div>
+                      </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="转化金额" prop="amount" v-if="singleForm.conversionType === 'recharge'">
-                    <el-input-number
-                      v-model="singleForm.amount"
-                      :min="0"
-                      :precision="2"
-                      placeholder="请输入转化金额"
+                  <el-form-item label="账号链接" prop="accountLink">
+                    <el-input
+                      v-model="singleForm.accountLink"
+                      placeholder="选择手机编号后自动填充"
+                      readonly
                       style="width: 100%"
                     />
                   </el-form-item>
@@ -82,7 +88,7 @@
                   v-model="singleForm.remark"
                   type="textarea"
                   :rows="3"
-                  placeholder="请输入备注信息"
+                  placeholder="请输入备注信息（可选）"
                   maxlength="200"
                   show-word-limit
                 />
@@ -94,7 +100,7 @@
                   @click="handleSingleSubmit"
                   :loading="submitting"
                 >
-                  提交转化
+                  提交用户
                 </el-button>
                 <el-button @click="handleSingleReset">
                   重置
@@ -114,10 +120,10 @@
                   show-icon
                 >
                   <template #default>
-                    <p>支持两种方式批量提交转化：</p>
-                    <p>1. 直接在文本框中输入，每行一条记录，格式：手机号,账号链接,转化类型[,转化金额][,备注]</p>
+                    <p>支持两种方式批量提交用户：</p>
+                    <p>1. 直接在文本框中输入，每行一条记录，格式：用户ID,手机编号[,备注]</p>
                     <p>2. 上传CSV文件，文件格式与文本输入相同</p>
-                    <p>转化类型：register(注册)、recharge(充值)、withdraw(提现)</p>
+                    <p>示例：1234567,us-1,测试用户</p>
                   </template>
                 </el-alert>
               </div>
@@ -136,12 +142,12 @@
                   </el-radio-group>
                 </el-form-item>
 
-                <el-form-item label="转化数据" prop="data" v-if="batchInputType === 'text'">
+                <el-form-item label="用户数据" prop="data" v-if="batchInputType === 'text'">
                   <el-input
                     v-model="batchForm.data"
                     type="textarea"
                     :rows="10"
-                    placeholder="请输入转化数据，每行一条记录&#10;格式：手机编号,账号链接,转化类型[,转化金额][,备注]&#10;示例：us-1,https://www.tiktok.com/@user1,register,注册转化"
+                    placeholder="请输入用户数据，每行一条记录&#10;格式：用户ID,手机编号[,备注]&#10;示例：1234567,us-1,测试用户"
                   />
                 </el-form-item>
 
@@ -162,25 +168,6 @@
                       </div>
                     </template>
                   </el-upload>
-                </el-form-item>
-
-                <!-- 数据预览 -->
-                <el-form-item label="数据预览" v-if="previewData.length > 0">
-                  <el-table
-                    :data="previewData.slice(0, 10)"
-                    border
-                    size="small"
-                    style="width: 100%"
-                  >
-                    <el-table-column prop="phone" label="手机编号" width="120" />
-                    <el-table-column prop="accountUrl" label="账号链接" min-width="200" show-overflow-tooltip />
-                    <el-table-column prop="conversionType" label="转化类型" width="100" />
-                    <el-table-column prop="amount" label="转化金额" width="100" />
-                    <el-table-column prop="remark" label="备注" width="150" show-overflow-tooltip />
-                  </el-table>
-                  <div v-if="previewData.length > 10" class="preview-tip">
-                    仅显示前10条数据，共 {{ previewData.length }} 条
-                  </div>
                 </el-form-item>
 
                 <el-form-item>
@@ -209,13 +196,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules, type UploadFile } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { submitConversion } from '@/api/conversions'
+import { createConversion } from '@/api/conversions'
+import { getAccountList } from '@/api/accounts'
 import { useUserStore } from '@/stores/user'
-import type { CreateConversionParams } from '@/types/business'
+import type { CreateConversionParams, Account } from '@/types/business'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -228,12 +216,15 @@ const activeTab = ref('single')
 const batchInputType = ref('text')
 const previewData = ref<CreateConversionParams[]>([])
 
+// 账号选项相关
+const accountOptions = ref<Account[]>([])
+const accountsLoading = ref(false)
+
 // 单个提交表单
-const singleForm = reactive<CreateConversionParams>({
-  phone: '',
-  accountUrl: '',
-  conversionType: '',
-  amount: undefined,
+const singleForm = reactive<CreateConversionParams & { accountLink?: string; remark?: string }>({
+  registerUserId: undefined as unknown as number,
+  phoneNo: '',
+  accountLink: '',
   remark: ''
 })
 
@@ -243,45 +234,20 @@ const batchForm = reactive({
   file: null as File | null
 })
 
-// 转化类型选项
-const conversionTypeOptions = [
-  { label: '注册', value: 'register' },
-  { label: '充值', value: 'recharge' },
-  { label: '提现', value: 'withdraw' }
-]
-
 // 单个提交表单验证规则
 const singleFormRules: FormRules = {
-  phone: [
-    { required: true, message: '请输入手机号', trigger: 'blur' },
-    {
-      pattern: /^1[3-9]\d{9}$/,
-      message: '请输入正确的手机号格式',
-      trigger: 'blur'
+  registerUserId: [
+    { required: true, message: '请输入用户ID', trigger: 'blur' },
+    { 
+      type: 'number', 
+      min: 1000000, 
+      max: 9999999, 
+      message: '用户ID必须是7位数字', 
+      trigger: 'blur' 
     }
   ],
-  accountUrl: [
-    { required: true, message: '请输入账号链接', trigger: 'blur' },
-    {
-      type: 'url',
-      message: '请输入正确的URL格式',
-      trigger: 'blur'
-    }
-  ],
-  conversionType: [
-    { required: true, message: '请选择转化类型', trigger: 'change' }
-  ],
-  amount: [
-    {
-      validator: (rule, value, callback) => {
-        if (singleForm.conversionType === 'recharge' && (!value || value <= 0)) {
-          callback(new Error('充值转化必须输入转化金额'))
-        } else {
-          callback()
-        }
-      },
-      trigger: 'blur'
-    }
+  phoneNo: [
+    { required: true, message: '请选择手机编号', trigger: 'change' }
   ]
 }
 
@@ -291,7 +257,7 @@ const batchFormRules: FormRules = {
     {
       validator: (rule, value, callback) => {
         if (batchInputType.value === 'text' && !value) {
-          callback(new Error('请输入转化数据'))
+          callback(new Error('请输入用户数据'))
         } else {
           callback()
         }
@@ -313,6 +279,42 @@ const batchFormRules: FormRules = {
   ]
 }
 
+// 搜索账号
+const searchAccounts = async (query: string = '') => {
+  accountsLoading.value = true
+  try {
+    const params: any = {
+      pageSize: 20,
+      ownerId: userStore.userInfo?.id // 只搜索归属于当前用户的账号
+    }
+    
+    // 如果有搜索关键词，添加到查询参数中
+    if (query.trim()) {
+      params.q = query.trim()
+    }
+    
+    const response = await getAccountList(params)
+    console.log('账号列表响应:', response) // 调试日志
+    accountOptions.value = response.data.data.items
+  } catch (error) {
+    console.error('搜索账号失败:', error)
+    ElMessage.error('搜索账号失败')
+    accountOptions.value = []
+  } finally {
+    accountsLoading.value = false
+  }
+}
+
+// 处理手机编号变化
+const handlePhoneNoChange = (phoneNo: string) => {
+  const selectedAccount = accountOptions.value.find(acc => acc.phoneNo === phoneNo)
+  if (selectedAccount) {
+    singleForm.accountLink = selectedAccount.accountLink
+    // 同时保存accountId以便提交时使用
+    ;(singleForm as any).accountId = selectedAccount.id
+  }
+}
+
 // 单个提交
 const handleSingleSubmit = async () => {
   if (!singleFormRef.value) return
@@ -322,12 +324,19 @@ const handleSingleSubmit = async () => {
     if (!valid) return
 
     submitting.value = true
-    await submitConversion(singleForm)
-    ElMessage.success('转化提交成功')
+    
+    const params: CreateConversionParams = {
+      registerUserId: singleForm.registerUserId,
+      accountId: (singleForm as any).accountId,
+      phoneNo: singleForm.phoneNo
+    }
+    
+    await createConversion(params)
+    ElMessage.success('用户提交成功')
     router.push('/conversions')
   } catch (error) {
-    console.error('提交转化失败:', error)
-    ElMessage.error('提交转化失败')
+    console.error('提交用户失败:', error)
+    ElMessage.error('提交用户失败')
   } finally {
     submitting.value = false
   }
@@ -337,6 +346,8 @@ const handleSingleSubmit = async () => {
 const handleSingleReset = () => {
   if (!singleFormRef.value) return
   singleFormRef.value.resetFields()
+  singleForm.accountLink = ''
+  ;(singleForm as any).accountId = ''
 }
 
 // 文件变化处理
@@ -377,15 +388,19 @@ const handlePreview = () => {
 
   for (const line of lines) {
     const parts = line.split(',').map(part => part.trim())
-    if (parts.length < 3) continue
+    if (parts.length < 2) continue
 
-    const [phone, accountUrl, conversionType, amount, remark] = parts
+    const [registerUserIdStr, phoneNo, remark] = parts
+    const registerUserId = parseInt(registerUserIdStr)
+    
+    if (isNaN(registerUserId) || registerUserId < 1000000 || registerUserId > 9999999) {
+      continue // 跳过无效的用户ID
+    }
+
     parsed.push({
-      phone,
-      accountUrl,
-      conversionType,
-      amount: amount && !isNaN(Number(amount)) ? Number(amount) : undefined,
-      remark: remark || ''
+      registerUserId,
+      phoneNo,
+      // 备注暂不处理，因为CreateConversionParams接口中没有remark字段
     })
   }
 
@@ -409,10 +424,10 @@ const handleBatchSubmit = async () => {
     submitting.value = true
     
     // 批量提交转化
-    const promises = previewData.value.map(item => submitConversion(item))
+    const promises = previewData.value.map(item => createConversion(item))
     await Promise.all(promises)
     
-    ElMessage.success(`批量提交成功，共 ${previewData.value.length} 条转化`)
+    ElMessage.success(`批量提交成功，共 ${previewData.value.length} 条用户`)
     router.push('/conversions')
   } catch (error) {
     console.error('批量提交失败:', error)
@@ -433,24 +448,39 @@ const handleBatchReset = () => {
     uploadRef.value.clearFiles()
   }
 }
+
+// 初始化加载账号数据
+onMounted(() => {
+  // 初始化时加载一些账号数据
+  searchAccounts()
+})
 </script>
 
 <style scoped>
-.form-card {
-  max-width: 1000px;
-  margin: 0 auto;
+.page-container {
+  padding: 20px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
 .header-left h2 {
   margin: 0;
-  font-size: 18px;
-  font-weight: 600;
+  color: #303133;
+}
+
+.form-card {
+  max-width: 1200px;
 }
 
 .batch-container {
@@ -461,21 +491,8 @@ const handleBatchReset = () => {
   margin-bottom: 20px;
 }
 
-.preview-tip {
-  margin-top: 8px;
-  color: var(--el-text-color-secondary);
-  font-size: 12px;
-}
-
-:deep(.el-form-item__label) {
-  font-weight: 500;
-}
-
-:deep(.el-textarea__inner) {
-  resize: vertical;
-}
-
-:deep(.el-upload__tip) {
-  margin-top: 8px;
+:deep(.el-select-dropdown__item) {
+  height: auto;
+  padding: 8px 20px;
 }
 </style>

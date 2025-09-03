@@ -8,8 +8,8 @@ import type {
 } from '@/types/business'
 
 /**
- * 提交转化
- * @param params 转化参数
+ * 提交用户
+ * @param params 用户参数
  */
 export const createConversion = (params: CreateConversionParams) => {
   return request.post<ApiResponse<Conversion>>('/conversions', params)

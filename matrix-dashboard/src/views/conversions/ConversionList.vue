@@ -9,7 +9,7 @@
           @click="handleCreate"
           v-if="userStore.hasPermission('conversion:create')"
         >
-          提交转化
+          提交用户
         </el-button>
       </div>
     </div>

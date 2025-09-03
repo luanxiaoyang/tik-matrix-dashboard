@@ -56,7 +56,7 @@ const generateConversions = (count: number): Conversion[] => {
 
 let mockConversions = generateConversions(30)
 
-// 提交转化
+// 提交用户/转化
 Mock.mock('/api/conversions', 'post', (options: any) => {
   const params: CreateConversionParams = JSON.parse(options.body)
   

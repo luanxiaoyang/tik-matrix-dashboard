@@ -20,14 +20,21 @@ const generateAccounts = (count: number): Account[] => {
     () => `au-${Mock.Random.integer(1, 999)}`
   ]
   
+  // 用户ID列表，确保有一些账号归属于当前用户（默认使用u_1001）
+  const userIds = ['u_1001', 'u_1002', 'u_1003', 'u_1004']
+  
   for (let i = 1; i <= count; i++) {
     const phoneFormat = Mock.Random.pick(phoneFormats)
+    // 确保前20个账号归属于当前用户（u_1001），便于测试
+    const ownerId = i <= 20 ? 'u_1001' : Mock.Random.pick(userIds)
+    const createdBy = Mock.Random.pick(userIds)
+    
     accounts.push({
-      id: `acc_${Mock.Random.string('number', 3)}`,
+      id: `acc_${Mock.Random.string('number', 3)}_${i}`,
       phoneNo: phoneFormat(),
       accountLink: `https://www.tiktok.com/@${Mock.Random.string('lower', 8)}`,
-      ownerId: Mock.Random.pick(['u_1001', 'u_1002', 'u_1003', 'u_1004']),
-      createdBy: Mock.Random.pick(['u_1001', 'u_1002', 'u_1003', 'u_1004']),
+      ownerId,
+      createdBy,
       status: Mock.Random.pick(['ACTIVE', 'DISABLED']),
       createdAt: Mock.Random.datetime(),
       stats: {
@@ -50,6 +57,40 @@ const generateAccounts = (count: number): Account[] => {
 }
 
 let mockAccounts = generateAccounts(50)
+
+// 添加一些测试数据确保有内容
+mockAccounts.unshift(
+  {
+    id: 'acc_test_001',
+    phoneNo: 'us-123',
+    accountLink: 'https://www.tiktok.com/@testuser1',
+    ownerId: 'u_1001',
+    createdBy: 'u_1001',
+    status: AccountStatus.ACTIVE,
+    createdAt: new Date().toISOString(),
+    stats: { conversionCount: 5 }
+  },
+  {
+    id: 'acc_test_002', 
+    phoneNo: '美国456',
+    accountLink: 'https://www.tiktok.com/@testuser2',
+    ownerId: 'u_1001',
+    createdBy: 'u_1001',
+    status: AccountStatus.ACTIVE,
+    createdAt: new Date().toISOString(),
+    stats: { conversionCount: 3 }
+  },
+  {
+    id: 'acc_test_003',
+    phoneNo: '云789',
+    accountLink: 'https://www.tiktok.com/@testuser3', 
+    ownerId: 'u_1001',
+    createdBy: 'u_1001',
+    status: AccountStatus.ACTIVE,
+    createdAt: new Date().toISOString(),
+    stats: { conversionCount: 8 }
+  }
+)
 
 // 创建账号
 Mock.mock('/api/accounts', 'post', (options: any) => {

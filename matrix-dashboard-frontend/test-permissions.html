@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>权限测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>权限系统测试</h1>
+    
+    <div class="test-section">
+        <h2>1. 登录测试</h2>
+        <button onclick="testLogin()">测试登录</button>
+        <div id="loginResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 权限检查测试</h2>
+        <button onclick="testPermissions()">检查权限</button>
+        <div id="permissionResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. 菜单显示测试</h2>
+        <button onclick="testMenuVisibility()">测试菜单显示逻辑</button>
+        <div id="menuResult"></div>
+    </div>
+
+    <script>
+        let userData = null;
+        
+        async function testLogin() {
+            const resultDiv = document.getElementById('loginResult');
+            resultDiv.innerHTML = '正在登录...';
+            
+            try {
+                const response = await fetch('http://localhost:8008/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'admin',
+                        password: 'admin123'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.code === 200) {
+                    userData = result.data;
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ 登录成功</div>
+                        <pre>${JSON.stringify(result.data.user, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ 登录失败: ${result.message}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ 请求失败: ${error.message}</div>`;
+            }
+        }
+        
+        function testPermissions() {
+            const resultDiv = document.getElementById('permissionResult');
+            
+            if (!userData) {
+                resultDiv.innerHTML = '<div class="error">❌ 请先登录</div>';
+                return;
+            }
+            
+            // 模拟前端权限检查逻辑
+            const userPermissions = [];
+            if (userData.user.roles) {
+                userData.user.roles.forEach(role => {
+                    if (role.permissions) {
+                        userPermissions.push(...role.permissions);
+                    }
+                });
+            }
+            
+            // 测试各种权限
+            const testPermissions = [
+                'user:manage',
+                'role:manage', 
+                'permission:manage',
+                'recharge:manage',
+                'nonexistent:permission'
+            ];
+            
+            let html = '<h3>权限检查结果:</h3>';
+            html += `<p>用户拥有的权限: <code>${userPermissions.join(', ')}</code></p>`;
+            html += '<ul>';
+            
+            testPermissions.forEach(permission => {
+                const hasPermission = userPermissions.includes(permission);
+                const status = hasPermission ? '✅' : '❌';
+                const className = hasPermission ? 'success' : 'error';
+                html += `<li class="${className}">${status} ${permission}</li>`;
+            });
+            
+            html += '</ul>';
+            resultDiv.innerHTML = html;
+        }
+        
+        function testMenuVisibility() {
+            const resultDiv = document.getElementById('menuResult');
+            
+            if (!userData) {
+                resultDiv.innerHTML = '<div class="error">❌ 请先登录</div>';
+                return;
+            }
+            
+            // 模拟菜单显示逻辑
+            const userPermissions = [];
+            if (userData.user.roles) {
+                userData.user.roles.forEach(role => {
+                    if (role.permissions) {
+                        userPermissions.push(...role.permissions);
+                    }
+                });
+            }
+            
+            const hasPermission = (permissionCode) => {
+                return userPermissions.includes(permissionCode);
+            };
+            
+            // 测试各个菜单项的显示条件
+            const menuItems = [
+                { name: '用户管理', permission: 'user:manage' },
+                { name: '角色管理', permission: 'role:manage' },
+                { name: '权限管理', permission: 'permission:manage' },
+                { name: '充值同步', permission: 'recharge:manage' }
+            ];
+            
+            let html = '<h3>菜单显示测试:</h3><ul>';
+            
+            menuItems.forEach(item => {
+                const shouldShow = hasPermission(item.permission);
+                const status = shouldShow ? '✅ 显示' : '❌ 隐藏';
+                const className = shouldShow ? 'success' : 'error';
+                html += `<li class="${className}">${item.name}: ${status} (需要权限: ${item.permission})</li>`;
+            });
+            
+            html += '</ul>';
+            resultDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

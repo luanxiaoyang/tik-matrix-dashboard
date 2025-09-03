@@ -8,11 +8,13 @@ pnpm-debug.log*
 # IDE and Tool Configurations
 .qoder/
 .trae/
+docs/
 # Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
+matrix-dashboard-frontend/.vscode/
 
 # Coverage directory used by tools like istanbul
 coverage/

@@ -1,0 +1,22 @@
+@import './base.css';
+
+/* 移除对#app的限制性样式，让仪表盘应用能够全屏显示 */
+#app {
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+/* 移除媒体查询中的限制性布局样式 */

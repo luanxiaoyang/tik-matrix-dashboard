@@ -5,6 +5,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# IDE and Tool Configurations
+.qoder/
+.trae/
 # Runtime data
 pids
 *.pid
@@ -31,7 +34,6 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
 jspm_packages/
 
 # TypeScript cache
@@ -138,14 +140,8 @@ Thumbs.db
 logs
 *.log
 
-# Runtime data
-pids
-*.pid
-*.seed
-
 # Build outputs
 build/
-dist/
 out/
 
 # Temporary folders

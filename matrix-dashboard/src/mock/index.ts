@@ -12,7 +12,7 @@ Mock.setup({
 import './auth'
 import './accounts'
 import './conversions'
-import './recharge-features'
+import './recharge-infos'
 
 // 确保Mock在开发环境下正常工作
 if (import.meta.env.DEV) {

@@ -91,40 +91,45 @@ export interface ConversionRecord {
 }
 
 /**
-  * 充值特征
-  */
- export interface RechargeFeature {
-   id: string
-   phone: string // 手机编号，支持格式如：us-1、美国1、云845等
-   accountUrl: string
-   syncStatus: 'synced' | 'not_synced' | 'sync_failed'
-   featureStatus: 'has_recharge' | 'no_recharge'
-   totalAmount: number | null
-   rechargeCount: number | null
-   lastRechargeTime: string | null
-   updatedAt: string
-   syncError: string | null
-   syncing?: boolean
- }
-
-/**
- * 批量同步充值特征参数
+ * 充值信息
  */
-export interface SyncRechargeFeatureParams {
-  userIds: number[]
+export interface RechargeInfo {
+  id: string
+  phone: string // 手机编号，支持格式如：us-1、美国1、云845等
+  accountUrl: string
+  accountId: string
+  ownerId: string // 账号归属用户ID
+  uid: number // YayChat用户ID
+  totalRecharge: number // 总充值金额（美分）
+  day1Coin: number // 1天内金币
+  day2Coin: number // 2天内金币
+  day7Coin: number // 7天内金币
+  day30Coin: number // 30天内金币
+  registerTime: number // 注册时间戳（毫秒）
+  hundredUser: boolean // 是否百元用户（后端返回）
+  valuableUser: boolean // 是否价值用户（后端返回）
+  lastUpdatedAt: string // 最后更新时间
 }
 
 /**
- * 批量同步响应
+ * 查询充值信息参数
  */
-export interface SyncRechargeFeatureResponse {
+export interface QueryRechargeInfoParams {
+  accountIds?: string[]
+  phoneNos?: string[]
+  page?: number
+  pageSize?: number
+  ownerId?: string // 限制查看归属用户
+}
+
+/**
+ * 充值信息查询响应
+ */
+export interface QueryRechargeInfoResponse {
   total: number
-  success: number
-  failed: Array<{
-    userId: number
-    reason: string
-  }>
-  taskId?: string
+  items: RechargeInfo[]
+  page: number
+  pageSize: number
 }
 
 /**

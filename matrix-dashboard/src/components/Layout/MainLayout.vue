@@ -197,11 +197,11 @@ const menuItems = computed(() => {
     })
   }
   
-  // 充值特征菜单
-  if (userStore.hasPermission('RECHARGE_FEATURE_SYNC') || userStore.hasPermission('RECHARGE_FEATURE_VIEW')) {
+  // 充值信息菜单
+  if (userStore.hasPermission('RECHARGE_INFO_VIEW')) {
     items.push({
       path: '/recharge-features',
-      title: '充值特征',
+      title: '充值信息查看',
       icon: Money
     })
   }
@@ -231,7 +231,7 @@ const breadcrumbs = computed(() => {
       dashboard: '仪表板',
       accounts: '账号管理',
       conversions: '转化管理',
-      'recharge-features': '充值特征',
+      'recharge-features': '充值信息查看',
       analytics: '数据分析',
       list: '列表',
       create: '创建',

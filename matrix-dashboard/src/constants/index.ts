@@ -177,10 +177,8 @@ export const PERMISSIONS = {
   CONVERSION_PROCESS: 'conversion:process',
   CONVERSION_EXPORT: 'conversion:export',
   
-  // 充值特征
-  RECHARGE_FEATURE_VIEW: 'recharge_feature:view',
-  RECHARGE_FEATURE_SYNC: 'recharge_feature:sync',
-  RECHARGE_FEATURE_EXPORT: 'recharge_feature:export',
+  // 充值信息
+  RECHARGE_INFO_VIEW: 'recharge_info:view',
   
   // 系统管理
   SYSTEM_CONFIG: 'system:config',

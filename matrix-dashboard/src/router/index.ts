@@ -108,9 +108,9 @@ const routes: RouteRecordRaw[] = [
         name: 'RechargeFeatures',
         component: () => import('@/views/recharge-features/index.vue'),
         meta: {
-          title: '充值特征同步',
+          title: '充值信息查看',
           icon: 'CreditCard',
-          roles: [UserRole.SUPER_ADMIN, UserRole.CONVERSION_ADMIN]
+          roles: [UserRole.SUPER_ADMIN, UserRole.CONVERSION_ADMIN, UserRole.OPERATOR]
         }
       }
     ]

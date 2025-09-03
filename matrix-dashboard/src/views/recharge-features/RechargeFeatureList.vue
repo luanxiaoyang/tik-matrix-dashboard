@@ -187,7 +187,7 @@ const fetchData = async () => {
     const params: QueryRechargeInfoParams = {
       page: pagination.page,
       pageSize: pagination.size,
-      ownerId: userStore.userInfo?.id // 只查看归属于当前用户的账号
+      ownerId: userStore.userInfo?.id?.toString() // 只查看归属于当前用户的账号
     }
 
     // 添加搜索条件
@@ -195,17 +195,10 @@ const fetchData = async () => {
       params.phoneNos = [searchForm.phoneNo]
     }
 
-    // 模拟API调用 - 生成模拟数据
-    const mockData = generateMockData()
-    tableData.value = mockData
-    pagination.total = 156 // 模拟总数
-
-    // TODO: 实际API调用
-    // const response = await getRechargeInfos(params)
-    // if (response.data.code === 200) {
-    //   tableData.value = response.data.data.items
-    //   pagination.total = response.data.data.total
-    // }
+    // 实际API调用
+    const response = await getRechargeInfos(params)
+    tableData.value = response.data.data.items || []
+    pagination.total = response.data.data.total
   } catch (error) {
     console.error('获取数据失败:', error)
     ElMessage.error('获取数据失败')
@@ -214,45 +207,7 @@ const fetchData = async () => {
   }
 }
 
-// 生成模拟数据
-const generateMockData = (): RechargeInfo[] => {
-  const phoneFormats = [
-    () => `us-${Math.floor(Math.random() * 999) + 1}`,
-    () => `美国${Math.floor(Math.random() * 999) + 1}`,
-    () => `云${Math.floor(Math.random() * 999) + 1}`,
-    () => `uk-${Math.floor(Math.random() * 999) + 1}`,
-    () => `英国${Math.floor(Math.random() * 999) + 1}`,
-    () => `jp-${Math.floor(Math.random() * 999) + 1}`,
-    () => `日本${Math.floor(Math.random() * 999) + 1}`,
-    () => `ca-${Math.floor(Math.random() * 999) + 1}`,
-    () => `加拿大${Math.floor(Math.random() * 999) + 1}`,
-    () => `au-${Math.floor(Math.random() * 999) + 1}`
-  ]
 
-  return Array.from({ length: pagination.size }, (_, index) => {
-    const phoneFormat = phoneFormats[Math.floor(Math.random() * phoneFormats.length)]
-    const totalRechargeInCents = Math.floor(Math.random() * 200000) + 1000 // 美分，10-2000美元
-    const registerTime = Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000 // 随机注册时间
-    
-    return {
-      id: `ri_${pagination.page}_${index + 1}`,
-      phone: phoneFormat(),
-      accountUrl: `https://www.tiktok.com/@user${index + 1}`,
-      accountId: `acc_${index + 1}`,
-      ownerId: userStore.userInfo?.id || 'current_user',
-      uid: 1000000 + Math.floor(Math.random() * 999999),
-      totalRecharge: totalRechargeInCents,
-      day1Coin: Math.floor(Math.random() * 50),
-      day2Coin: Math.floor(Math.random() * 100),
-      day7Coin: Math.floor(Math.random() * 200),
-      day30Coin: Math.floor(Math.random() * totalRechargeInCents),
-      registerTime,
-      hundredUser: Math.random() > 0.7, // 后端返回的布尔值
-      valuableUser: Math.random() > 0.8, // 后端返回的布尔值
-      lastUpdatedAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString()
-    }
-  })
-}
 
 // 搜索
 const handleSearch = () => {

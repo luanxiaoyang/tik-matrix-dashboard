@@ -1,11 +1,10 @@
 /**
- * 用户角色枚举
+ * 用户状态枚举
  */
-export enum UserRole {
-  SUPER_ADMIN = 'SUPER_ADMIN',
-  CONVERSION_ADMIN = 'CONVERSION_ADMIN', 
-  CONVERTER = 'CONVERTER',
-  OPERATOR = 'OPERATOR'
+export enum UserStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  BANNED = 'banned'
 }
 
 /**
@@ -17,21 +16,79 @@ export interface LoginParams {
 }
 
 /**
+ * 刷新令牌参数
+ */
+export interface RefreshTokenParams {
+  refreshToken: string
+}
+
+/**
+ * 刷新令牌响应
+ */
+export interface RefreshTokenResponse {
+  accessToken: string
+  refreshToken: string
+  expiresIn: number
+}
+
+/**
+ * 角色信息
+ */
+export interface Role {
+  id: number
+  name: string
+  code: string
+  description?: string
+  isActive: boolean
+  sort: number
+  createdAt: string
+  updatedAt: string
+}
+
+/**
+ * 权限信息
+ */
+export interface Permission {
+  id: number
+  name: string
+  code: string
+  type: 'menu' | 'button' | 'api'
+  description?: string
+  parentId?: number
+  resource?: string
+  isActive: boolean
+  sort: number
+  createdAt: string
+  updatedAt: string
+}
+
+/**
  * 用户信息
  */
 export interface UserInfo {
-  id: string
+  id: number
   username: string
-  role: UserRole
-  teamId?: string
-  createdAt?: string
+  email: string
+  nickname?: string
   avatar?: string
+  status: UserStatus
+  larkUserId?: string
+  larkUserInfo?: any
+  lastLoginAt?: string
+  lastLoginIp?: string
+  loginCount: number
+  roles: Role[]
+  permissions: string[]
+  createdAt: string
+  updatedAt: string
 }
 
 /**
  * 登录响应
  */
 export interface LoginResponse {
-  token: string
-  userInfo: UserInfo
+  user: UserInfo
+  accessToken: string
+  refreshToken: string
+  expiresIn: number
 }

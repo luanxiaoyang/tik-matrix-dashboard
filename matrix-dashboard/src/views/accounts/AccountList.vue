@@ -312,7 +312,7 @@ const canEdit = (account: Account) => {
   if (userStore.isSuperAdmin) return true
   
   // 其他用户只能编辑自己创建的账号
-  return account.createdBy === userStore.userInfo?.id
+  return account.createdBy === String(userStore.userInfo?.id)
 }
 
 /**
@@ -337,8 +337,17 @@ const loadAccounts = async () => {
     
     const response = await getAccounts(params)
     
-    tableData.value = response.data.data.items
-    pagination.total = response.data.data.total
+    const data = response.data.data
+    if (Array.isArray(data)) {
+      tableData.value = data
+      pagination.total = data.length
+    } else if (data && Array.isArray(data.items)) {
+      tableData.value = data.items
+      pagination.total = data.total || 0
+    } else {
+      tableData.value = []
+      pagination.total = 0
+    }
     
   } catch (error: any) {
     errorMessage(error.message || '加载账号列表失败')

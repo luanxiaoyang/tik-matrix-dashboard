@@ -251,7 +251,7 @@ const fetchConversionList = async () => {
     }
 
     const response = await getConversionList(params)
-    tableData.value = response.data.data.items
+    tableData.value = response.data.data.items || []
     pagination.total = response.data.data.total
   } catch (error) {
     console.error('获取转化列表失败:', error)

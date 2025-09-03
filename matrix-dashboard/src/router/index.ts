@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { UserRole } from '@/types/auth'
 import '@/types/router'
 
 // 路由配置
@@ -40,7 +39,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '账号管理',
           icon: 'User',
-          roles: [UserRole.SUPER_ADMIN, UserRole.CONVERSION_ADMIN, UserRole.OPERATOR]
+          permissions: ['account:read']
         }
       },
       {
@@ -80,7 +79,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '转化管理',
           icon: 'TrendCharts',
-          roles: [UserRole.SUPER_ADMIN, UserRole.CONVERSION_ADMIN, UserRole.CONVERTER]
+          permissions: ['conversion:read']
         }
       },
       {
@@ -110,7 +109,37 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: '充值信息查看',
           icon: 'CreditCard',
-          roles: [UserRole.SUPER_ADMIN, UserRole.CONVERSION_ADMIN, UserRole.OPERATOR]
+          permissions: ['recharge:read']
+        }
+      },
+      {
+        path: '/users',
+        name: 'Users',
+        component: () => import('@/views/users/index.vue'),
+        meta: {
+          title: '用户管理',
+          icon: 'UserFilled',
+          permissions: ['user:read']
+        }
+      },
+      {
+        path: '/permissions',
+        name: 'Permissions',
+        component: () => import('@/views/permissions/index.vue'),
+        meta: {
+          title: '权限管理',
+          icon: 'Lock',
+          permissions: ['role:read', 'permission:read']
+        }
+      },
+      {
+        path: '/health',
+        name: 'Health',
+        component: () => import('@/views/system/HealthCheck.vue'),
+        meta: {
+          title: '系统监控',
+          icon: 'Monitor',
+          permissions: ['system:monitor']
         }
       }
     ]
@@ -141,7 +170,7 @@ router.beforeEach(async (to, from, next) => {
   
   // 检查是否需要登录
   if (to.meta.requiresAuth !== false) {
-    if (!userStore.token) {
+    if (!userStore.accessToken) {
       next('/login')
       return
     }
@@ -158,8 +187,11 @@ router.beforeEach(async (to, from, next) => {
     }
     
     // 检查权限
-    if (to.meta.roles && to.meta.roles.length > 0) {
-      if (!userStore.userInfo?.role || !to.meta.roles.includes(userStore.userInfo.role)) {
+    if (to.meta.permissions && to.meta.permissions.length > 0) {
+      const hasPermission = to.meta.permissions.some(permission => 
+        userStore.hasPermission(permission)
+      )
+      if (!hasPermission) {
         next('/dashboard')
         return
       }
@@ -167,7 +199,7 @@ router.beforeEach(async (to, from, next) => {
   }
   
   // 已登录用户访问登录页，重定向到首页
-  if (to.path === '/login' && userStore.token) {
+  if (to.path === '/login' && userStore.accessToken) {
     next('/dashboard')
     return
   }

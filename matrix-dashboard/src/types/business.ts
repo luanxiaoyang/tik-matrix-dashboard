@@ -17,6 +17,8 @@ export interface Account {
   createdBy: string
   status: AccountStatus
   createdAt: string
+  updatedAt?: string
+  remark?: string
   stats?: {
     conversionCount: number
   }
@@ -147,7 +149,7 @@ export interface QueryRechargeInfoParams {
   phoneNos?: string[]
   page?: number
   pageSize?: number
-  ownerId?: string // 限制查看归属用户
+  ownerId?: string // 限制查看当前用户的账号
 }
 
 /**
@@ -184,6 +186,31 @@ export interface PaginationResponse<T> {
  */
 export interface ApiResponse<T = any> {
   code: number
-  msg: string
+  message: string
   data: T
+}
+
+/**
+ * 分页查询参数（与后端接口对齐）
+ */
+export interface PaginationQueryParams {
+  page?: number
+  limit?: number
+  q?: string
+}
+
+/**
+ * 分页响应格式（与后端接口对齐）
+ */
+export interface PaginationApiResponse<T> {
+  code: number
+  message: string
+  data: {
+    users?: T[]
+    items?: T[]
+    total: number
+    page: number
+    limit: number
+    totalPages: number
+  }
 }

@@ -24,9 +24,9 @@
         >
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="手机编号" prop="phone">
+              <el-form-item label="手机编号" prop="phoneNo">
                 <el-input
-                  v-model="formData.phone"
+                  v-model="formData.phoneNo"
                   placeholder="请输入手机编号（如：us-1、美国1、云845）"
                   :disabled="isEdit"
                   maxlength="50"
@@ -35,9 +35,9 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="账号链接" prop="accountUrl">
+              <el-form-item label="账号链接" prop="accountLink">
                 <el-input
-                  v-model="formData.accountUrl"
+                  v-model="formData.accountLink"
                   placeholder="请输入账号链接"
                   type="url"
                 />
@@ -63,9 +63,9 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="归属用户" prop="owner">
+              <el-form-item label="归属用户" prop="ownerId">
                 <el-select
-                  v-model="formData.owner"
+                  v-model="formData.ownerId"
                   placeholder="请选择归属用户"
                   style="width: 100%"
                   filterable
@@ -117,11 +117,12 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage, ElMessageBox, type FormRules, type FormInstance } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { getAccountDetail, createAccount } from '@/api/accounts'
+import { createAccount, getAccountDetail, updateAccount } from '@/api/accounts'
 import { useUserStore } from '@/stores/user'
-import type { AccountInfo, CreateAccountParams } from '@/types/business'
+import type { Account } from '@/types/business'
+import { AccountStatus } from '@/types/business'
 
 const route = useRoute()
 const router = useRouter()
@@ -135,11 +136,11 @@ const submitting = ref(false)
 const isEdit = computed(() => !!route.params.id)
 
 // 表单数据
-const formData = reactive<CreateAccountParams>({
-  phone: '',
-  accountUrl: '',
-  status: 'active',
-  owner: '',
+const formData = reactive<Partial<Account>>({
+  phoneNo: '',
+  accountLink: '',
+  status: AccountStatus.ACTIVE,
+  ownerId: '',
   remark: ''
 })
 
@@ -161,24 +162,19 @@ const userOptions = ref([
 
 // 表单验证规则
 const formRules: FormRules = {
-  phone: [
-    { required: true, message: '请输入手机号', trigger: 'blur' },
-    {
-      pattern: /^1[3-9]\d{9}$/,
-      message: '请输入正确的手机号格式',
-      trigger: 'blur'
-    }
+  phoneNo: [
+    { required: true, message: '请输入手机编号', trigger: 'blur' },
+    { min: 1, max: 50, message: '手机编号长度为1-50个字符', trigger: 'blur' }
   ],
-  accountUrl: [
+  accountLink: [
     { required: true, message: '请输入账号链接', trigger: 'blur' },
-    {
-      type: 'url',
-      message: '请输入正确的URL格式',
-      trigger: 'blur'
-    }
+    { pattern: /^https:\/\/www\.tiktok\.com\/@[a-zA-Z0-9_.]+$/, message: '账号链接格式不正确，应为 https://www.tiktok.com/@username', trigger: 'blur' }
   ],
   status: [
     { required: true, message: '请选择账号状态', trigger: 'change' }
+  ],
+  ownerId: [
+    { required: true, message: '请选择归属用户', trigger: 'change' }
   ]
 }
 
@@ -190,14 +186,14 @@ const fetchAccountDetail = async () => {
   loading.value = true
   try {
     const response = await getAccountDetail(accountId)
-    const account = response.data
+    const account = response.data.data
     
     // 填充表单数据
     Object.assign(formData, {
-      phone: account.phone,
-      accountUrl: account.accountUrl,
+      phoneNo: account.phoneNo,
+      accountLink: account.accountLink,
       status: account.status,
-      owner: account.owner || '',
+      ownerId: account.ownerId || '',
       remark: account.remark || ''
     })
   } catch (error) {
@@ -220,12 +216,26 @@ const handleSubmit = async () => {
     submitting.value = true
 
     if (isEdit.value) {
-      // 编辑模式 - 这里应该调用更新API
-      // await updateAccount(route.params.id as string, formData)
+      // 编辑模式
+      await updateAccount(route.params.id as string, {
+        phoneNo: formData.phoneNo!,
+        accountLink: formData.accountLink!,
+        ownerId: formData.ownerId,
+        status: formData.status!,
+        remark: formData.remark
+      })
       ElMessage.success('账号更新成功')
     } else {
       // 创建模式
-      await createAccount(formData)
+      await createAccount({
+        phone: formData.phoneNo!,
+        phoneNo: formData.phoneNo!,
+        accountUrl: formData.accountLink!,
+        accountLink: formData.accountLink!,
+        ownerId: formData.ownerId,
+        status: formData.status!.toString(),
+        remark: formData.remark
+      })
       ElMessage.success('账号创建成功')
     }
 

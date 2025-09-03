@@ -40,15 +40,15 @@
           </template>
           <el-descriptions :column="2" border>
             <el-descriptions-item label="手机编号">
-              {{ accountData.phone }}
+              {{ accountData.phoneNo }}
             </el-descriptions-item>
             <el-descriptions-item label="账号链接">
               <el-link 
-                :href="accountData.accountUrl" 
+                :href="accountData.accountLink" 
                 target="_blank" 
                 type="primary"
               >
-                {{ accountData.accountUrl }}
+                {{ accountData.accountLink }}
               </el-link>
             </el-descriptions-item>
             <el-descriptions-item label="账号状态">
@@ -60,16 +60,16 @@
               </el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="归属用户">
-              {{ accountData.owner || '未分配' }}
+              {{ accountData.ownerId || '未分配' }}
             </el-descriptions-item>
             <el-descriptions-item label="创建者">
-              {{ accountData.creator }}
+              {{ accountData.createdBy }}
             </el-descriptions-item>
             <el-descriptions-item label="创建时间">
               {{ formatDateTime(accountData.createdAt) }}
             </el-descriptions-item>
             <el-descriptions-item label="更新时间">
-              {{ formatDateTime(accountData.updatedAt) }}
+              {{ accountData.updatedAt ? formatDateTime(accountData.updatedAt) : '暂无' }}
             </el-descriptions-item>
             <el-descriptions-item label="备注" :span="2">
               {{ accountData.remark || '无' }}
@@ -117,14 +117,14 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ArrowLeft, Edit, Delete } from '@element-plus/icons-vue'
 import { getAccountDetail } from '@/api/accounts'
 import { useUserStore } from '@/stores/user'
-import type { AccountInfo } from '@/types/business'
+import type { Account } from '@/types/business'
 
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 
 const loading = ref(false)
-const accountData = ref<AccountInfo | null>(null)
+const accountData = ref<Account | null>(null)
 
 // 模拟操作记录数据
 const operationHistory = ref([
@@ -160,7 +160,7 @@ const fetchAccountDetail = async () => {
   loading.value = true
   try {
     const response = await getAccountDetail(accountId)
-    accountData.value = response.data
+    accountData.value = response.data.data
   } catch (error) {
     console.error('获取账号详情失败:', error)
     ElMessage.error('获取账号详情失败')
@@ -196,30 +196,28 @@ const handleDelete = async () => {
 }
 
 // 获取状态类型
-const getStatusType = (status: string) => {
-  const statusMap: Record<string, string> = {
-    'active': 'success',
-    'inactive': 'info',
-    'suspended': 'warning',
-    'banned': 'danger'
+const getStatusType = (status: any): 'success' | 'warning' | 'info' | 'danger' | 'primary' => {
+  const statusStr = typeof status === 'string' ? status : String(status)
+  const statusMap: Record<string, 'success' | 'warning' | 'info' | 'danger' | 'primary'> = {
+    'ACTIVE': 'success',
+    'DISABLED': 'danger'
   }
-  return statusMap[status] || 'info'
+  return statusMap[statusStr] || 'info'
 }
 
 // 获取状态文本
-const getStatusText = (status: string) => {
+const getStatusText = (status: any) => {
+  const statusStr = typeof status === 'string' ? status : String(status)
   const statusMap: Record<string, string> = {
-    'active': '正常',
-    'inactive': '待激活',
-    'suspended': '暂停',
-    'banned': '封禁'
+    'ACTIVE': '正常',
+    'DISABLED': '禁用'
   }
-  return statusMap[status] || status
+  return statusMap[statusStr] || statusStr
 }
 
 // 获取操作类型
-const getOperationType = (type: string) => {
-  const typeMap: Record<string, string> = {
+const getOperationType = (type: string): 'success' | 'warning' | 'info' | 'danger' | 'primary' => {
+  const typeMap: Record<string, 'success' | 'warning' | 'info' | 'danger' | 'primary'> = {
     '创建账号': 'success',
     '状态变更': 'warning',
     '归属变更': 'info',

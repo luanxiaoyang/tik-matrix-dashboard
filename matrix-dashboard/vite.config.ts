@@ -21,14 +21,21 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3000,
+    port: 5880,
     open: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   },
   define: {
     global: 'globalThis'
   },
   optimizeDeps: {
-    include: ['mockjs']
+    include: []
   },
   build: {
     // 代码分割配置
@@ -37,7 +44,7 @@ export default defineConfig({
         manualChunks: {
           'element-plus': ['element-plus'],
           'vue-vendor': ['vue', 'vue-router', 'pinia'],
-          'utils': ['axios', 'dayjs', 'mockjs']
+          'utils': ['axios', 'dayjs']
         },
         // 静态资源分类打包
         assetFileNames: (assetInfo) => {

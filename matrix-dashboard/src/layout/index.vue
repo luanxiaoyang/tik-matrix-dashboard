@@ -57,6 +57,18 @@
             <el-icon><CreditCard /></el-icon>
             <template #title>充值特征同步</template>
           </el-menu-item>
+          <el-menu-item index="/users" v-permission="'user:read'">
+            <el-icon><UserFilled /></el-icon>
+            <template #title>用户管理</template>
+          </el-menu-item>
+          <el-menu-item index="/permissions" v-permission="['role:read', 'permission:read']">
+            <el-icon><Lock /></el-icon>
+            <template #title>权限管理</template>
+          </el-menu-item>
+          <el-menu-item index="/health" v-permission="'system:monitor'">
+            <el-icon><Monitor /></el-icon>
+            <template #title>系统监控</template>
+          </el-menu-item>
         </el-menu>
       </el-aside>
 
@@ -90,7 +102,10 @@ import {
   Expand,
   Odometer,
   TrendCharts,
-  CreditCard
+  CreditCard,
+  UserFilled,
+  Lock,
+  Monitor
 } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { successMessage } from '@/utils/message'

@@ -77,9 +77,9 @@
           <el-col :span="12">
             <el-form-item label="账号状态" prop="status">
               <el-radio-group v-model="form.status">
-                <el-radio label="active">正常</el-radio>
-                <el-radio label="inactive">未激活</el-radio>
-              </el-radio-group>
+                  <el-radio :label="AccountStatus.ACTIVE">正常</el-radio>
+                  <el-radio :label="AccountStatus.DISABLED">禁用</el-radio>
+                </el-radio-group>
               <div class="form-tip">
                 新创建的账号默认为正常状态
               </div>
@@ -212,14 +212,15 @@ import {
 } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { createAccount } from '@/api/accounts'
-import type { CreateAccountParams } from '@/types/business'
+import type { Account } from '@/types/business'
+import { AccountStatus } from '@/types/business'
 
 const router = useRouter()
 const userStore = useUserStore()
 
 // 检查是否为运营账号
 const isOperator = computed(() => {
-  return userStore.userInfo?.role === 'OPERATOR'
+  return userStore.userInfo?.roles?.some(role => role.code === 'OPERATOR') || false
 })
 
 const formRef = ref<FormInstance>()
@@ -227,11 +228,11 @@ const uploadRef = ref()
 const loading = ref(false)
 
 // 表单数据
-const form = reactive<CreateAccountParams>({
+const form = reactive<Partial<Account>>({
   phoneNo: '',
   accountLink: '',
   ownerId: '',
-  status: 'active',
+  status: AccountStatus.ACTIVE,
   remark: ''
 })
 
@@ -260,7 +261,7 @@ const ownerOptions = computed(() => {
   
   // 如果是运营账号，只能选择自己
   if (isOperator.value && userStore.userInfo) {
-    return allOptions.filter(option => option.value === userStore.userInfo?.id)
+    return allOptions.filter(option => option.value === String(userStore.userInfo?.id))
   }
   
   return allOptions
@@ -398,7 +399,15 @@ const handleSingleSubmit = async () => {
     
     loading.value = true
     
-    await createAccount(form)
+    await createAccount({
+      phone: form.phoneNo || '',
+      phoneNo: form.phoneNo || '',
+      accountUrl: form.accountLink || '',
+      accountLink: form.accountLink || '',
+      ownerId: form.ownerId || '',
+      status: form.status?.toString() || '',
+      remark: form.remark || ''
+    })
     
     ElMessage.success('账号创建成功')
     router.push('/accounts/list')
@@ -452,11 +461,13 @@ const handleBatchSubmit = async () => {
     for (const item of validItems) {
       try {
         await createAccount({
-          phoneNo: item.phoneNo,
-          accountLink: item.accountLink,
-          ownerId: item.ownerId,
-          status: form.status,
-          remark: form.remark
+          phone: item.phoneNo || '',
+          phoneNo: item.phoneNo || '',
+          accountUrl: item.accountLink || '',
+          accountLink: item.accountLink || '',
+          ownerId: item.ownerId || '',
+          status: item.status?.toString() || '',
+          remark: item.remark || ''
         })
         successCount++
       } catch (error) {
@@ -487,7 +498,7 @@ const handleReset = () => {
     phoneNo: '',
     accountLink: '',
     ownerId: isOperator.value && userStore.userInfo ? userStore.userInfo.id : '',
-    status: 'active',
+    status: AccountStatus.ACTIVE,
     remark: ''
   })
   
@@ -503,7 +514,7 @@ const handleReset = () => {
 onMounted(() => {
   // 如果是运营账号，自动设置归属用户为自己
   if (isOperator.value && userStore.userInfo) {
-    form.ownerId = userStore.userInfo.id
+    form.ownerId = String(userStore.userInfo.id)
   }
 })
 </script>

@@ -7,9 +7,8 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import App from './App.vue'
 import router from './router'
-import './mock' // 引入mock数据
 import './styles/index.css'
-import { installDirectives } from './directives/permission'
+import { setupPermissionDirectives } from './directives/permission'
 import ErrorBoundary from './components/ErrorBoundary.vue'
 import GlobalLoading from './components/GlobalLoading.vue'
 import ConfirmDialog from './components/ConfirmDialog.vue'
@@ -27,7 +26,7 @@ app.component('GlobalLoading', GlobalLoading)
 app.component('ConfirmDialog', ConfirmDialog)
 
 // 安装权限指令
-installDirectives(app)
+setupPermissionDirectives(app)
 
 app.use(createPinia())
 app.use(router)

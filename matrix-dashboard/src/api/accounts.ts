@@ -37,6 +37,15 @@ export const getAccountDetail = (id: string) => {
 }
 
 /**
+ * 更新账号
+ * @param id 账号ID
+ * @param params 更新参数
+ */
+export const updateAccount = (id: string, params: Partial<Account>) => {
+  return request.put<ApiResponse<Account>>(`/accounts/${id}`, params)
+}
+
+/**
  * 更新账号归属
  * @param id 账号ID
  * @param params 更新参数

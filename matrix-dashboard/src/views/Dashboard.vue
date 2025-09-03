@@ -141,8 +141,8 @@ const quickActions = computed(() => [
   },
   {
     key: 'submit-conversion',
-    title: '提交转化',
-    description: '记录新的转化数据',
+    title: '提交用户',
+    description: '提交新的用户数据',
     icon: TrendCharts,
     enabled: userStore.hasPermission('CONVERSION_CREATE'),
     route: '/conversions/create'

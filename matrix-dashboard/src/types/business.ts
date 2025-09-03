@@ -56,7 +56,7 @@ export interface Conversion {
  * 创建转化参数
  */
 export interface CreateConversionParams {
-  registerUserId: number
+  registerUserId: number // 7位数的用户ID
   accountId?: string
   phoneNo?: string // 手机编号，支持格式如：us-1、美国1、云845等
 }

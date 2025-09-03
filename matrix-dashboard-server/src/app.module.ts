@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { RbacModule } from './modules/rbac/rbac.module';
+import { RechargeSyncModule } from './modules/recharge-sync/recharge-sync.module';
 import { HealthController } from './common/controllers/health.controller';
 import { User } from './modules/user/entities/user.entity';
 
@@ -34,6 +35,7 @@ import { User } from './modules/user/entities/user.entity';
     AuthModule,
     UserModule,
     RbacModule,
+    RechargeSyncModule,
   ],
   controllers: [HealthController],
 })

@@ -10,6 +10,7 @@ TikTok账号监控与引流归因统计服务端项目，基于 NestJS 10 构建
 - ✅ **API文档**: Swagger 自动生成，内置 Bearer 鉴权
 - ✅ **容器化**: 提供 Docker 和 docker-compose 配置
 - ✅ **安全性**: JWT 双令牌机制，密码 bcrypt 加密
+- ✅ **外部集成**: YAY平台充值功能数据同步
 
 ## 📋 技术栈
 
@@ -32,7 +33,8 @@ src/
 ├── modules/               # 业务模块
 │   ├── auth/             # 认证模块
 │   ├── user/             # 用户模块
-│   └── rbac/             # 权限模块
+│   ├── rbac/             # 权限模块
+│   └── recharge-sync/    # 充值功能同步模块
 ├── migrations/           # 数据库迁移
 ├── app.module.ts         # 应用主模块
 └── main.ts              # 应用入口
@@ -106,6 +108,10 @@ LARK_REDIRECT_URI=http://localhost:3000/auth/lark/callback
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=admin123
 ADMIN_EMAIL=admin@matrix.com
+
+# YAY平台配置
+YAY_USERNAME=your-yay-username
+YAY_PASSWORD=your-yay-password
 ```
 
 ## 📖 API 文档

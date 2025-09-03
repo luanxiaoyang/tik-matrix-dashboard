@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端工作流程测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background: #409eff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #337ecc;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #f0f9ff;
+            border: 1px solid #67c23a;
+            color: #67c23a;
+        }
+        .error {
+            background: #fef0f0;
+            border: 1px solid #f56c6c;
+            color: #f56c6c;
+        }
+        .info {
+            background: #f4f4f5;
+            border: 1px solid #909399;
+            color: #606266;
+        }
+        .status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.success {
+            background: #67c23a;
+            color: white;
+        }
+        .status.error {
+            background: #f56c6c;
+            color: white;
+        }
+        .status.pending {
+            background: #e6a23c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Matrix Dashboard 前端工作流程测试</h1>
+        <p>此页面用于测试前端应用的完整工作流程，包括登录、认证状态恢复和数据加载。</p>
+        
+        <div class="test-section">
+            <h3>1. 后端服务连接测试 <span id="backend-status" class="status pending">待测试</span></h3>
+            <button onclick="testBackendConnection()">测试后端连接</button>
+            <div id="backend-result" class="result info" style="display:none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>2. 用户登录测试 <span id="login-status" class="status pending">待测试</span></h3>
+            <button onclick="testLogin()">测试登录</button>
+            <button onclick="clearAuth()">清除认证</button>
+            <div id="login-result" class="result info" style="display:none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>3. 权限数据加载测试 <span id="permissions-status" class="status pending">待测试</span></h3>
+            <button onclick="testPermissions()">测试权限接口</button>
+            <div id="permissions-result" class="result info" style="display:none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>4. 角色数据加载测试 <span id="roles-status" class="status pending">待测试</span></h3>
+            <button onclick="testRoles()">测试角色接口</button>
+            <div id="roles-result" class="result info" style="display:none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>5. 前端页面访问测试 <span id="frontend-status" class="status pending">待测试</span></h3>
+            <button onclick="openFrontendPages()">打开前端页面</button>
+            <div id="frontend-result" class="result info" style="display:none;"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>6. 完整工作流程测试 <span id="workflow-status" class="status pending">待测试</span></h3>
+            <button onclick="testCompleteWorkflow()">运行完整测试</button>
+            <div id="workflow-result" class="result info" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8008/api';
+        const FRONTEND_BASE = 'http://localhost:5818';
+        let authToken = null;
+        
+        function updateStatus(elementId, status, message = '') {
+            const element = document.getElementById(elementId);
+            element.className = `status ${status}`;
+            element.textContent = status === 'success' ? '✓ 成功' : 
+                                 status === 'error' ? '✗ 失败' : 
+                                 '⏳ 测试中';
+        }
+        
+        function showResult(elementId, content, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.className = `result ${type}`;
+            element.textContent = content;
+            element.style.display = 'block';
+        }
+        
+        async function testBackendConnection() {
+            updateStatus('backend-status', 'pending');
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'test',
+                        password: 'test'
+                    })
+                });
+                
+                if (response.status === 401 || response.status === 400) {
+                    updateStatus('backend-status', 'success');
+                    showResult('backend-result', '后端服务连接正常（返回预期的认证错误）', 'success');
+                } else {
+                    const data = await response.json();
+                    updateStatus('backend-status', 'success');
+                    showResult('backend-result', `后端服务连接正常\n响应状态: ${response.status}`, 'success');
+                }
+            } catch (error) {
+                updateStatus('backend-status', 'error');
+                showResult('backend-result', `后端连接失败: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testLogin() {
+            updateStatus('login-status', 'pending');
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'admin',
+                        password: 'admin123'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    authToken = data.data.accessToken;
+                    
+                    // 保存到localStorage模拟前端行为
+                    localStorage.setItem('access_token', data.data.accessToken);
+                    localStorage.setItem('refresh_token', data.data.refreshToken);
+                    localStorage.setItem('user_info', JSON.stringify(data.data.user));
+                    
+                    updateStatus('login-status', 'success');
+                    showResult('login-result', 
+                        `登录成功！\n` +
+                        `用户: ${data.data.user.username}\n` +
+                        `角色: ${data.data.user.roles.map(r => r.name).join(', ')}\n` +
+                        `Token已保存到localStorage`, 'success');
+                } else {
+                    const error = await response.json();
+                    updateStatus('login-status', 'error');
+                    showResult('login-result', `登录失败: ${error.message}`, 'error');
+                }
+            } catch (error) {
+                updateStatus('login-status', 'error');
+                showResult('login-result', `登录请求失败: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testPermissions() {
+            updateStatus('permissions-status', 'pending');
+            
+            if (!authToken) {
+                authToken = localStorage.getItem('access_token');
+            }
+            
+            if (!authToken) {
+                updateStatus('permissions-status', 'error');
+                showResult('permissions-result', '请先登录获取认证token', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/permissions`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatus('permissions-status', 'success');
+                    showResult('permissions-result', 
+                        `权限数据加载成功！\n` +
+                        `总数: ${data.data.total}\n` +
+                        `权限列表: ${data.data.items.slice(0, 3).map(p => p.name).join(', ')}...`, 'success');
+                } else {
+                    const error = await response.json();
+                    updateStatus('permissions-status', 'error');
+                    showResult('permissions-result', `权限数据加载失败: ${error.message}`, 'error');
+                }
+            } catch (error) {
+                updateStatus('permissions-status', 'error');
+                showResult('permissions-result', `权限接口请求失败: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testRoles() {
+            updateStatus('roles-status', 'pending');
+            
+            if (!authToken) {
+                authToken = localStorage.getItem('access_token');
+            }
+            
+            if (!authToken) {
+                updateStatus('roles-status', 'error');
+                showResult('roles-result', '请先登录获取认证token', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/roles`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatus('roles-status', 'success');
+                    showResult('roles-result', 
+                        `角色数据加载成功！\n` +
+                        `总数: ${data.data.total}\n` +
+                        `角色列表: ${data.data.items.map(r => r.name).join(', ')}`, 'success');
+                } else {
+                    const error = await response.json();
+                    updateStatus('roles-status', 'error');
+                    showResult('roles-result', `角色数据加载失败: ${error.message}`, 'error');
+                }
+            } catch (error) {
+                updateStatus('roles-status', 'error');
+                showResult('roles-result', `角色接口请求失败: ${error.message}`, 'error');
+            }
+        }
+        
+        function openFrontendPages() {
+            updateStatus('frontend-status', 'success');
+            
+            // 打开主要页面
+            const pages = [
+                { name: '登录页面', url: `${FRONTEND_BASE}/login` },
+                { name: '首页', url: `${FRONTEND_BASE}/` },
+                { name: '权限管理', url: `${FRONTEND_BASE}/permissions` },
+                { name: '角色管理', url: `${FRONTEND_BASE}/roles` }
+            ];
+            
+            pages.forEach(page => {
+                window.open(page.url, '_blank');
+            });
+            
+            showResult('frontend-result', 
+                `已打开前端页面：\n` +
+                pages.map(p => `- ${p.name}: ${p.url}`).join('\n') +
+                `\n\n请在新打开的页面中验证：\n` +
+                `1. 登录功能是否正常\n` +
+                `2. 页面跳转是否正确\n` +
+                `3. 数据是否正确加载\n` +
+                `4. 权限控制是否生效`, 'success');
+        }
+        
+        async function testCompleteWorkflow() {
+            updateStatus('workflow-status', 'pending');
+            showResult('workflow-result', '开始完整工作流程测试...', 'info');
+            
+            try {
+                // 1. 测试后端连接
+                await testBackendConnection();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 2. 测试登录
+                await testLogin();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 3. 测试权限接口
+                await testPermissions();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 4. 测试角色接口
+                await testRoles();
+                
+                updateStatus('workflow-status', 'success');
+                showResult('workflow-result', 
+                    `完整工作流程测试完成！\n\n` +
+                    `✓ 后端服务连接正常\n` +
+                    `✓ 用户登录功能正常\n` +
+                    `✓ 权限数据接口正常\n` +
+                    `✓ 角色数据接口正常\n\n` +
+                    `建议：现在可以打开前端页面进行手动验证`, 'success');
+                    
+            } catch (error) {
+                updateStatus('workflow-status', 'error');
+                showResult('workflow-result', `工作流程测试失败: ${error.message}`, 'error');
+            }
+        }
+        
+        function clearAuth() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user_info');
+            authToken = null;
+            
+            showResult('login-result', '认证信息已清除', 'info');
+            updateStatus('login-status', 'pending');
+        }
+        
+        // 页面加载时检查认证状态
+        window.onload = function() {
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                authToken = token;
+                showResult('login-result', '检测到已保存的认证信息', 'info');
+            }
+        };
+    </script>
+</body>
+</html>

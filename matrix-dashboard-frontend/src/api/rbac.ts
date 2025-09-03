@@ -128,7 +128,7 @@ export const deletePermission = (id: number) => {
  * @returns 权限列表
  */
 export const getAllPermissions = () => {
-  return request.get<Permission[]>('/permissions/all')
+  return request.get<Permission[]>('/permissions')
 }
 
 /**
@@ -136,5 +136,5 @@ export const getAllPermissions = () => {
  * @returns 角色列表
  */
 export const getAllRoles = () => {
-  return request.get<Role[]>('/roles/all')
+  return request.get<Role[]>('/roles')
 }

@@ -20,10 +20,10 @@
         <el-table-column prop="name" label="角色名称" width="150" />
         <el-table-column prop="code" label="角色代码" width="150" />
         <el-table-column prop="description" label="描述" min-width="200" />
-        <el-table-column prop="isActive" label="状态" width="100">
+        <el-table-column prop="status" label="状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="row.isActive ? 'success' : 'danger'" size="small">
-              {{ row.isActive ? '启用' : '禁用' }}
+            <el-tag :type="row.status === 'active' ? 'success' : 'danger'" size="small">
+              {{ row.status === 'active' ? '启用' : '禁用' }}
             </el-tag>
           </template>
         </el-table-column>

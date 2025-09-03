@@ -35,13 +35,13 @@
         />
       </el-form-item>
       
-      <el-form-item label="状态" prop="isActive">
-        <el-switch
-          v-model="formData.isActive"
-          active-text="启用"
-          inactive-text="禁用"
-        />
-      </el-form-item>
+      <el-form-item label="状态" prop="status">
+      <el-switch
+        v-model="statusActive"
+        active-text="启用"
+        inactive-text="禁用"
+      />
+    </el-form-item>
       
       <el-form-item label="排序" prop="sort">
         <el-input-number
@@ -104,8 +104,16 @@ const formData = reactive({
   name: '',
   code: '',
   description: '',
-  isActive: true,
+  status: 'active' as 'active' | 'inactive',
   sort: 0
+})
+
+// 状态开关计算属性
+const statusActive = computed({
+  get: () => formData.status === 'active',
+  set: (value: boolean) => {
+    formData.status = value ? 'active' : 'inactive'
+  }
 })
 
 // 表单验证规则
@@ -133,7 +141,7 @@ watch(
         name: roleData.name,
         code: roleData.code,
         description: roleData.description || '',
-        isActive: roleData.status === 'active'
+        status: roleData.status || 'active'
       })
     } else {
       resetForm()
@@ -148,7 +156,7 @@ const resetForm = () => {
     name: '',
     code: '',
     description: '',
-    isActive: true,
+    status: 'active' as 'active' | 'inactive',
     sort: 0
   })
   formRef.value?.clearValidate()
@@ -169,7 +177,7 @@ const handleSubmit = async () => {
       await updateRole(props.roleData!.id, {
         name: formData.name,
         description: formData.description,
-        status: formData.isActive ? 'active' : 'inactive'
+        status: formData.status
       })
       
       ElMessage.success('更新成功')
@@ -178,7 +186,8 @@ const handleSubmit = async () => {
       await createRole({
         name: formData.name,
         code: formData.code,
-        description: formData.description
+        description: formData.description,
+        status: formData.status
       })
       
       ElMessage.success('创建成功')

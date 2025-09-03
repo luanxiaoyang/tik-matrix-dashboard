@@ -62,13 +62,13 @@
         />
       </el-form-item>
       
-      <el-form-item label="状态" prop="isActive">
-        <el-switch
-          v-model="formData.isActive"
-          active-text="启用"
-          inactive-text="禁用"
-        />
-      </el-form-item>
+      <el-form-item label="状态" prop="status">
+      <el-switch
+        v-model="statusActive"
+        active-text="启用"
+        inactive-text="禁用"
+      />
+    </el-form-item>
       
       <el-form-item label="排序" prop="sort">
         <el-input-number
@@ -144,8 +144,16 @@ const formData = reactive({
   parentId: null as number | null,
   resource: '',
   description: '',
-  isActive: true,
+  status: 'active' as 'active' | 'inactive',
   sort: 0
+})
+
+// 状态开关计算属性
+const statusActive = computed({
+  get: () => formData.status === 'active',
+  set: (value: boolean) => {
+    formData.status = value ? 'active' : 'inactive'
+  }
 })
 
 // 表单验证规则
@@ -178,7 +186,8 @@ watch(
         type: permissionData.type,
         parentId: permissionData.parentId || null,
         resource: '',
-        description: permissionData.description || ''
+        description: permissionData.description || '',
+        status: permissionData.status || 'active'
       })
     } else {
       resetForm()
@@ -208,7 +217,7 @@ const resetForm = () => {
     parentId: null,
     resource: '',
     description: '',
-    isActive: true,
+    status: 'active' as 'active' | 'inactive',
     sort: 0
   })
   formRef.value?.clearValidate()
@@ -231,6 +240,7 @@ const handleSubmit = async () => {
         parentId: formData.parentId || undefined,
         resource: formData.resource,
         description: formData.description,
+        status: formData.status,
         sort: 0
       }
     

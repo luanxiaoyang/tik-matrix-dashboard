@@ -40,7 +40,7 @@
               <el-tag size="small" :type="getPermissionTypeColor(data.type)">
                 {{ getPermissionTypeText(data.type) }}
               </el-tag>
-              <el-tag v-if="!data.isActive" type="danger" size="small">
+              <el-tag v-if="data.status !== 'active'" type="danger" size="small">
                 禁用
               </el-tag>
             </div>
@@ -86,10 +86,10 @@
         </el-table-column>
         <el-table-column prop="resource" label="资源" min-width="200" />
         <el-table-column prop="description" label="描述" min-width="200" />
-        <el-table-column prop="isActive" label="状态" width="100">
+        <el-table-column prop="status" label="状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="row.isActive ? 'success' : 'danger'" size="small">
-              {{ row.isActive ? '启用' : '禁用' }}
+            <el-tag :type="row.status === 'active' ? 'success' : 'danger'" size="small">
+              {{ row.status === 'active' ? '启用' : '禁用' }}
             </el-tag>
           </template>
         </el-table-column>

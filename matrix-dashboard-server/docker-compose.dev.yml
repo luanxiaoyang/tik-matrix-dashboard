@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: matrix-mysql-dev
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: matrix_dashboard_dev
+      MYSQL_USER: matrix
+      MYSQL_PASSWORD: password
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - matrix-dev-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Redis (可选)
+  redis:
+    image: redis:7-alpine
+    container_name: matrix-redis-dev
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - matrix-dev-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 3s
+      retries: 5
+
+  # 开发环境应用（使用热重载）
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: matrix-app-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: matrix
+      DB_PASSWORD: password
+      DB_DATABASE: matrix_dashboard_dev
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: dev-jwt-secret-key
+      JWT_ACCESS_TOKEN_EXPIRES_IN: 1h
+      JWT_REFRESH_TOKEN_EXPIRES_IN: 7d
+      PORT: 3000
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: admin123
+      ADMIN_EMAIL: admin@matrix.com
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./logs:/app/logs
+    networks:
+      - matrix-dev-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: pnpm run start:dev
+
+volumes:
+  mysql_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+
+networks:
+  matrix-dev-network:
+    driver: bridge

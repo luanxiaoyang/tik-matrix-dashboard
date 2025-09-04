@@ -23,7 +23,7 @@ export const getProfile = () => {
  * @returns 授权URL
  */
 export const getLarkAuthUrl = () => {
-  return request.get<{ url: string }>('/auth/lark/url')
+  return request.get<{ authUrl: string }>('/auth/lark/url')
 }
 
 /**

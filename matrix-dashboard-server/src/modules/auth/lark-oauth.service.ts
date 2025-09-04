@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../user/entities/user.entity';
+import { User, UserStatus } from '../user/entities/user.entity';
 
 interface LarkTokenResponse {
   access_token: string;
@@ -128,9 +128,16 @@ export class LarkOAuthService {
       avatar: larkUserInfo.picture,
       larkUserId: larkUserInfo.sub,
       larkUserInfo,
+      status: UserStatus.ACTIVE, // 确保用户状态为激活
     });
 
-    return this.userRepository.save(newUser);
+    const savedUser = await this.userRepository.save(newUser);
+    
+    // 重新查询用户以包含关联的角色信息
+    return this.userRepository.findOne({
+      where: { id: savedUser.id },
+      relations: ['roles', 'roles.permissions'],
+    });
   }
 
   async bindLarkAccount(userId: number, larkUserInfo: LarkUserInfo): Promise<User> {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { User, LoginRequest } from '@/types/api'
-import { login, getProfile, logout } from '@/api/auth'
+import { login, getProfile, logout, larkLogin } from '@/api/auth'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
 
@@ -50,6 +50,36 @@ export const useAuthStore = defineStore('auth', () => {
       
       // 跳转到首页
       router.push('/')
+      
+      return response
+    } catch (error) {
+      // 登录失败
+      throw error
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  /**
+   * 飞书扫码登录
+   * @param params 登录参数
+   */
+  const larkUserLogin = async (params: { flag: string; code: string }) => {
+    try {
+      isLoading.value = true
+      const response = await larkLogin(params.code)
+      
+      // 保存用户信息和token
+      user.value = response.data.user
+      accessToken.value = response.data.accessToken
+      refreshToken.value = response.data.refreshToken
+      
+      // 保存到localStorage
+      localStorage.setItem('access_token', response.data.accessToken)
+      localStorage.setItem('refresh_token', response.data.refreshToken)
+      localStorage.setItem('user_info', JSON.stringify(response.data.user))
+      
+      ElMessage.success('登录成功')
       
       return response
     } catch (error) {
@@ -179,6 +209,7 @@ export const useAuthStore = defineStore('auth', () => {
     
     // 方法
     userLogin,
+    larkUserLogin,
     fetchUserProfile,
     userLogout,
     clearAuth,

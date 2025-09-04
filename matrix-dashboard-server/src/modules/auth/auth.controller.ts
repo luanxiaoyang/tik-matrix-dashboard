@@ -167,11 +167,8 @@ export class AuthController {
       // 查找或创建用户
       const user = await this.larkOAuthService.findOrCreateUser(userInfo);
       
-      // 生成JWT令牌
-      const result = await this.authService.login({
-        username: user.username,
-        password: '', // Lark用户不需要密码验证
-      });
+      // 使用专门的Lark登录方法生成JWT令牌
+      const result = await this.authService.larkLogin(user);
 
       // 重定向到前端回调页面
       const redirectUrl = `http://localhost:5818/auth/lark/callback?code=${code}`;
@@ -204,11 +201,8 @@ export class AuthController {
     // 查找或创建用户
     const user = await this.larkOAuthService.findOrCreateUser(userInfo);
 
-    // 生成JWT令牌
-    const result = await this.authService.login(
-      { username: user.username, password: '' },
-      ip,
-    );
+    // 使用专门的Lark登录方法生成JWT令牌
+    const result = await this.authService.larkLogin(user, ip);
 
     return {
       code: 200,

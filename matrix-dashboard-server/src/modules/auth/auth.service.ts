@@ -82,6 +82,35 @@ export class AuthService {
     };
   }
 
+  async larkLogin(user: User, ip?: string): Promise<LoginResult> {
+    // 检查用户状态
+    if (user.status !== UserStatus.ACTIVE) {
+      throw new UnauthorizedException('用户状态异常');
+    }
+
+    // 更新登录信息
+    await this.updateLoginInfo(user.id, ip);
+
+    const payload: JwtPayload = {
+      sub: user.id,
+      username: user.username,
+      email: user.email,
+      roles: user.roles.map((role) => role.code),
+    };
+
+    const accessToken = this.jwtService.sign(payload);
+    const refreshToken = await this.refreshTokenService.createRefreshToken(
+      user.id,
+      ip,
+    );
+
+    return {
+      user,
+      accessToken,
+      refreshToken: refreshToken.token,
+    };
+  }
+
   async refreshToken(refreshTokenValue: string): Promise<LoginResult> {
     const refreshToken = await this.refreshTokenService.validateRefreshToken(
       refreshTokenValue,

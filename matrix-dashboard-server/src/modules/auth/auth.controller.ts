@@ -173,9 +173,7 @@ export class AuthController {
         password: '', // Lark用户不需要密码验证
       });
 
-      // 重定向到前端，携带令牌信息
-      const redirectUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/login/callback?token=${result.accessToken}&refreshToken=${result.refreshToken}`;
-      // 修改重定向URL（第175行左右）
+      // 重定向到前端回调页面
       const redirectUrl = `http://localhost:5818/auth/lark/callback?code=${code}`;
       
       return { url: redirectUrl };

@@ -15,6 +15,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/auth/lark/callback',
+      name: 'lark-callback',
+      component: () => import('../views/LarkCallback.vue'),
+      meta: {
+        requiresAuth: false,
+        title: '飞书登录回调'
+      }
+    },
+    {
       path: '/',
       name: 'dashboard',
       component: () => import('../views/DashboardView.vue'),

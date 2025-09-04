@@ -129,7 +129,7 @@ const handleLarkLogin = async () => {
   try {
     const response = await getLarkAuthUrl()
     // 跳转到飞书授权页面
-    window.location.href = response.data.url
+    window.location.href = response.data.authUrl
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_error) {
     ElMessage.error('获取飞书授权链接失败')

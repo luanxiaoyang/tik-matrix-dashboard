@@ -127,6 +127,27 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * 设置用户信息
+   * @param userData 用户数据
+   */
+  const setUser = (userData: User) => {
+    user.value = userData
+    localStorage.setItem('user_info', JSON.stringify(userData))
+  }
+
+  /**
+   * 设置访问令牌
+   * @param access 访问令牌
+   * @param refresh 刷新令牌
+   */
+  const setTokens = (access: string, refresh: string) => {
+    accessToken.value = access
+    refreshToken.value = refresh
+    localStorage.setItem('access_token', access)
+    localStorage.setItem('refresh_token', refresh)
+  }
+
+  /**
    * 检查用户是否有指定权限
    * @param permission 权限代码
    * @returns 是否有权限
@@ -162,6 +183,8 @@ export const useAuthStore = defineStore('auth', () => {
     userLogout,
     clearAuth,
     restoreAuth,
+    setUser,
+    setTokens,
     hasPermission,
     hasRole
   }

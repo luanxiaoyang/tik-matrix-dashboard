@@ -106,7 +106,7 @@ export class SeedInitialData1700000000001 implements MigrationInterface {
 
         // 创建默认管理员账号
         // 预先哈希的密码 'admin123' (bcrypt hash with salt rounds 10)
-        const hashedPassword = '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+        const hashedPassword = '$2b$10$3agddmck0bdp3h6Swoi3/uaQh9RUdA8MUBAbk.7NM0SwGQIJTigYC';
         
         await queryRunner.query(`
             INSERT INTO \`users\` (

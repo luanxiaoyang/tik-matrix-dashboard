@@ -83,7 +83,6 @@
               type="info"
               size="small"
               @click="showPermissionDialog(row)"
-              v-if="authStore.hasPermission('role:assign_permission')"
             >
               权限
             </el-button>
@@ -204,7 +203,7 @@ import { ref, reactive, onMounted, computed, nextTick } from 'vue'
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import { getRoleList, getRoleById, createRole, updateRole, deleteRole as deleteRoleApi } from '@/api/rbac'
-import { getAllPermissions } from '@/api/rbac'
+import { getAllPermissions, setRolePermissions } from '@/api/rbac'
 import type { Role, Permission, GetRolesParams, UpdateRoleRequest } from '@/types/api'
 
 const authStore = useAuthStore()
@@ -558,16 +557,15 @@ const handlePermissionSubmit = async () => {
   try {
     permissionSubmitting.value = true
     
-    // 这里应该调用分配权限的API
-    // await assignRolePermissions(currentRole.value.id, selectedPermissionIds.value)
+    // 调用设置角色权限的API
+    await setRolePermissions(currentRole.value.id, selectedPermissionIds.value)
     
     ElMessage.success('权限分配成功')
     permissionDialogVisible.value = false
     loadRoleList()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    console.error('权限分配失败:', error)
     ElMessage.error('权限分配失败')
-    // 权限分配失败
   } finally {
     permissionSubmitting.value = false
   }

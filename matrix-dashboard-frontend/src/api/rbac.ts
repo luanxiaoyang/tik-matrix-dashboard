@@ -138,3 +138,51 @@ export const getAllPermissions = () => {
 export const getAllRoles = () => {
   return request.get<Role[]>('/roles')
 }
+
+/**
+ * 为角色添加权限
+ * @param roleId 角色ID
+ * @param permissionIds 权限ID数组
+ * @returns 操作结果
+ */
+export const addRolePermissions = (roleId: number, permissionIds: number[]) => {
+  return request.post<{ success: boolean }>(`/roles/${roleId}/permissions`, {
+    permissionIds
+  })
+}
+
+/**
+ * 移除角色权限
+ * @param roleId 角色ID
+ * @param permissionIds 权限ID数组
+ * @returns 操作结果
+ */
+export const removeRolePermissions = (roleId: number, permissionIds: number[]) => {
+  return request.delete<{ success: boolean }>(`/roles/${roleId}/permissions`, {
+    data: { permissionIds }
+  })
+}
+
+/**
+ * 设置角色权限（替换所有权限）
+ * @param roleId 角色ID
+ * @param permissionIds 权限ID列表
+ * @returns 设置结果
+ */
+export const setRolePermissions = async (roleId: number, permissionIds: number[]) => {
+  // 先获取角色当前权限
+  const role = await getRoleById(roleId)
+  const currentPermissionIds = role.data.permissions?.map((p: any) => typeof p === 'string' ? parseInt(p) : p.id) || []
+  
+  // 删除所有当前权限
+  if (currentPermissionIds.length > 0) {
+    await removeRolePermissions(roleId, currentPermissionIds)
+  }
+  
+  // 添加新权限
+  if (permissionIds.length > 0) {
+    return addRolePermissions(roleId, permissionIds)
+  }
+  
+  return { data: { success: true } }
+}

@@ -133,7 +133,6 @@
           <el-input
             v-model="roleForm.code"
             placeholder="请输入角色代码"
-            :disabled="isEdit"
           />
         </el-form-item>
         <el-form-item label="描述" prop="description">
@@ -506,6 +505,7 @@ const handleSubmit = async () => {
       // 编辑角色
       const updateData: UpdateRoleRequest = {
         name: roleForm.name,
+        code: roleForm.code,
         description: roleForm.description
       }
       await updateRole(roleForm.id!, updateData)

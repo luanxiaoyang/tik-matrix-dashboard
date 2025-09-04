@@ -180,6 +180,7 @@ export interface CreateRoleRequest {
 // 更新角色请求
 export interface UpdateRoleRequest {
   name?: string
+  code?: string
   description?: string
   permissionIds?: number[]
 }

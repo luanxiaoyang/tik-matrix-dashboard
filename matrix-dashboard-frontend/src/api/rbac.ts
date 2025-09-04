@@ -51,7 +51,7 @@ export const updateRole = (id: number, data: {
   description?: string
   permissionIds?: number[]
 }) => {
-  return request.put<Role>(`/roles/${id}`, data)
+  return request.patch<Role>(`/roles/${id}`, data)
 }
 
 /**

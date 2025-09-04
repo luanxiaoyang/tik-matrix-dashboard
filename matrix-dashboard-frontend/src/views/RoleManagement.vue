@@ -253,7 +253,8 @@ const roleFormRules: FormRules = {
   ],
   code: [
     { required: true, message: '请输入角色代码', trigger: 'blur' },
-    { pattern: /^[A-Z_]+$/, message: '角色代码只能包含大写字母和下划线', trigger: 'blur' }
+    { pattern: /^[a-zA-Z0-9_-]+$/, message: '角色代码只能包含字母、数字、下划线和连字符', trigger: 'blur' },
+    { min: 2, max: 50, message: '角色代码长度在 2 到 50 个字符', trigger: 'blur' }
   ]
 }
 

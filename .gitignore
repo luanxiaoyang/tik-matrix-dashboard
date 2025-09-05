@@ -8,7 +8,7 @@ pnpm-debug.log*
 # IDE and Tool Configurations
 .qoder/
 .trae/
-docs/
+
 # Runtime data
 pids
 *.pid

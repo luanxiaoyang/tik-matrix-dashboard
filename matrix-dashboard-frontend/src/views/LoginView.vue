@@ -102,7 +102,7 @@
       <!-- 环境选择器 -->
       <div class="login-footer">
         <div class="env-selector">
-          <span>环境选择：</span>
+          <span>主体选择：</span>
           <el-select v-model="larkOrg" size="small" @change="initQR">
             <el-option v-for="item in envOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -141,12 +141,12 @@ const currentAuthUrl = ref('')
 const envOptions = ref([
   {
     value: 'dev',
-    label: '开发环境'
+    label: '直播/短视频'
   },
-  {
-    value: 'prod',
-    label: '生产环境'
-  }
+  // {
+  //   value: 'prod',
+  //   label: '生产环境'
+  // }
 ])
 
 const larkOrg = ref<'dev' | 'prod'>('dev')
@@ -577,8 +577,9 @@ const startAuth = async (flag: string, code: string) => {
 
 .env-selector span {
   margin-right: 10px;
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
+  flex-shrink: 0;
 }
 
 :deep(.el-divider__text) {

@@ -214,7 +214,7 @@ import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'elem
 import { useAuthStore } from '@/stores/auth'
 import { getUserList, getUserById, createUser, updateUser, deleteUser, resetUserPassword, } from '@/api/user'
 import { getAllRoles } from '@/api/rbac'
-import type { User, CreateUserRequest, UpdateUserRequest, Role, GetUsersParams, ResetPasswordResponse, PaginationResponse } from '@/types/api'
+import type { User, CreateUserRequest, UpdateUserRequest, Role, GetUsersParams, ResetPasswordResponse, PaginationResponse, UserPaginationResponse } from '@/types/api'
 
 const authStore = useAuthStore()
 
@@ -301,9 +301,9 @@ const loadUserList = async () => {
     
     // 处理后端响应格式 - 后端返回 { users: User[], total: number }
     if (response) {
-      const data = response.data as unknown as PaginationResponse<User>
-      userList.value = data.users || []
-      pagination.total = data.total || 0
+      const data = response.data as unknown as UserPaginationResponse;
+      userList.value = data.users
+      pagination.total = data.total
     } else {
       userList.value = []
       pagination.total = 0

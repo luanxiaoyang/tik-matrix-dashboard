@@ -36,6 +36,11 @@
           <el-menu-item index="/permissions" v-if="authStore.hasPermission('permission:read')">权限管理</el-menu-item>
         </el-sub-menu>
         
+        <el-menu-item index="/tiktok-accounts" v-if="authStore.hasPermission('tiktok:read')">
+          <el-icon><VideoCamera /></el-icon>
+          <template #title>TikTok账号管理</template>
+        </el-menu-item>
+        
         <el-menu-item index="/recharge-sync" v-if="authStore.hasPermission('recharge:read')">
           <el-icon><CreditCard /></el-icon>
           <template #title>充值同步</template>
@@ -123,6 +128,7 @@ const currentRouteTitle = computed(() => {
     users: '用户管理',
     roles: '角色管理',
     permissions: '权限管理',
+    'tiktok-accounts': 'TikTok账号管理',
     'recharge-sync': '充值同步'
   }
   return routeTitleMap[currentRouteName.value] || ''

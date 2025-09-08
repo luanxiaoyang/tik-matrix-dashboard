@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import type { User, CreateUserRequest, UpdateUserRequest, PaginationResponse, GetUsersParams, ApiResponse } from '@/types/api'
+import type { User, CreateUserRequest, UpdateUserRequest, PaginationResponse, UserPaginationResponse, GetUsersParams, ApiResponse } from '@/types/api'
 
 /**
  * 获取用户列表
@@ -7,7 +7,7 @@ import type { User, CreateUserRequest, UpdateUserRequest, PaginationResponse, Ge
  * @returns 用户列表
  */
 export const getUserList = (params: GetUsersParams) => {
-  return request.get<ApiResponse<PaginationResponse<User>>>('/users', { params })
+  return request.get<ApiResponse<UserPaginationResponse>>('/users', { params })
 }
 
 /**

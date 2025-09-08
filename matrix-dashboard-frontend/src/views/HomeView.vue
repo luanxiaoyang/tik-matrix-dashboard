@@ -109,6 +109,16 @@
             </div>
           </el-col>
           
+          <el-col :xs="24" :sm="12" :md="6" v-if="authStore.hasPermission('tiktok:read')">
+            <div class="quick-action-item" @click="$router.push('/tiktok-accounts')">
+              <el-icon class="action-icon"><VideoCamera /></el-icon>
+              <div class="action-text">
+                <div class="action-title">TikTok账号管理</div>
+                <div class="action-desc">管理TikTok账号</div>
+              </div>
+            </div>
+          </el-col>
+          
           <el-col :xs="24" :sm="12" :md="6" v-if="authStore.hasPermission('recharge:sync')">
             <div class="quick-action-item" @click="$router.push('/recharge-sync')">
               <el-icon class="action-icon"><CreditCard /></el-icon>

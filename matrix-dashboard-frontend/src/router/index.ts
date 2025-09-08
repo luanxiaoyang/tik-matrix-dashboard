@@ -66,6 +66,15 @@ const router = createRouter({
             title: '充值同步',
             permission: 'recharge:read'
           }
+        },
+        {
+          path: 'tiktok-accounts',
+          name: 'tiktok-accounts',
+          component: () => import('../views/TiktokAccountManagement.vue'),
+          meta: {
+            title: 'TikTok账号管理',
+            permission: 'tiktok:read'
+          }
         }
       ]
     },
@@ -103,17 +112,13 @@ router.beforeEach((to, from, next) => {
     }
     
     // 检查权限
-    if (to.meta.permission && !authStore.hasPermission(to.meta.permission as string)) {
-      ElMessage.error('没有访问权限')
-      next({ name: 'home' })
-      return
+    if (to.meta.permission && typeof to.meta.permission === 'string') {
+      if (!authStore.hasPermission(to.meta.permission)) {
+        ElMessage.error('权限不足')
+        next({ name: 'home' })
+        return
+      }
     }
-  }
-  
-  // 如果已登录用户访问登录页，重定向到首页
-  if (to.name === 'login' && authStore.isAuthenticated) {
-    next({ name: 'home' })
-    return
   }
   
   next()

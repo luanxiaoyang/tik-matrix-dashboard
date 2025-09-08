@@ -5,17 +5,6 @@ export interface ApiResponse<T = unknown> {
   data: T
 }
 
-// 分页响应结构
-export interface PaginationResponse<T> {
-  items?: T[] // 通用分页项目
-  users?: T[] // 用户列表专用字段
-  total: number
-  page: number
-  limit?: number // 后端使用limit
-  pageSize?: number // 兼容旧版本
-  totalPages?: number // 总页数
-}
-
 // 用户相关类型
 export interface User {
   id: number
@@ -35,6 +24,26 @@ export interface User {
   createdAt: string
   updatedAt: string
   deletedAt?: string // 软删除时间戳
+}
+
+// 分页响应结构
+export interface PaginationResponse<T> {
+  items?: T[] // 通用分页项目
+  total: number
+  page: number
+  limit?: number // 后端使用limit
+  pageSize?: number // 兼容旧版本
+  totalPages?: number // 总页数
+}
+
+// 用户分页响应结构
+export interface UserPaginationResponse {
+  users: User[] // 用户列表专用字段
+  total: number
+  page: number
+  limit?: number // 后端使用limit
+  pageSize?: number // 兼容旧版本
+  totalPages?: number // 总页数
 }
 
 export interface Role {
@@ -183,4 +192,129 @@ export interface UpdateRoleRequest {
   code?: string
   description?: string
   permissionIds?: number[]
+}
+
+// TikTok账号管理相关类型
+export enum AccountLevel {
+  A = 'A',
+  B = 'B',
+  C = 'C',
+  D = 'D'
+}
+
+export enum AccountStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  BANNED = 'banned',
+  PENDING = 'pending'
+}
+
+export interface TiktokAccount {
+  id: string;
+  accountUrl: string;
+  accountName?: string;
+  username?: string;
+  phoneNumber?: string;
+  accountLevel: AccountLevel;
+  status: AccountStatus;
+  followersCount?: number;
+  followingCount?: number;
+  videosCount?: number;
+  likesCount?: number;
+  operatorId?: string;
+  converterId?: string;
+  operator?: User;
+  converter?: User;
+  isVerified?: boolean;
+  tags?: string[];
+  region?: string;
+  language?: string;
+  notes?: string;
+  lastStatsUpdate?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateTiktokAccountRequest {
+  accountUrl: string;
+  accountName?: string;
+  username?: string;
+  phoneNumber?: string;
+  accountLevel: AccountLevel;
+  status?: AccountStatus;
+  followersCount?: number;
+  followingCount?: number;
+  videosCount?: number;
+  likesCount?: number;
+  operatorId?: string;
+  converterId?: string;
+  isVerified?: boolean;
+  tags?: string[];
+  region?: string;
+  language?: string;
+  notes?: string;
+}
+
+export interface UpdateTiktokAccountRequest {
+  accountUrl?: string;
+  accountName?: string;
+  username?: string;
+  phoneNumber?: string;
+  accountLevel?: AccountLevel;
+  status?: AccountStatus;
+  followersCount?: number;
+  followingCount?: number;
+  videosCount?: number;
+  likesCount?: number;
+  operatorId?: string;
+  converterId?: string;
+  isVerified?: boolean;
+  tags?: string[];
+  region?: string;
+  language?: string;
+  notes?: string;
+}
+
+export interface AssignUserRequest {
+  userId: string;
+  role: 'operator' | 'converter';
+}
+
+export interface BatchAssignRequest {
+  userIds: string[];
+  role: 'operator' | 'converter';
+}
+
+export interface UpdateStatsRequest {
+  followersCount?: number;
+  followingCount?: number;
+  videosCount?: number;
+  likesCount?: number;
+}
+
+export interface TiktokAccountQueryParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  accountLevel?: AccountLevel;
+  status?: AccountStatus;
+  operatorId?: string;
+  converterId?: string;
+  region?: string;
+  language?: string;
+  isVerified?: boolean;
+}
+
+export interface TiktokAccountStats {
+  total: number;
+  activeCount: number;
+  inactiveCount: number;
+  bannedCount: number;
+  pendingCount: number;
+  levelACount: number;
+  levelBCount: number;
+  levelCCount: number;
+  levelDCount: number;
+  assignedCount: number;
+  unassignedCount: number;
 }

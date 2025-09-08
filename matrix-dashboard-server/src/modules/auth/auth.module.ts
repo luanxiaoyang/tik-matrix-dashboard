@@ -11,10 +11,11 @@ import { RefreshTokenService } from './refresh-token.service';
 import { LarkOAuthService } from './lark-oauth.service';
 import { User } from '../user/entities/user.entity';
 import { RefreshToken } from './entities/refresh-token.entity';
+import { Role } from '../rbac/entities/role.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, RefreshToken]),
+    TypeOrmModule.forFeature([User, RefreshToken, Role]),
     PassportModule,
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({

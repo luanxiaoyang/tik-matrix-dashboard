@@ -18,10 +18,11 @@ import {
   ApiBearerAuth,
   ApiQuery,
 } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { LarkOAuthService } from './lark-oauth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { LoginDto, RefreshTokenDto, LarkAuthDto } from './dto/login.dto';
+import { LoginDto, RefreshTokenDto, LarkAuthDto, LogoutDto } from './dto/login.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -29,6 +30,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private larkOAuthService: LarkOAuthService,
+    private configService: ConfigService,
   ) {}
 
   @ApiOperation({ summary: '账号密码登录' })
@@ -100,8 +102,14 @@ export class AuthController {
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
   @Post('logout')
-  async logout(@Body() refreshTokenDto: RefreshTokenDto) {
-    await this.authService.logout(refreshTokenDto.refreshToken);
+  async logout(@Body() logoutDto: LogoutDto, @Request() req) {
+    if (logoutDto.refreshToken) {
+      // 如果提供了refreshToken，则撤销指定token
+      await this.authService.logout(logoutDto.refreshToken);
+    } else {
+      // 如果没有提供refreshToken，则撤销用户的所有token
+      await this.authService.logoutAll(req.user.id);
+    }
     return {
       code: 200,
       message: '登出成功',
@@ -139,12 +147,24 @@ export class AuthController {
   @ApiOperation({ summary: '获取Lark登录授权URL' })
   @ApiResponse({ status: 200, description: '获取成功' })
   @Get('lark/url')
-  getLarkAuthUrl() {
-    const authUrl = this.larkOAuthService.getAuthUrl();
+  getLarkAuthUrl(@Query('provider') provider: 'lark' | 'yaychat' = 'lark') {
+    const authUrl = this.larkOAuthService.getAuthUrl(provider);
     return {
       code: 200,
       message: '获取成功',
-      data: { authUrl },
+      data: { authUrl, provider },
+    };
+  }
+
+  @ApiOperation({ summary: '获取YAYChat Lark登录授权URL' })
+  @ApiResponse({ status: 200, description: '获取成功' })
+  @Get('lark/yaychat/url')
+  getYayChatLarkAuthUrl() {
+    const authUrl = this.larkOAuthService.getYayChatAuthUrl();
+    return {
+      code: 200,
+      message: '获取成功',
+      data: { authUrl, provider: 'yaychat' },
     };
   }
 
@@ -158,8 +178,11 @@ export class AuthController {
     @Query('state') state?: string,
   ) {
     try {
+      // 根据state参数确定使用的Lark主体
+      const provider = (state === 'yaychat') ? 'yaychat' : 'lark';
+      
       // 获取访问令牌
-      const tokenResponse = await this.larkOAuthService.exchangeCodeForToken(code);
+      const tokenResponse = await this.larkOAuthService.exchangeCodeForToken(code, provider);
       
       // 获取用户信息
       const userInfo = await this.larkOAuthService.getUserInfo(tokenResponse.access_token);
@@ -170,8 +193,8 @@ export class AuthController {
       // 使用专门的Lark登录方法生成JWT令牌
       const result = await this.authService.larkLogin(user);
 
-      // 重定向到前端回调页面
-      const redirectUrl = `http://localhost:5818/auth/lark/callback?code=${code}`;
+      // 重定向到前端回调页面，携带JWT令牌
+      const redirectUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/login/callback?token=${result.accessToken}&refreshToken=${result.refreshToken}&userId=${user.id}&username=${encodeURIComponent(user.username)}`;
       
       return { url: redirectUrl };
     } catch (error) {
@@ -185,12 +208,15 @@ export class AuthController {
   @ApiResponse({ status: 200, description: '登录成功' })
   @Post('lark/login')
   async larkLogin(
-    @Body() larkAuthDto: LarkAuthDto,
+    @Body() larkAuthDto: LarkAuthDto & { provider?: 'lark' | 'yaychat' },
     @Ip() ip: string,
   ) {
+    const provider = larkAuthDto.provider || 'lark';
+    
     // 获取访问令牌
     const tokenResponse = await this.larkOAuthService.exchangeCodeForToken(
       larkAuthDto.code,
+      provider,
     );
 
     // 获取用户信息
@@ -234,11 +260,14 @@ export class AuthController {
   @Post('lark/bind')
   async bindLark(
     @Request() req,
-    @Body() larkAuthDto: LarkAuthDto,
+    @Body() larkAuthDto: LarkAuthDto & { provider?: 'lark' | 'yaychat' },
   ) {
+    const provider = larkAuthDto.provider || 'lark';
+    
     // 获取访问令牌
     const tokenResponse = await this.larkOAuthService.exchangeCodeForToken(
       larkAuthDto.code,
+      provider,
     );
 
     // 获取用户信息
@@ -274,5 +303,50 @@ export class AuthController {
       code: 200,
       message: '解绑成功',
     };
+  }
+
+  @ApiOperation({ summary: '模拟Lark用户创建测试（仅开发环境）' })
+  @ApiResponse({ status: 200, description: '测试成功' })
+  @Post('test/lark-user-creation')
+  async testLarkUserCreation(@Body() body: { larkUserId: string; name: string; email: string }) {
+    if (this.configService.get('NODE_ENV') !== 'development') {
+      return {
+        code: 403,
+        message: '此接口仅在开发环境可用',
+      };
+    }
+
+    try {
+      // 模拟Lark用户信息
+      const mockLarkUserInfo = {
+        sub: body.larkUserId,
+        name: body.name,
+        email: body.email,
+        picture: `https://avatar.example.com/${body.larkUserId}.jpg`,
+        email_verified: true,
+      };
+
+      // 创建或查找用户
+      const user = await this.larkOAuthService.findOrCreateUser(mockLarkUserInfo);
+
+      return {
+        code: 200,
+        message: '测试用户创建成功',
+        data: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          nickname: user.nickname,
+          larkUserId: user.larkUserId,
+          roles: user.roles ? user.roles.map(r => ({ id: r.id, name: r.name, code: r.code })) : [],
+          isNewUser: !user.larkUserId || user.createdAt === user.updatedAt,
+        },
+      };
+    } catch (error) {
+      return {
+        code: 500,
+        message: `测试失败: ${error.message}`,
+      };
+    }
   }
 }

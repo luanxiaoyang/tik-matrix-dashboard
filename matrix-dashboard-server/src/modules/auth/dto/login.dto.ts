@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, MinLength, IsOptional } from 'class-validator';
 
 export class LoginDto {
   @ApiProperty({ description: '用户名或邮箱', example: 'admin' })
@@ -19,6 +19,13 @@ export class RefreshTokenDto {
   @IsString()
   @IsNotEmpty({ message: '刷新令牌不能为空' })
   refreshToken: string;
+}
+
+export class LogoutDto {
+  @ApiProperty({ description: '刷新令牌（可选）', required: false })
+  @IsOptional()
+  @IsString()
+  refreshToken?: string;
 }
 
 export class LarkAuthDto {

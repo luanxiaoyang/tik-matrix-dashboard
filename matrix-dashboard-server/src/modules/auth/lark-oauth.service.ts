@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserStatus } from '../user/entities/user.entity';
+import { Role } from '../rbac/entities/role.entity';
 
 interface LarkTokenResponse {
   access_token: string;
@@ -25,29 +26,65 @@ export class LarkOAuthService {
   private readonly appId: string;
   private readonly appSecret: string;
   private readonly redirectUri: string;
+  private readonly yaychatAppId: string;
+  private readonly yaychatAppSecret: string;
+  private readonly yaychatRedirectUri: string;
 
   constructor(
     private configService: ConfigService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Role)
+    private roleRepository: Repository<Role>,
   ) {
+    // 原有Lark配置
     this.appId = this.configService.get('LARK_APP_ID');
     this.appSecret = this.configService.get('LARK_APP_SECRET');
     this.redirectUri = this.configService.get('LARK_REDIRECT_URI');
+    
+    // YAYChat Lark配置
+    this.yaychatAppId = this.configService.get('YAYCHAT_LARK_APP_ID');
+    this.yaychatAppSecret = this.configService.get('YAYCHAT_LARK_APP_SECRET');
+    this.yaychatRedirectUri = this.configService.get('YAYCHAT_LARK_REDIRECT_URI');
   }
 
-  getAuthUrl(): string {
+  getAuthUrl(provider: 'lark' | 'yaychat' = 'lark'): string {
+    const config = this.getLarkConfig(provider);
+    
     const params = new URLSearchParams({
-      client_id: this.appId,
-      redirect_uri: this.redirectUri,
+      client_id: config.appId,
+      redirect_uri: config.redirectUri,
       response_type: 'code',
       scope: 'openid profile email',
+      state: provider, // 添加state参数标识使用的Lark主体
     });
 
     return `https://passport.larksuite.com/suite/passport/oauth/authorize?${params}`;
   }
 
-  async exchangeCodeForToken(code: string): Promise<LarkTokenResponse> {
+  getYayChatAuthUrl(): string {
+    return this.getAuthUrl('yaychat');
+  }
+
+  private getLarkConfig(provider: 'lark' | 'yaychat') {
+    if (provider === 'yaychat') {
+      return {
+        appId: this.yaychatAppId,
+        appSecret: this.yaychatAppSecret,
+        redirectUri: this.yaychatRedirectUri,
+      };
+    } else {
+      return {
+        appId: this.appId,
+        appSecret: this.appSecret,
+        redirectUri: this.redirectUri,
+      };
+    }
+  }
+
+  async exchangeCodeForToken(code: string, provider: 'lark' | 'yaychat' = 'lark'): Promise<LarkTokenResponse> {
+    const config = this.getLarkConfig(provider);
+    
     const response = await fetch(
       'https://passport.larksuite.com/suite/passport/oauth/token',
       {
@@ -57,10 +94,10 @@ export class LarkOAuthService {
         },
         body: new URLSearchParams({
           grant_type: 'authorization_code',
-          client_id: this.appId,
-          client_secret: this.appSecret,
+          client_id: config.appId,
+          client_secret: config.appSecret,
           code,
-          redirect_uri: this.redirectUri,
+          redirect_uri: config.redirectUri,
         }),
       },
     );
@@ -104,7 +141,9 @@ export class LarkOAuthService {
       return this.userRepository.save(user);
     }
 
-    // 尝试通过邮箱查找现有用户
+    // 注释掉邮箱查找逻辑，确保每个Lark用户都创建独立账号
+    // 如果需要邮箱绑定功能，应该通过专门的绑定接口来实现
+    /*
     user = await this.userRepository.findOne({
       where: { email: larkUserInfo.email },
       relations: ['roles'],
@@ -118,11 +157,22 @@ export class LarkOAuthService {
       user.avatar = larkUserInfo.picture;
       return this.userRepository.save(user);
     }
+    */
 
     // 创建新用户
+    // 为了避免邮箱冲突，如果邮箱已存在，则使用larkUserId生成唯一邮箱
+    let uniqueEmail = larkUserInfo.email;
+    const existingEmailUser = await this.userRepository.findOne({
+      where: { email: larkUserInfo.email },
+    });
+    
+    if (existingEmailUser) {
+      uniqueEmail = `lark_${larkUserInfo.sub}@lark.matrix.com`;
+    }
+
     const newUser = this.userRepository.create({
       username: `lark_${larkUserInfo.sub}`,
-      email: larkUserInfo.email,
+      email: uniqueEmail,
       password: '', // Lark用户不需要密码
       nickname: larkUserInfo.name,
       avatar: larkUserInfo.picture,
@@ -132,6 +182,16 @@ export class LarkOAuthService {
     });
 
     const savedUser = await this.userRepository.save(newUser);
+    
+    // 为新用户分配默认角色（viewer角色）
+    const defaultRole = await this.roleRepository.findOne({
+      where: { code: 'viewer' },
+    });
+    
+    if (defaultRole) {
+      savedUser.roles = [defaultRole];
+      await this.userRepository.save(savedUser);
+    }
     
     // 重新查询用户以包含关联的角色信息
     return this.userRepository.findOne({

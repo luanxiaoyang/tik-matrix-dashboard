@@ -66,7 +66,7 @@ export class AuthService {
       sub: user.id,
       username: user.username,
       email: user.email,
-      roles: user.roles.map((role) => role.code),
+      roles: user.roles ? user.roles.map((role) => role.code) : [],
     };
 
     const accessToken = this.jwtService.sign(payload);
@@ -95,7 +95,7 @@ export class AuthService {
       sub: user.id,
       username: user.username,
       email: user.email,
-      roles: user.roles.map((role) => role.code),
+      roles: user.roles ? user.roles.map((role) => role.code) : [],
     };
 
     const accessToken = this.jwtService.sign(payload);
@@ -129,7 +129,7 @@ export class AuthService {
       sub: user.id,
       username: user.username,
       email: user.email,
-      roles: user.roles.map((role) => role.code),
+      roles: user.roles ? user.roles.map((role) => role.code) : [],
     };
 
     const accessToken = this.jwtService.sign(payload);
@@ -149,6 +149,10 @@ export class AuthService {
 
   async logout(refreshTokenValue: string): Promise<void> {
     await this.refreshTokenService.revokeRefreshToken(refreshTokenValue);
+  }
+
+  async logoutAll(userId: number): Promise<void> {
+    await this.refreshTokenService.revokeAllUserTokens(userId);
   }
 
   async updateLoginInfo(userId: number, ip?: string): Promise<void> {

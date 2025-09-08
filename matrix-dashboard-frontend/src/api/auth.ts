@@ -20,19 +20,27 @@ export const getProfile = () => {
 
 /**
  * 获取飞书授权URL
+ * @param provider Lark主体类型
  * @returns 授权URL
  */
-export const getLarkAuthUrl = () => {
-  return request.get<{ authUrl: string }>('/auth/lark/url')
+export const getLarkAuthUrl = (provider?: string) => {
+  const endpoint = provider === 'yaychat' 
+    ? '/auth/lark/yaychat/url'
+    : `/auth/lark/url${provider ? `?provider=${provider}` : ''}`
+  return request.get<{ authUrl: string; provider: string }>(endpoint)
 }
 
 /**
  * 飞书扫码登录
  * @param code 授权码
+ * @param provider Lark主体类型
  * @returns 登录响应数据
  */
-export const larkLogin = (code: string) => {
-  return request.post<LoginResponse>('/auth/lark/login', { code })
+export const larkLogin = (code: string, provider?: string) => {
+  return request.post<LoginResponse>('/auth/lark/login', { 
+    code,
+    provider: provider || 'lark'
+  })
 }
 
 /**

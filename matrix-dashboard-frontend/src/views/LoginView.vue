@@ -185,7 +185,7 @@ const initQR = () => {
   const CLIENT_ID = larkCfg.value[larkOrg.value]
   const REDIRECT_URI = encodeURIComponent(window.location.origin + '/login')
   const randomState = randomString(6)
-  const goto = `https://passport.larksuite.com/suite/passport/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${randomState}`
+  const goto = `https://passport.larksuite.com/suite/passport/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=openid%20profile%20email&state=${randomState}`
 
   localStorage.setItem('auth_state', randomState)
   localStorage.setItem('auth_flag', larkOrg.value)
@@ -234,7 +234,7 @@ const openLarkAuth = () => {
     const CLIENT_ID = larkCfg.value[larkOrg.value]
     const REDIRECT_URI = encodeURIComponent(window.location.origin + '/login')
     const randomState = randomString(6)
-    const authUrl = `https://passport.larksuite.com/suite/passport/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${randomState}`
+    const authUrl = `https://passport.larksuite.com/suite/passport/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=openid%20profile%20email&state=${randomState}`
     
     localStorage.setItem('auth_state', randomState)
     localStorage.setItem('auth_flag', larkOrg.value)

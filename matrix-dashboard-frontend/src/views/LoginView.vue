@@ -143,16 +143,16 @@ const envOptions = ref([
     value: 'dev',
     label: '直播/短视频'
   },
-  // {
-  //   value: 'prod',
-  //   label: '生产环境'
-  // }
+  {
+    value: 'prod',
+    label: 'YAYChat'
+  }
 ])
 
 const larkOrg = ref<'dev' | 'prod'>('dev')
 const larkCfg = ref<Record<'dev' | 'prod', string>>({
   dev: import.meta.env.VITE_LARK_APP_ID_DEV || 'cli_a8d0e7a24eba9029',
-  prod: import.meta.env.VITE_LARK_APP_ID_PROD || 'cli_a8d0e7a24eba9029'
+  prod: import.meta.env.VITE_LARK_APP_ID_PROD || 'cli_a834f9cacbfb9028',
 })
 
 // 登录表单数据
@@ -176,43 +176,55 @@ const loginRules = {
 /**
  * 初始化二维码
  */
-const initQR = () => {
+const initQR = async () => {
   const qrContainer = document.getElementById('lark_login')
   if (qrContainer) {
     qrContainer.innerHTML = ''
   }
 
-  const CLIENT_ID = larkCfg.value[larkOrg.value]
-  const REDIRECT_URI = encodeURIComponent(window.location.origin + '/login')
-  const randomState = randomString(6)
-  const goto = `https://passport.larksuite.com/suite/passport/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=openid%20profile%20email&state=${randomState}`
+  try {
+    // 根据选择的主体获取对应的Lark登录URL
+    const provider = larkOrg.value === 'prod' ? 'yaychat' : 'lark'
+    
+    // 使用前端API方法获取URL
+    const { getLarkAuthUrl } = await import('@/api/auth')
+    const result = await getLarkAuthUrl(provider)
+    
+    const authUrl = result.data.authUrl
+    const url = new URL(authUrl)
+    const state = url.searchParams.get('state')
+    
+    localStorage.setItem('auth_state', state || randomString(6))
+    localStorage.setItem('auth_flag', larkOrg.value)
+    localStorage.setItem('auth_provider', provider)
+    currentAuthUrl.value = authUrl
+    
+    // 使用 Lark SDK 生成二维码
+      if (window.QRLogin) {
+        const QRLoginObj = window.QRLogin({
+          id: "lark_login",
+          goto: authUrl,
+          width: "280",
+          height: "280",
+          style: "border:none;",
+          href: "data:text/css;base64,LnFyY29kZV9sb2dpbl9jb250YWluZXJ7cGFkZGluZzowfS5xcmNvZGVfbG9naW5fY29udGFpbmVyIGgze21hcmdpbi1ib3R0b206MjBweDtmb250LXNpemU6MTZweDtjb2xvcjojMzMzfS5xcmNvZGVfbG9naW5fY29udGFpbmVyIC5xcmNvZGVfcGFuZWx7Ym94LXNoYWRvdzpub25lICFpbXBvcnRhbnR9"
+        })
 
-  localStorage.setItem('auth_state', randomState)
-  localStorage.setItem('auth_flag', larkOrg.value)
-  currentAuthUrl.value = goto
+        const handleMessage = (event: MessageEvent) => {
+          if (QRLoginObj.matchOrigin(event.origin) && QRLoginObj.matchData(event.data)) {
+            const loginTmpCode = event.data.tmp_code
+            window.location.href = authUrl + '&tmp_code=' + loginTmpCode
+          }
+        }
 
-  // 使用 Lark SDK 生成二维码
-  if (window.QRLogin) {
-    const QRLoginObj = window.QRLogin({
-      id: "lark_login",
-      goto: goto,
-      width: "280",
-      height: "280",
-      style: "border:none;",
-      href: "data:text/css;base64,LnFyY29kZV9sb2dpbl9jb250YWluZXJ7cGFkZGluZzowfS5xcmNvZGVfbG9naW5fY29udGFpbmVyIGgze21hcmdpbi1ib3R0b206MjBweDtmb250LXNpemU6MTZweDtjb2xvcjojMzMzfS5xcmNvZGVfbG9naW5fY29udGFpbmVyIC5xcmNvZGVfcGFuZWx7Ym94LXNoYWRvdzpub25lICFpbXBvcnRhbnR9"
-    })
-
-    const handleMessage = (event: MessageEvent) => {
-      if (QRLoginObj.matchOrigin(event.origin) && QRLoginObj.matchData(event.data)) {
-        const loginTmpCode = event.data.tmp_code
-        window.location.href = goto + '&tmp_code=' + loginTmpCode
+        window.addEventListener('message', handleMessage)
+      } else {
+        console.error('Lark QRLogin SDK 未加载')
+        ElMessage.error('二维码加载失败，请刷新页面重试')
       }
-    }
-
-    window.addEventListener('message', handleMessage)
-  } else {
-    console.error('Lark QRLogin SDK 未加载')
-    ElMessage.error('二维码加载失败，请刷新页面重试')
+  } catch (error) {
+    console.error('获取Lark登录URL异常:', error)
+    ElMessage.error('获取登录URL失败，请重试')
   }
 }
 
@@ -226,21 +238,32 @@ const refreshQR = () => {
 /**
  * 打开Lark授权页面
  */
-const openLarkAuth = () => {
+const openLarkAuth = async () => {
   if (currentAuthUrl.value) {
     window.open(currentAuthUrl.value, '_blank')
   } else {
-    // 如果没有生成授权链接，先生成一个
-    const CLIENT_ID = larkCfg.value[larkOrg.value]
-    const REDIRECT_URI = encodeURIComponent(window.location.origin + '/login')
-    const randomState = randomString(6)
-    const authUrl = `https://passport.larksuite.com/suite/passport/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=openid%20profile%20email&state=${randomState}`
-    
-    localStorage.setItem('auth_state', randomState)
-    localStorage.setItem('auth_flag', larkOrg.value)
-    currentAuthUrl.value = authUrl
-    
-    window.open(authUrl, '_blank')
+    try {
+      // 获取后端生成的授权URL
+      const provider = larkOrg.value === 'prod' ? 'yaychat' : 'lark'
+      
+      // 使用前端API方法获取URL
+      const { getLarkAuthUrl } = await import('@/api/auth')
+      const result = await getLarkAuthUrl(provider)
+      
+      const authUrl = result.data.authUrl
+      const url = new URL(authUrl)
+      const state = url.searchParams.get('state')
+      
+      localStorage.setItem('auth_state', state || randomString(6))
+      localStorage.setItem('auth_flag', larkOrg.value)
+      localStorage.setItem('auth_provider', provider)
+      currentAuthUrl.value = authUrl
+      
+      window.open(authUrl, '_blank')
+    } catch (error) {
+      console.error('获取Lark登录URL异常:', error)
+      ElMessage.error('获取登录URL失败，请重试')
+    }
   }
 }
 
@@ -303,7 +326,10 @@ onMounted(() => {
  */
 const startAuth = async (flag: string, code: string) => {
   try {
-    await authStore.larkUserLogin({ flag, code })
+    // 获取存储的provider信息
+    const provider = localStorage.getItem('auth_provider') || (flag === 'prod' ? 'yaychat' : 'lark')
+    
+    await authStore.larkUserLogin({ flag, code, provider })
 
     // 获取重定向地址
     const redirect = route.query.redirect as string || '/'
@@ -316,6 +342,7 @@ const startAuth = async (flag: string, code: string) => {
     // 清除登录状态
     localStorage.removeItem('auth_state')
     localStorage.removeItem('auth_flag')
+    localStorage.removeItem('auth_provider')
 
     // 显示错误信息
     ElMessage.error('登录失败，请重新扫码')

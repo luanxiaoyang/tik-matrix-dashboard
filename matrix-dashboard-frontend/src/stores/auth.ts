@@ -64,10 +64,10 @@ export const useAuthStore = defineStore('auth', () => {
    * 飞书扫码登录
    * @param params 登录参数
    */
-  const larkUserLogin = async (params: { flag: string; code: string }) => {
+  const larkUserLogin = async (params: { flag: string; code: string; provider?: string }) => {
     try {
       isLoading.value = true
-      const response = await larkLogin(params.code)
+      const response = await larkLogin(params.code, params.provider)
       
       // 保存用户信息和token
       user.value = response.data.user

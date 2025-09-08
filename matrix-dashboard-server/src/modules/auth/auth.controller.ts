@@ -147,12 +147,24 @@ export class AuthController {
   @ApiOperation({ summary: '获取Lark登录授权URL' })
   @ApiResponse({ status: 200, description: '获取成功' })
   @Get('lark/url')
-  getLarkAuthUrl() {
-    const authUrl = this.larkOAuthService.getAuthUrl();
+  getLarkAuthUrl(@Query('provider') provider: 'lark' | 'yaychat' = 'lark') {
+    const authUrl = this.larkOAuthService.getAuthUrl(provider);
     return {
       code: 200,
       message: '获取成功',
-      data: { authUrl },
+      data: { authUrl, provider },
+    };
+  }
+
+  @ApiOperation({ summary: '获取YAYChat Lark登录授权URL' })
+  @ApiResponse({ status: 200, description: '获取成功' })
+  @Get('lark/yaychat/url')
+  getYayChatLarkAuthUrl() {
+    const authUrl = this.larkOAuthService.getYayChatAuthUrl();
+    return {
+      code: 200,
+      message: '获取成功',
+      data: { authUrl, provider: 'yaychat' },
     };
   }
 
@@ -166,8 +178,11 @@ export class AuthController {
     @Query('state') state?: string,
   ) {
     try {
+      // 根据state参数确定使用的Lark主体
+      const provider = (state === 'yaychat') ? 'yaychat' : 'lark';
+      
       // 获取访问令牌
-      const tokenResponse = await this.larkOAuthService.exchangeCodeForToken(code);
+      const tokenResponse = await this.larkOAuthService.exchangeCodeForToken(code, provider);
       
       // 获取用户信息
       const userInfo = await this.larkOAuthService.getUserInfo(tokenResponse.access_token);
@@ -193,12 +208,15 @@ export class AuthController {
   @ApiResponse({ status: 200, description: '登录成功' })
   @Post('lark/login')
   async larkLogin(
-    @Body() larkAuthDto: LarkAuthDto,
+    @Body() larkAuthDto: LarkAuthDto & { provider?: 'lark' | 'yaychat' },
     @Ip() ip: string,
   ) {
+    const provider = larkAuthDto.provider || 'lark';
+    
     // 获取访问令牌
     const tokenResponse = await this.larkOAuthService.exchangeCodeForToken(
       larkAuthDto.code,
+      provider,
     );
 
     // 获取用户信息
@@ -242,11 +260,14 @@ export class AuthController {
   @Post('lark/bind')
   async bindLark(
     @Request() req,
-    @Body() larkAuthDto: LarkAuthDto,
+    @Body() larkAuthDto: LarkAuthDto & { provider?: 'lark' | 'yaychat' },
   ) {
+    const provider = larkAuthDto.provider || 'lark';
+    
     // 获取访问令牌
     const tokenResponse = await this.larkOAuthService.exchangeCodeForToken(
       larkAuthDto.code,
+      provider,
     );
 
     // 获取用户信息

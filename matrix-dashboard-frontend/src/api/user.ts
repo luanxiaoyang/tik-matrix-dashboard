@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import type { User, CreateUserRequest, UpdateUserRequest, PaginationResponse, UserPaginationResponse, GetUsersParams, ApiResponse } from '@/types/api'
+import type { User, CreateUserRequest, UpdateUserRequest, UserPaginationResponse, GetUsersParams, ApiResponse } from '@/types/api'
 
 /**
  * 获取用户列表

@@ -348,7 +348,7 @@ const fetchAccounts = async () => {
     const response = await getTiktokAccounts(params);
     accounts.value = response.data.items || [];
     pagination.total = response.data.total;
-  } catch (error) {
+  } catch {
     ElMessage.error('获取账号列表失败');
   } finally {
     loading.value = false;

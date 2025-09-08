@@ -214,7 +214,7 @@ import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'elem
 import { useAuthStore } from '@/stores/auth'
 import { getUserList, getUserById, createUser, updateUser, deleteUser, resetUserPassword, } from '@/api/user'
 import { getAllRoles } from '@/api/rbac'
-import type { User, CreateUserRequest, UpdateUserRequest, Role, GetUsersParams, ResetPasswordResponse, PaginationResponse, UserPaginationResponse } from '@/types/api'
+import type { User, CreateUserRequest, UpdateUserRequest, Role, GetUsersParams, ResetPasswordResponse, UserPaginationResponse } from '@/types/api'
 
 const authStore = useAuthStore()
 

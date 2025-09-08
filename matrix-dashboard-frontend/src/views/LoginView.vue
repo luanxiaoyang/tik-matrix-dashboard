@@ -122,9 +122,14 @@ import { randomString } from '@/utils/random'
 import type { LoginRequest } from '@/types/api'
 
 // 声明全局变量
+interface QRLoginInstance {
+  matchOrigin: (origin: string) => boolean
+  matchData: (data: unknown) => boolean
+}
+
 declare global {
   interface Window {
-    QRLogin: any
+    QRLogin: (config: Record<string, unknown>) => QRLoginInstance
   }
 }
 
@@ -150,10 +155,6 @@ const envOptions = ref([
 ])
 
 const larkOrg = ref<'dev' | 'prod'>('dev')
-const larkCfg = ref<Record<'dev' | 'prod', string>>({
-  dev: import.meta.env.VITE_LARK_APP_ID_DEV || 'cli_a8d0e7a24eba9029',
-  prod: import.meta.env.VITE_LARK_APP_ID_PROD || 'cli_a834f9cacbfb9028',
-})
 
 // 登录表单数据
 const loginForm = reactive<LoginRequest>({

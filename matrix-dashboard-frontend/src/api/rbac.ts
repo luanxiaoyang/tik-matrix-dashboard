@@ -172,7 +172,7 @@ export const removeRolePermissions = (roleId: number, permissionIds: number[]) =
 export const setRolePermissions = async (roleId: number, permissionIds: number[]) => {
   // 先获取角色当前权限
   const role = await getRoleById(roleId)
-  const currentPermissionIds = role.data.permissions?.map((p: any) => typeof p === 'string' ? parseInt(p) : p.id) || []
+  const currentPermissionIds = role.data.permissions?.map((p: Permission | string) => typeof p === 'string' ? parseInt(p) : p.id) || []
   
   // 删除所有当前权限
   if (currentPermissionIds.length > 0) {

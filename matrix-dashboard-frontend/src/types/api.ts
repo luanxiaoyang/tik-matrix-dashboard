@@ -221,8 +221,8 @@ export interface TiktokAccount {
   followingCount?: number;
   videosCount?: number;
   likesCount?: number;
-  operatorId?: string;
-  converterId?: string;
+  operationsUserId?: string;
+  conversionUserId?: string;
   operator?: User;
   converter?: User;
   isVerified?: boolean;
@@ -239,15 +239,14 @@ export interface CreateTiktokAccountRequest {
   accountUrl: string;
   accountName?: string;
   username?: string;
-  phoneNumber?: string;
   accountLevel: AccountLevel;
   status?: AccountStatus;
   followersCount?: number;
   followingCount?: number;
   videosCount?: number;
   likesCount?: number;
-  operatorId?: string;
-  converterId?: string;
+  operationsUserId?: string;
+  conversionUserId?: string;
   isVerified?: boolean;
   tags?: string[];
   region?: string;
@@ -259,15 +258,14 @@ export interface UpdateTiktokAccountRequest {
   accountUrl?: string;
   accountName?: string;
   username?: string;
-  phoneNumber?: string;
   accountLevel?: AccountLevel;
   status?: AccountStatus;
   followersCount?: number;
   followingCount?: number;
   videosCount?: number;
   likesCount?: number;
-  operatorId?: string;
-  converterId?: string;
+  operationsUserId?: string;
+  conversionUserId?: string;
   isVerified?: boolean;
   tags?: string[];
   region?: string;
@@ -276,13 +274,14 @@ export interface UpdateTiktokAccountRequest {
 }
 
 export interface AssignUserRequest {
-  userId: string;
-  role: 'operator' | 'converter';
+  operationsUserId?: string;
+  conversionUserId?: string;
 }
 
 export interface BatchAssignRequest {
-  userIds: string[];
-  role: 'operator' | 'converter';
+  accountIds: string[];
+  operationsUserId?: string;
+  conversionUserId?: string;
 }
 
 export interface UpdateStatsRequest {
@@ -298,8 +297,8 @@ export interface TiktokAccountQueryParams {
   search?: string;
   accountLevel?: AccountLevel;
   status?: AccountStatus;
-  operatorId?: string;
-  converterId?: string;
+  operationsUserId?: string;
+  conversionUserId?: string;
   region?: string;
   language?: string;
   isVerified?: boolean;

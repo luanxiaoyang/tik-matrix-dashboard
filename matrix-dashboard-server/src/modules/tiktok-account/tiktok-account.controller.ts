@@ -239,17 +239,5 @@ export class TiktokAccountController {
     };
   }
 
-  @ApiOperation({ summary: '根据手机号查找TikTok账号' })
-  @ApiResponse({ status: 200, description: '查找成功' })
-  @ApiParam({ name: 'phone', description: '手机号码' })
-  @Permissions('account:read')
-  @Get('search/by-phone/:phone')
-  async findByPhone(@Param('phone') phoneNumber: string) {
-    const accounts = await this.tiktokAccountService.findByPhone(phoneNumber);
-    return {
-      code: 200,
-      message: '查找成功',
-      data: accounts,
-    };
-  }
+
 }

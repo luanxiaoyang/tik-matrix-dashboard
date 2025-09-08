@@ -297,13 +297,13 @@ const loadUserList = async () => {
       email: searchForm.email || undefined,
       status: searchForm.status as 'active' | 'inactive' | 'banned' | undefined || undefined
     }
-    const response = await getUserList(params)
+    const response = await getUserList(params);
     
     // 处理后端响应格式 - 后端返回 { users: User[], total: number }
     if (response) {
       const data = response.data as unknown as UserPaginationResponse;
-      userList.value = data.users
-      pagination.total = data.total
+      userList.value = data.users;
+      pagination.total = data.total;
     } else {
       userList.value = []
       pagination.total = 0
@@ -324,8 +324,8 @@ const loadUserList = async () => {
  */
 const loadRoleList = async () => {
   try {
-    const response = await getAllRoles()
-    roleList.value = response.data
+    const response = await getAllRoles();
+    roleList.value = response.data;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // 加载角色列表失败
@@ -391,9 +391,9 @@ const showCreateDialog = () => {
  */
 const showEditDialog = async (user: User) => {
   try {
-    isEdit.value = true
-    const response = await getUserById(user.id)
-    const userData = response.data
+    isEdit.value = true;
+    const response = await getUserById(user.id);
+    const userData = response.data;
     
     Object.assign(userForm, {
       id: userData.id,
@@ -514,8 +514,8 @@ const resetPassword = async (user: User) => {
       }
     )
     
-    const response = await resetUserPassword(user.id, 'newPassword123')
-    const resetData = response.data as ResetPasswordResponse
+    const response = await resetUserPassword(user.id, 'newPassword123');
+    const resetData = response.data as ResetPasswordResponse;
     ElMessage.success(`密码重置成功，新密码：${resetData.newPassword}`)
   } catch (error) {
     if (error !== 'cancel') {

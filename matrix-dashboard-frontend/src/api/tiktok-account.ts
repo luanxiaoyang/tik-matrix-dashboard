@@ -66,17 +66,16 @@ export const deleteTiktokAccount = (id: string): Promise<ApiResponse<void>> => {
  * @returns 更新后的账号信息
  */
 export const assignUsers = (id: string, data: AssignUserRequest): Promise<ApiResponse<TiktokAccount>> => {
-  return request.post(`/tiktok-accounts/${id}/assign-users`, data);
+  return request.post(`/tiktok-accounts/${id}/assign`, data);
 };
 
 /**
  * 批量分配用户
- * @param id 账号ID
  * @param data 批量分配的数据
- * @returns 更新后的账号信息
+ * @returns 批量分配结果
  */
-export const batchAssignUsers = (id: string, data: BatchAssignRequest): Promise<ApiResponse<TiktokAccount>> => {
-  return request.post(`/tiktok-accounts/${id}/batch-assign`, data);
+export const batchAssignUsers = (data: BatchAssignRequest): Promise<ApiResponse<void>> => {
+  return request.post(`/tiktok-accounts/batch-assign`, data);
 };
 
 /**
@@ -131,5 +130,5 @@ export const findAccountsByPhone = (phone: string): Promise<ApiResponse<TiktokAc
  * @returns 账号统计数据
  */
 export const getAccountStats = (): Promise<ApiResponse<TiktokAccountStats>> => {
-  return request.get('/tiktok-accounts/stats');
+  return request.get('/tiktok-accounts/statistics/overview');
 };

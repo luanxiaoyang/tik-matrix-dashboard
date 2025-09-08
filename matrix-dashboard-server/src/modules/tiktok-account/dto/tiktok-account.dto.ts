@@ -10,7 +10,9 @@ import {
   IsUrl,
   Matches,
   Min,
+  ValidateIf,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { AccountLevel, AccountStatus } from '../entities/tiktok-account.entity';
 
 export class CreateTiktokAccountDto {
@@ -30,11 +32,8 @@ export class CreateTiktokAccountDto {
   @IsString()
   username?: string;
 
-  @ApiProperty({ description: '手机号码', required: false, example: '13800138000' })
-  @IsOptional()
-  @IsString()
-  @Matches(/^1[3-9]\d{9}$/, { message: '手机号码格式不正确' })
-  phoneNumber?: string;
+
+
 
   @ApiProperty({ description: '账号等级', enum: AccountLevel })
   @IsEnum(AccountLevel, { message: '账号等级必须是 A、B、C、D 之一' })
@@ -124,11 +123,7 @@ export class UpdateTiktokAccountDto {
   @IsString()
   username?: string;
 
-  @ApiProperty({ description: '手机号码', required: false })
-  @IsOptional()
-  @IsString()
-  @Matches(/^1[3-9]\d{9}$/, { message: '手机号码格式不正确' })
-  phoneNumber?: string;
+
 
   @ApiProperty({ description: '账号等级', enum: AccountLevel, required: false })
   @IsOptional()
@@ -216,11 +211,13 @@ export class AssignUserDto {
 export class TiktokAccountQueryDto {
   @ApiProperty({ description: '页码', default: 1, required: false })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   page?: number = 1;
 
   @ApiProperty({ description: '每页数量', default: 10, required: false })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   limit?: number = 10;
 

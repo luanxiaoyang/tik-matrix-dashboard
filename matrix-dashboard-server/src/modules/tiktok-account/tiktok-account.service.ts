@@ -108,7 +108,7 @@ export class TiktokAccountService {
     const [accounts, total] = await queryBuilder.getManyAndCount();
 
     return {
-      accounts,
+      items: accounts,
       total,
       page,
       limit,
@@ -268,7 +268,7 @@ export class TiktokAccountService {
         'COUNT(CASE WHEN account.conversionUserId IS NOT NULL THEN 1 END) as assignedConversions',
         'COUNT(CASE WHEN account.operationsUserId IS NULL THEN 1 END) as unassignedOperations',
         'COUNT(CASE WHEN account.conversionUserId IS NULL THEN 1 END) as unassignedConversions',
-        'COUNT(CASE WHEN account.isVerified = 1 THEN 1 END) as verifiedCount',
+        'COUNT(CASE WHEN account.isVerified = true THEN 1 END) as verifiedCount',
       ])
       .getRawOne();
 
@@ -309,10 +309,5 @@ export class TiktokAccountService {
     });
   }
 
-  async findByPhone(phoneNumber: string): Promise<TiktokAccount[]> {
-    return this.tiktokAccountRepository.find({
-      where: { phoneNumber },
-      relations: ['operationsUser', 'conversionUser'],
-    });
-  }
+
 }

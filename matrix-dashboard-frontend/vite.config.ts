@@ -22,7 +22,14 @@ export default defineConfig(({ mode }) => {
     server: {
       host: env.VITE_HOST || 'localhost',
       port: parseInt(env.VITE_PORT) || 5818,
-      open: false
+      open: false,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:1106',
+          changeOrigin: true,
+          secure: false
+        }
+      }
     },
     define: {
       __APP_VERSION__: JSON.stringify(env.VITE_APP_VERSION || '1.0.0')

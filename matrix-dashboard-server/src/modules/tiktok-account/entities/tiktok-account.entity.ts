@@ -18,7 +18,7 @@ export enum AccountStatus {
 }
 
 @Entity('tiktok_accounts')
-@Index('IDX_TIKTOK_ACCOUNT_PHONE', ['phoneNumber'])
+
 @Index('IDX_TIKTOK_ACCOUNT_LEVEL', ['accountLevel'])
 @Index('IDX_TIKTOK_ACCOUNT_STATUS', ['status'])
 @Index('IDX_TIKTOK_ACCOUNT_OPERATIONS_USER', ['operationsUserId'])
@@ -36,9 +36,7 @@ export class TiktokAccount extends BaseEntity {
   @Column({ length: 100, nullable: true, comment: 'TikTok用户名' })
   username?: string;
 
-  @ApiProperty({ description: '手机号码' })
-  @Column({ length: 20, nullable: true, comment: '绑定的手机号码' })
-  phoneNumber?: string;
+
 
   @ApiProperty({ description: '账号等级', enum: AccountLevel })
   @Column({

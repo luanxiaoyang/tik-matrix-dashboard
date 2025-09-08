@@ -54,7 +54,7 @@
             :loading="debuggingLogin"
             v-if="authStore.hasPermission('recharge:debug')"
           >
-            <el-icon><Bug /></el-icon>
+            <el-icon><Tools /></el-icon>
             调试登录
           </el-button>
           <div v-if="debugResult" class="debug-info">
@@ -262,6 +262,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, type UploadInstance, type UploadFile } from 'element-plus'
+import { Tools } from '@element-plus/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import { 
   getRechargeFeatures, 

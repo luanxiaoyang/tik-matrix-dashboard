@@ -145,7 +145,20 @@ class CodeChecker {
     if (methodMatches) {
       methodMatches.forEach(match => {
         const methodName = match.match(/const\s+(\w+)/)[1];
-        if (!templateContent.includes(methodName) && !scriptContent.includes(`${methodName}(`)) {
+        // 检查方法是否在模板中使用（包括各种事件绑定和插值表达式）
+        const isUsedInTemplate = templateContent.includes(methodName) || 
+                                templateContent.includes(`@click="${methodName}`) ||
+                                templateContent.includes(`@change="${methodName}`) ||
+                                templateContent.includes(`@submit="${methodName}`) ||
+                                templateContent.includes(`@size-change="${methodName}`) ||
+                                templateContent.includes(`@current-change="${methodName}`) ||
+                                templateContent.includes(`{{ ${methodName}(`) ||
+                                new RegExp(`@\\w+="${methodName}`).test(templateContent) ||
+                                new RegExp(`{{\\s*${methodName}\\s*\\(`).test(templateContent);
+        // 检查方法是否在脚本中被调用
+        const isUsedInScript = scriptContent.includes(`${methodName}(`);
+        
+        if (!isUsedInTemplate && !isUsedInScript) {
           this.addWarning(filePath, 0, `未使用的方法: ${methodName}`);
         }
       });

@@ -6,6 +6,7 @@ import { UserModule } from './modules/user/user.module';
 import { RbacModule } from './modules/rbac/rbac.module';
 import { RechargeSyncModule } from './modules/recharge-sync/recharge-sync.module';
 import { TiktokAccountModule } from './modules/tiktok-account/tiktok-account.module';
+import { ReportSubmissionModule } from './modules/report/report-submission.module';
 import { HealthController } from './common/controllers/health.controller';
 import { User } from './modules/user/entities/user.entity';
 
@@ -38,6 +39,7 @@ import { User } from './modules/user/entities/user.entity';
     RbacModule,
     RechargeSyncModule,
     TiktokAccountModule,
+    ReportSubmissionModule,
   ],
   controllers: [HealthController],
 })

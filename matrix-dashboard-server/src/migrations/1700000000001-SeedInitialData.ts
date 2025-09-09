@@ -60,7 +60,7 @@ export class SeedInitialData1700000000001 implements MigrationInterface {
             INSERT INTO \`roles\` (\`name\`, \`code\`, \`description\`, \`sort\`) VALUES
             ('超级管理员', 'admin', '拥有系统所有权限的超级管理员', 1),
             ('运营人员', 'ops', '负责日常运营管理的人员', 2),
-            ('数据分析师', 'analyst', '负责数据分析的人员', 3),
+            ('转化运营', 'analyst', '负责数据分析的人员', 3),
             ('只读用户', 'viewer', '只能查看数据的用户', 4)
         `);
 
@@ -83,7 +83,7 @@ export class SeedInitialData1700000000001 implements MigrationInterface {
             )
         `);
 
-        // 数据分析师权限 (查看所有数据，部分更新权限)
+        // 转化运营权限 (查看所有数据，部分更新权限)
         await queryRunner.query(`
             INSERT INTO \`role_permissions\` (\`role_id\`, \`permission_id\`)
             SELECT 3, \`id\` FROM \`permissions\`

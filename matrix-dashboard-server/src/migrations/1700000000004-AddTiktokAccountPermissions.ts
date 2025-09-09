@@ -41,7 +41,7 @@ export class AddTiktokAccountPermissions1700000000004 implements MigrationInterf
             SELECT 2, \`id\` FROM \`permissions\` WHERE \`code\` IN ('tiktok:manage', 'tiktok:read', 'tiktok:create', 'tiktok:update', 'tiktok:delete')
         `);
 
-        // 数据分析师权限 (查看所有数据，包括TikTok账号)
+        // 转化运营权限 (查看所有数据，包括TikTok账号)
         await queryRunner.query(`
             INSERT INTO \`role_permissions\` (\`role_id\`, \`permission_id\`)
             SELECT 3, \`id\` FROM \`permissions\` WHERE \`code\` IN ('tiktok:manage', 'tiktok:read')

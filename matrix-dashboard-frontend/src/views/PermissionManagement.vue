@@ -7,7 +7,11 @@
         <p>管理系统权限和访问控制</p>
       </div>
       <div class="header-right">
-        <el-button type="primary" @click="showCreateDialog" v-if="authStore.hasPermission('permission:create')">
+        <el-button
+          type="primary"
+          @click="showCreateDialog"
+          v-if="authStore.hasPermission('permission:create')"
+        >
           <el-icon><Plus /></el-icon>
           新增权限
         </el-button>
@@ -101,12 +105,7 @@
     </el-card>
 
     <!-- 新增/编辑权限对话框 -->
-    <el-dialog
-      :title="dialogTitle"
-      v-model="dialogVisible"
-      width="600px"
-      @close="resetForm"
-    >
+    <el-dialog :title="dialogTitle" v-model="dialogVisible" width="600px" @close="resetForm">
       <el-form
         ref="permissionFormRef"
         :model="permissionForm"
@@ -134,183 +133,189 @@
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSubmit" :loading="submitting">
-          确定
-        </el-button>
+        <el-button type="primary" @click="handleSubmit" :loading="submitting"> 确定 </el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue'
-import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
-import { useAuthStore } from '@/stores/auth'
-import { getPermissionList, getPermissionById, createPermission, updatePermission, deletePermission as deletePermissionApi } from '@/api/rbac'
-import type { Permission } from '@/types/api'
+import { ref, reactive, onMounted, computed } from "vue";
+import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from "element-plus";
+import { useAuthStore } from "@/stores/auth";
+import {
+  getPermissionList,
+  getPermissionById,
+  createPermission,
+  updatePermission,
+  deletePermission as deletePermissionApi,
+} from "@/api/rbac";
+import type { Permission } from "@/types/api";
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 // 响应式数据
-const loading = ref(false)
-const submitting = ref(false)
-const dialogVisible = ref(false)
-const isEdit = ref(false)
-const permissionList = ref<Permission[]>([])
-const selectedPermissions = ref<Permission[]>([])
-const permissionFormRef = ref<FormInstance>()
+const loading = ref(false);
+const submitting = ref(false);
+const dialogVisible = ref(false);
+const isEdit = ref(false);
+const permissionList = ref<Permission[]>([]);
+const selectedPermissions = ref<Permission[]>([]);
+const permissionFormRef = ref<FormInstance>();
 
 // 搜索表单
 const searchForm = reactive({
-  name: '',
-  code: ''
-})
+  name: "",
+  code: "",
+});
 
 // 分页数据
 const pagination = reactive({
   page: 1,
   size: 20,
-  total: 0
-})
+  total: 0,
+});
 
 // 权限表单
 const permissionForm = reactive({
   id: undefined as number | undefined,
-  name: '',
-  code: '',
-  description: ''
-})
+  name: "",
+  code: "",
+  description: "",
+});
 
 // 表单验证规则
 const permissionFormRules: FormRules = {
-  name: [
-    { required: true, message: '请输入权限名称', trigger: 'blur' }
-  ],
+  name: [{ required: true, message: "请输入权限名称", trigger: "blur" }],
   code: [
-    { required: true, message: '请输入权限代码', trigger: 'blur' },
-    { pattern: /^[a-z_]+:[a-z_]+$/, message: '权限代码格式为：模块:操作，如：user:create', trigger: 'blur' }
-  ]
-}
+    { required: true, message: "请输入权限代码", trigger: "blur" },
+    {
+      pattern: /^[a-z_]+:[a-z_]+$/,
+      message: "权限代码格式为：模块:操作，如：user:create",
+      trigger: "blur",
+    },
+  ],
+};
 
 // 计算属性
-const dialogTitle = computed(() => isEdit.value ? '编辑权限' : '新增权限')
+const dialogTitle = computed(() => (isEdit.value ? "编辑权限" : "新增权限"));
 
 /**
  * 格式化日期
  */
 const formatDate = (date: string) => {
-  return new Date(date).toLocaleString('zh-CN')
-}
+  return new Date(date).toLocaleString("zh-CN");
+};
 
 /**
  * 加载权限列表
  */
 const loadPermissionList = async () => {
   try {
-    loading.value = true
+    loading.value = true;
     const params = {
       page: pagination.page,
       pageSize: pagination.size,
       name: searchForm.name || undefined,
-      code: searchForm.code || undefined
-    }
-    const response = await getPermissionList(params)
+      code: searchForm.code || undefined,
+    };
+    const response = await getPermissionList(params);
     // 后端直接返回权限数组，不是分页格式
     if (Array.isArray(response.data)) {
-      permissionList.value = response.data
-      pagination.total = response.data.length
+      permissionList.value = response.data;
+      pagination.total = response.data.length;
     } else {
       // 如果是分页格式
-      permissionList.value = response.data.items || []
-      pagination.total = response.data.total || 0
+      permissionList.value = response.data.items || [];
+      pagination.total = response.data.total || 0;
     }
   } catch {
-    ElMessage.error('加载权限列表失败')
+    ElMessage.error("加载权限列表失败");
     // 加载权限列表失败
     // 设置空数据避免页面崩溃
-    permissionList.value = []
-    pagination.total = 0
+    permissionList.value = [];
+    pagination.total = 0;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 /**
  * 搜索权限
  */
 const handleSearch = () => {
-  pagination.page = 1
-  loadPermissionList()
-}
+  pagination.page = 1;
+  loadPermissionList();
+};
 
 /**
  * 重置搜索
  */
 const handleReset = () => {
   Object.assign(searchForm, {
-    name: '',
-    code: ''
-  })
-  pagination.page = 1
-  loadPermissionList()
-}
+    name: "",
+    code: "",
+  });
+  pagination.page = 1;
+  loadPermissionList();
+};
 
 /**
  * 分页大小改变
  */
 const handleSizeChange = (size: number) => {
-  pagination.size = size
-  pagination.page = 1
-  loadPermissionList()
-}
+  pagination.size = size;
+  pagination.page = 1;
+  loadPermissionList();
+};
 
 /**
  * 当前页改变
  */
 const handleCurrentChange = (page: number) => {
-  pagination.page = page
-  loadPermissionList()
-}
+  pagination.page = page;
+  loadPermissionList();
+};
 
 /**
  * 选择改变
  */
 const handleSelectionChange = (selection: Permission[]) => {
-  selectedPermissions.value = selection
-}
+  selectedPermissions.value = selection;
+};
 
 /**
  * 显示新增对话框
  */
 const showCreateDialog = () => {
-  isEdit.value = false
-  dialogVisible.value = true
-  resetForm()
-}
+  isEdit.value = false;
+  dialogVisible.value = true;
+  resetForm();
+};
 
 /**
  * 显示编辑对话框
  */
 const showEditDialog = async (permission: Permission) => {
   try {
-    isEdit.value = true
-    const response = await getPermissionById(permission.id)
-    const permissionData = response.data
-    
+    isEdit.value = true;
+    const response = await getPermissionById(permission.id);
+    const permissionData = response.data;
+
     Object.assign(permissionForm, {
       id: permissionData.id,
       name: permissionData.name,
       code: permissionData.code,
-      description: permissionData.description
-    })
-    
-    dialogVisible.value = true
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      description: permissionData.description,
+    });
+
+    dialogVisible.value = true;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    ElMessage.error('获取权限信息失败')
+    ElMessage.error("获取权限信息失败");
     // 获取权限信息失败
   }
-}
+};
 
 /**
  * 重置表单
@@ -318,83 +323,79 @@ const showEditDialog = async (permission: Permission) => {
 const resetForm = () => {
   Object.assign(permissionForm, {
     id: undefined,
-    name: '',
-    code: '',
-    description: ''
-  })
-  permissionFormRef.value?.clearValidate()
-}
+    name: "",
+    code: "",
+    description: "",
+  });
+  permissionFormRef.value?.clearValidate();
+};
 
 /**
  * 提交表单
  */
 const handleSubmit = async () => {
-  if (!permissionFormRef.value) return
-  
+  if (!permissionFormRef.value) return;
+
   try {
-    await permissionFormRef.value.validate()
-    submitting.value = true
-    
+    await permissionFormRef.value.validate();
+    submitting.value = true;
+
     if (isEdit.value) {
       // 编辑权限
       const updateData = {
         name: permissionForm.name,
-        description: permissionForm.description
-      }
-      await updatePermission(permissionForm.id!, updateData)
-      ElMessage.success('权限更新成功')
+        description: permissionForm.description,
+      };
+      await updatePermission(permissionForm.id!, updateData);
+      ElMessage.success("权限更新成功");
     } else {
       // 新增权限
       const createData = {
         name: permissionForm.name,
         code: permissionForm.code,
-        description: permissionForm.description
-      }
-      await createPermission(createData)
-      ElMessage.success('权限创建成功')
+        description: permissionForm.description,
+      };
+      await createPermission(createData);
+      ElMessage.success("权限创建成功");
     }
-    
-    dialogVisible.value = false
-    loadPermissionList()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+    dialogVisible.value = false;
+    loadPermissionList();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    ElMessage.error(isEdit.value ? '权限更新失败' : '权限创建失败')
+    ElMessage.error(isEdit.value ? "权限更新失败" : "权限创建失败");
     // 权限操作失败
   } finally {
-    submitting.value = false
+    submitting.value = false;
   }
-}
+};
 
 /**
  * 删除权限
  */
 const deletePermission = async (permission: Permission) => {
   try {
-    await ElMessageBox.confirm(
-      `确定要删除权限 "${permission.name}" 吗？`,
-      '删除确认',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }
-    )
-    
-    await deletePermissionApi(permission.id)
-    ElMessage.success('权限删除成功')
-    loadPermissionList()
+    await ElMessageBox.confirm(`确定要删除权限 "${permission.name}" 吗？`, "删除确认", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    });
+
+    await deletePermissionApi(permission.id);
+    ElMessage.success("权限删除成功");
+    loadPermissionList();
   } catch (error) {
-    if (error !== 'cancel') {
-      ElMessage.error('权限删除失败')
+    if (error !== "cancel") {
+      ElMessage.error("权限删除失败");
       // 权限删除失败
     }
   }
-}
+};
 
 // 组件挂载时加载数据
 onMounted(() => {
-  loadPermissionList()
-})
+  loadPermissionList();
+});
 </script>
 
 <style scoped>
@@ -440,7 +441,7 @@ onMounted(() => {
     align-items: flex-start;
     gap: 16px;
   }
-  
+
   .permission-management {
     padding: 16px;
   }

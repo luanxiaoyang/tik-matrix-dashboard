@@ -7,7 +7,11 @@
         <p>管理系统用户账户和权限</p>
       </div>
       <div class="header-right">
-        <el-button type="primary" @click="showCreateDialog" v-if="authStore.hasPermission('user:create')">
+        <el-button
+          type="primary"
+          @click="showCreateDialog"
+          v-if="authStore.hasPermission('user:create')"
+        >
           <el-icon><Plus /></el-icon>
           新增用户
         </el-button>
@@ -89,7 +93,7 @@
         <el-table-column label="状态" width="100">
           <template #default="{ row }">
             <el-tag :type="row.status === 'active' ? 'success' : 'danger'">
-              {{ row.status === 'active' ? '启用' : '禁用' }}
+              {{ row.status === "active" ? "启用" : "禁用" }}
             </el-tag>
           </template>
         </el-table-column>
@@ -143,24 +147,10 @@
     </el-card>
 
     <!-- 新增/编辑用户对话框 -->
-    <el-dialog
-      :title="dialogTitle"
-      v-model="dialogVisible"
-      width="600px"
-      @close="resetForm"
-    >
-      <el-form
-        ref="userFormRef"
-        :model="userForm"
-        :rules="userFormRules"
-        label-width="80px"
-      >
+    <el-dialog :title="dialogTitle" v-model="dialogVisible" width="600px" @close="resetForm">
+      <el-form ref="userFormRef" :model="userForm" :rules="userFormRules" label-width="80px">
         <el-form-item label="用户名" prop="username">
-          <el-input
-            v-model="userForm.username"
-            placeholder="请输入用户名"
-            :disabled="isEdit"
-          />
+          <el-input v-model="userForm.username" placeholder="请输入用户名" :disabled="isEdit" />
         </el-form-item>
         <el-form-item label="昵称" prop="nickname">
           <el-input v-model="userForm.nickname" placeholder="请输入昵称" />
@@ -200,124 +190,133 @@
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSubmit" :loading="submitting">
-          确定
-        </el-button>
+        <el-button type="primary" @click="handleSubmit" :loading="submitting"> 确定 </el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue'
-import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
-import { useAuthStore } from '@/stores/auth'
-import { getUserList, getUserById, createUser, updateUser, deleteUser, resetUserPassword, } from '@/api/user'
-import { getAllRoles } from '@/api/rbac'
-import type { User, CreateUserRequest, UpdateUserRequest, Role, GetUsersParams, ResetPasswordResponse, UserPaginationResponse } from '@/types/api'
+import { ref, reactive, onMounted, computed } from "vue";
+import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from "element-plus";
+import { useAuthStore } from "@/stores/auth";
+import {
+  getUserList,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  resetUserPassword,
+} from "@/api/user";
+import { getAllRoles } from "@/api/rbac";
+import type {
+  User,
+  CreateUserRequest,
+  UpdateUserRequest,
+  Role,
+  GetUsersParams,
+  ResetPasswordResponse,
+  UserPaginationResponse,
+} from "@/types/api";
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 // 响应式数据
-const loading = ref(false)
-const submitting = ref(false)
-const dialogVisible = ref(false)
-const isEdit = ref(false)
-const userList = ref<User[]>([])
-const roleList = ref<Role[]>([])
-const selectedUsers = ref<User[]>([])
-const userFormRef = ref<FormInstance>()
+const loading = ref(false);
+const submitting = ref(false);
+const dialogVisible = ref(false);
+const isEdit = ref(false);
+const userList = ref<User[]>([]);
+const roleList = ref<Role[]>([]);
+const selectedUsers = ref<User[]>([]);
+const userFormRef = ref<FormInstance>();
 
 // 搜索表单
 const searchForm = reactive({
-  username: '',
-  email: '',
-  status: ''
-})
+  username: "",
+  email: "",
+  status: "",
+});
 
 // 分页数据
 const pagination = reactive({
   page: 1,
   size: 20,
-  total: 0
-})
+  total: 0,
+});
 
 // 用户表单
 const userForm = reactive<CreateUserRequest & { id?: number }>({
-  username: '',
-  nickname: '',
-  email: '',
-  password: '',
+  username: "",
+  nickname: "",
+  email: "",
+  password: "",
   roleIds: [],
-  status: 'active' as 'active' | 'inactive'
-})
+  status: "active" as "active" | "inactive",
+});
 
 // 表单验证规则
 const userFormRules: FormRules = {
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '用户名长度在 3 到 20 个字符', trigger: 'blur' }
+    { required: true, message: "请输入用户名", trigger: "blur" },
+    { min: 3, max: 50, message: "用户名长度在 3 到 50 个字符", trigger: "blur" },
   ],
-  nickname: [
-    { required: true, message: '请输入昵称', trigger: 'blur' }
-  ],
+  nickname: [{ required: true, message: "请输入昵称", trigger: "blur" }],
   email: [
-    { required: true, message: '请输入邮箱', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
+    { required: true, message: "请输入邮箱", trigger: "blur" },
+    { type: "email", message: "请输入正确的邮箱格式", trigger: "blur" },
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码长度不能少于6位', trigger: 'blur' }
+    { required: true, message: "请输入密码", trigger: "blur" },
+    { min: 6, message: "密码长度不能少于6位", trigger: "blur" },
   ],
-  roleIds: [
-    { required: true, message: '请选择角色', trigger: 'change' }
-  ]
-}
+  roleIds: [{ required: true, message: "请选择角色", trigger: "change" }],
+};
 
 // 计算属性
-const dialogTitle = computed(() => isEdit.value ? '编辑用户' : '新增用户')
+const dialogTitle = computed(() => (isEdit.value ? "编辑用户" : "新增用户"));
 
 /**
  * 格式化日期
  */
 const formatDate = (date: string) => {
-  return new Date(date).toLocaleString('zh-CN')
-}
+  return new Date(date).toLocaleString("zh-CN");
+};
 
 /**
  * 加载用户列表
  */
 const loadUserList = async () => {
   try {
-    loading.value = true
+    loading.value = true;
     const params: GetUsersParams = {
       page: pagination.page,
       limit: pagination.size,
       username: searchForm.username || undefined,
       email: searchForm.email || undefined,
-      status: searchForm.status as 'active' | 'inactive' | 'banned' | undefined || undefined
-    }
+      status: (searchForm.status as "active" | "inactive" | "banned" | undefined) || undefined,
+    };
     const response = await getUserList(params);
-    
+
     // 处理后端响应格式 - 后端返回 { users: User[], total: number }
     if (response) {
       const data = response.data as unknown as UserPaginationResponse;
       userList.value = data.users;
       pagination.total = data.total;
     } else {
-      userList.value = []
-      pagination.total = 0
+      userList.value = [];
+      pagination.total = 0;
     }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    ElMessage.error('加载用户列表失败')
+    ElMessage.error("加载用户列表失败");
     // 加载用户列表失败
-    userList.value = []
-    pagination.total = 0
+    userList.value = [];
+    pagination.total = 0;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 /**
  * 加载角色列表
@@ -326,65 +325,65 @@ const loadRoleList = async () => {
   try {
     const response = await getAllRoles();
     roleList.value = response.data;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // 加载角色列表失败
   }
-}
+};
 
 /**
  * 搜索用户
  */
 const handleSearch = () => {
-  pagination.page = 1
-  loadUserList()
-}
+  pagination.page = 1;
+  loadUserList();
+};
 
 /**
  * 重置搜索
  */
 const handleReset = () => {
   Object.assign(searchForm, {
-    username: '',
-    email: '',
-    status: ''
-  })
-  pagination.page = 1
-  loadUserList()
-}
+    username: "",
+    email: "",
+    status: "",
+  });
+  pagination.page = 1;
+  loadUserList();
+};
 
 /**
  * 分页大小改变
  */
 const handleSizeChange = (size: number) => {
-  pagination.size = size
-  pagination.page = 1
-  loadUserList()
-}
+  pagination.size = size;
+  pagination.page = 1;
+  loadUserList();
+};
 
 /**
  * 当前页改变
  */
 const handleCurrentChange = (page: number) => {
-  pagination.page = page
-  loadUserList()
-}
+  pagination.page = page;
+  loadUserList();
+};
 
 /**
  * 选择改变
  */
 const handleSelectionChange = (selection: User[]) => {
-  selectedUsers.value = selection
-}
+  selectedUsers.value = selection;
+};
 
 /**
  * 显示新增对话框
  */
 const showCreateDialog = () => {
-  isEdit.value = false
-  dialogVisible.value = true
-  resetForm()
-}
+  isEdit.value = false;
+  dialogVisible.value = true;
+  resetForm();
+};
 
 /**
  * 显示编辑对话框
@@ -394,23 +393,23 @@ const showEditDialog = async (user: User) => {
     isEdit.value = true;
     const response = await getUserById(user.id);
     const userData = response.data;
-    
+
     Object.assign(userForm, {
       id: userData.id,
       username: userData.username,
       nickname: userData.nickname,
       email: userData.email,
-      roleIds: userData.roles?.map(role => role.id) || [],
-      status: userData.status
-    })
-    
-    dialogVisible.value = true
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      roleIds: userData.roles?.map((role) => role.id) || [],
+      status: userData.status,
+    });
+
+    dialogVisible.value = true;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    ElMessage.error('获取用户信息失败')
+    ElMessage.error("获取用户信息失败");
     // 获取用户信息失败
   }
-}
+};
 
 /**
  * 重置表单
@@ -418,36 +417,36 @@ const showEditDialog = async (user: User) => {
 const resetForm = () => {
   Object.assign(userForm, {
     id: undefined,
-    username: '',
-    nickname: '',
-    email: '',
-    password: '',
+    username: "",
+    nickname: "",
+    email: "",
+    password: "",
     roleIds: [],
-    status: 'active'
-  })
-  userFormRef.value?.clearValidate()
-}
+    status: "active",
+  });
+  userFormRef.value?.clearValidate();
+};
 
 /**
  * 提交表单
  */
 const handleSubmit = async () => {
-  if (!userFormRef.value) return
-  
+  if (!userFormRef.value) return;
+
   try {
-    await userFormRef.value.validate()
-    submitting.value = true
-    
+    await userFormRef.value.validate();
+    submitting.value = true;
+
     if (isEdit.value) {
       // 编辑用户
       const updateData: UpdateUserRequest = {
         nickname: userForm.nickname,
         email: userForm.email,
         roleIds: userForm.roleIds,
-        status: userForm.status
-      }
-      await updateUser(userForm.id!, updateData)
-      ElMessage.success('用户更新成功')
+        status: userForm.status,
+      };
+      await updateUser(userForm.id!, updateData);
+      ElMessage.success("用户更新成功");
     } else {
       // 新增用户
       const createData: CreateUserRequest = {
@@ -456,80 +455,72 @@ const handleSubmit = async () => {
         email: userForm.email,
         password: userForm.password,
         roleIds: userForm.roleIds,
-        status: userForm.status
-      }
-      await createUser(createData)
-      ElMessage.success('用户创建成功')
+        status: userForm.status,
+      };
+      await createUser(createData);
+      ElMessage.success("用户创建成功");
     }
-    
-    dialogVisible.value = false
-    loadUserList()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+    dialogVisible.value = false;
+    loadUserList();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    ElMessage.error(isEdit.value ? '用户更新失败' : '用户创建失败')
+    ElMessage.error(isEdit.value ? "用户更新失败" : "用户创建失败");
     // 用户操作失败
   } finally {
-    submitting.value = false
+    submitting.value = false;
   }
-}
+};
 
 /**
  * 删除用户
  */
 const handleDeleteUser = async (user: User) => {
   try {
-    await ElMessageBox.confirm(
-      `确定要删除用户 "${user.username}" 吗？`,
-      '删除确认',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }
-    )
-    
-    await deleteUser(user.id)
-    ElMessage.success('用户删除成功')
-    loadUserList()
+    await ElMessageBox.confirm(`确定要删除用户 "${user.username}" 吗？`, "删除确认", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    });
+
+    await deleteUser(user.id);
+    ElMessage.success("用户删除成功");
+    loadUserList();
   } catch (error) {
-    if (error !== 'cancel') {
-      ElMessage.error('用户删除失败')
+    if (error !== "cancel") {
+      ElMessage.error("用户删除失败");
       // 用户删除失败
     }
   }
-}
+};
 
 /**
  * 重置密码
  */
 const resetPassword = async (user: User) => {
   try {
-    await ElMessageBox.confirm(
-      `确定要重置用户 "${user.username}" 的密码吗？`,
-      '重置密码确认',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }
-    )
-    
-    const response = await resetUserPassword(user.id, 'newPassword123');
+    await ElMessageBox.confirm(`确定要重置用户 "${user.username}" 的密码吗？`, "重置密码确认", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    });
+
+    const response = await resetUserPassword(user.id, "newPassword123");
     const resetData = response.data as ResetPasswordResponse;
-    ElMessage.success(`密码重置成功，新密码：${resetData.newPassword}`)
+    ElMessage.success(`密码重置成功，新密码：${resetData.newPassword}`);
   } catch (error) {
-    if (error !== 'cancel') {
-      ElMessage.error('密码重置失败')
+    if (error !== "cancel") {
+      ElMessage.error("密码重置失败");
       // 密码重置失败
     }
   }
-}
+};
 
 // 组件挂载时加载数据
 onMounted(() => {
-  loadUserList()
-  loadRoleList()
-})
+  loadUserList();
+  loadRoleList();
+});
 </script>
 
 <style scoped>
@@ -580,7 +571,7 @@ onMounted(() => {
     align-items: flex-start;
     gap: 16px;
   }
-  
+
   .user-management {
     padding: 16px;
   }

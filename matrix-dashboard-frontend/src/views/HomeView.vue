@@ -34,7 +34,7 @@
             </div>
           </el-card>
         </el-col>
-        
+
         <el-col :xs="24" :sm="12" :md="6">
           <el-card class="stats-card">
             <div class="stats-content">
@@ -48,7 +48,7 @@
             </div>
           </el-card>
         </el-col>
-        
+
         <el-col :xs="24" :sm="12" :md="6">
           <el-card class="stats-card">
             <div class="stats-content">
@@ -62,7 +62,7 @@
             </div>
           </el-card>
         </el-col>
-        
+
         <el-col :xs="24" :sm="12" :md="6">
           <el-card class="stats-card">
             <div class="stats-content">
@@ -87,7 +87,7 @@
             <span>快捷操作</span>
           </div>
         </template>
-        
+
         <el-row :gutter="20">
           <el-col :xs="24" :sm="12" :md="6" v-if="authStore.hasPermission('user:create')">
             <div class="quick-action-item" @click="$router.push('/users')">
@@ -98,7 +98,7 @@
               </div>
             </div>
           </el-col>
-          
+
           <el-col :xs="24" :sm="12" :md="6" v-if="authStore.hasPermission('role:create')">
             <div class="quick-action-item" @click="$router.push('/roles')">
               <el-icon class="action-icon"><Lock /></el-icon>
@@ -108,7 +108,7 @@
               </div>
             </div>
           </el-col>
-          
+
           <el-col :xs="24" :sm="12" :md="6" v-if="authStore.hasPermission('tiktok:read')">
             <div class="quick-action-item" @click="$router.push('/tiktok-accounts')">
               <el-icon class="action-icon"><VideoCamera /></el-icon>
@@ -118,7 +118,7 @@
               </div>
             </div>
           </el-col>
-          
+
           <el-col :xs="24" :sm="12" :md="6" v-if="authStore.hasPermission('recharge:sync')">
             <div class="quick-action-item" @click="$router.push('/recharge-sync')">
               <el-icon class="action-icon"><CreditCard /></el-icon>
@@ -128,7 +128,7 @@
               </div>
             </div>
           </el-col>
-          
+
           <el-col :xs="24" :sm="12" :md="6">
             <div class="quick-action-item" @click="testConnection">
               <el-icon class="action-icon"><Connection /></el-icon>
@@ -154,7 +154,7 @@
             </el-button>
           </div>
         </template>
-        
+
         <el-timeline>
           <el-timeline-item
             v-for="activity in recentActivities"
@@ -171,70 +171,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useAuthStore } from '@/stores/auth'
-import { testApiConnection } from '@/api/recharge'
+import { ref, reactive, onMounted, computed } from "vue";
+import { ElMessage } from "element-plus";
+import { useAuthStore } from "@/stores/auth";
+import { testApiConnection } from "@/api/recharge";
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 // 当前日期
 const currentDate = computed(() => {
-  return new Date().toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long'
-  })
-})
+  return new Date().toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long",
+  });
+});
 
 // 统计数据
 const stats = reactive({
   userCount: 0,
   roleCount: 0,
   syncCount: 0,
-  onlineCount: 0
-})
+  onlineCount: 0,
+});
 
 // 最近活动
 const recentActivities = ref([
   {
     id: 1,
-    content: '系统启动完成',
+    content: "系统启动完成",
     timestamp: new Date().toLocaleString(),
-    type: 'success'
+    type: "success",
   },
   {
     id: 2,
-    content: '用户登录成功',
+    content: "用户登录成功",
     timestamp: new Date(Date.now() - 5 * 60 * 1000).toLocaleString(),
-    type: 'primary'
+    type: "primary",
   },
   {
     id: 3,
-    content: 'API连接正常',
+    content: "API连接正常",
     timestamp: new Date(Date.now() - 10 * 60 * 1000).toLocaleString(),
-    type: 'info'
-  }
-])
+    type: "info",
+  },
+]);
 
 /**
  * 测试API连接
  */
 const testConnection = async () => {
   try {
-    const response = await testApiConnection()
+    const response = await testApiConnection();
     if (response.data.success) {
-      ElMessage.success('API连接正常')
+      ElMessage.success("API连接正常");
     } else {
-      ElMessage.warning('API连接异常')
+      ElMessage.warning("API连接异常");
     }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_error) {
-    ElMessage.error('API连接失败')
+    ElMessage.error("API连接失败");
     // API连接测试失败
   }
-}
+};
 
 /**
  * 刷新活动记录
@@ -243,28 +243,28 @@ const refreshActivities = () => {
   // 模拟刷新活动记录
   recentActivities.value.unshift({
     id: Date.now(),
-    content: '活动记录已刷新',
+    content: "活动记录已刷新",
     timestamp: new Date().toLocaleString(),
-    type: 'info'
-  })
-  ElMessage.success('活动记录已刷新')
-}
+    type: "info",
+  });
+  ElMessage.success("活动记录已刷新");
+};
 
 /**
  * 加载统计数据
  */
 const loadStats = async () => {
   // 模拟加载统计数据
-  stats.userCount = Math.floor(Math.random() * 1000) + 100
-  stats.roleCount = Math.floor(Math.random() * 20) + 5
-  stats.syncCount = Math.floor(Math.random() * 50) + 10
-  stats.onlineCount = Math.floor(Math.random() * 100) + 20
-}
+  stats.userCount = Math.floor(Math.random() * 1000) + 100;
+  stats.roleCount = Math.floor(Math.random() * 20) + 5;
+  stats.syncCount = Math.floor(Math.random() * 50) + 10;
+  stats.onlineCount = Math.floor(Math.random() * 100) + 20;
+};
 
 // 组件挂载时加载数据
 onMounted(() => {
-  loadStats()
-})
+  loadStats();
+});
 </script>
 
 <style scoped>
@@ -429,11 +429,11 @@ onMounted(() => {
     text-align: center;
     gap: 20px;
   }
-  
+
   .stats-section .el-col {
     margin-bottom: 16px;
   }
-  
+
   .quick-action-item {
     margin-bottom: 16px;
   }

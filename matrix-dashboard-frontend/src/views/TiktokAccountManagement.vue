@@ -90,18 +90,17 @@
 
     <!-- 账号列表 -->
     <el-card class="table-card">
-      <el-table
-        :data="accounts"
-        v-loading="loading"
-        stripe
-        style="width: 100%"
-      >
+      <el-table :data="accounts" v-loading="loading" stripe style="width: 100%">
         <el-table-column prop="accountName" label="账号名称" width="150" />
         <el-table-column prop="username" label="用户名" width="120" />
         <el-table-column prop="accountUrl" label="账号链接" width="200">
           <template #default="{ row }">
             <el-link :href="row.accountUrl" target="_blank" type="primary" v-if="row.accountUrl">
-              {{ row.accountUrl && row.accountUrl.length > 30 ? row.accountUrl.substring(0, 30) + '...' : row.accountUrl }}
+              {{
+                row.accountUrl && row.accountUrl.length > 30
+                  ? row.accountUrl.substring(0, 30) + "..."
+                  : row.accountUrl
+              }}
             </el-link>
             <span v-else>-</span>
           </template>
@@ -128,10 +127,14 @@
           <template #default="{ row }">
             <div class="assignment-info">
               <div v-if="row.operationsUser">
-                <el-tag size="small">运营: {{ row.operationsUser.username }}</el-tag>
+                <el-tag size="small"
+                  >运营: {{ row.operationsUser.nickname || row.operationsUser.username }}</el-tag
+                >
               </div>
               <div v-if="row.conversionUser">
-                <el-tag size="small" type="success">转化: {{ row.conversionUser.username }}</el-tag>
+                <el-tag size="small" type="success"
+                  >转化: {{ row.conversionUser.nickname || row.conversionUser.username }}</el-tag
+                >
               </div>
               <div v-if="!row.operationsUser && !row.conversionUser">
                 <el-tag size="small" type="info">未分配</el-tag>
@@ -168,12 +171,7 @@
       :title="editingAccount ? '编辑账号' : '创建账号'"
       width="600px"
     >
-      <el-form
-        ref="accountFormRef"
-        :model="accountForm"
-        :rules="accountRules"
-        label-width="100px"
-      >
+      <el-form ref="accountFormRef" :model="accountForm" :rules="accountRules" label-width="100px">
         <el-form-item label="账号链接" prop="accountUrl">
           <el-input v-model="accountForm.accountUrl" placeholder="请输入TikTok账号链接" />
         </el-form-item>
@@ -218,7 +216,7 @@
       <template #footer>
         <el-button @click="showCreateDialog = false">取消</el-button>
         <el-button type="primary" @click="submitAccount" :loading="submitting">
-          {{ editingAccount ? '更新' : '创建' }}
+          {{ editingAccount ? "更新" : "创建" }}
         </el-button>
       </template>
     </el-dialog>
@@ -233,29 +231,29 @@
           </el-select>
         </el-form-item>
         <el-form-item label="选择用户">
-          <el-select 
+          <el-select
             v-if="assignRole === 'operator'"
-            v-model="assignForm.operationsUserId" 
-            placeholder="选择运营用户" 
+            v-model="assignForm.operationsUserId"
+            placeholder="选择运营用户"
             filterable
           >
             <el-option
               v-for="user in users"
               :key="user.id"
-              :label="user.username"
+              :label="user.nickname || user.username"
               :value="user.id.toString()"
             />
           </el-select>
-          <el-select 
+          <el-select
             v-else
-            v-model="assignForm.conversionUserId" 
-            placeholder="选择转化用户" 
+            v-model="assignForm.conversionUserId"
+            placeholder="选择转化用户"
             filterable
           >
             <el-option
               v-for="user in users"
               :key="user.id"
-              :label="user.username"
+              :label="user.nickname || user.username"
               :value="user.id.toString()"
             />
           </el-select>
@@ -263,27 +261,25 @@
       </el-form>
       <template #footer>
         <el-button @click="showAssignDialog = false">取消</el-button>
-        <el-button type="primary" @click="submitAssign" :loading="assigning">
-          分配
-        </el-button>
+        <el-button type="primary" @click="submitAssign" :loading="assigning"> 分配 </el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
-import { Plus, Refresh } from '@element-plus/icons-vue';
+import { ref, reactive, onMounted } from "vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { Plus, Refresh } from "@element-plus/icons-vue";
 import {
   getTiktokAccounts,
   createTiktokAccount,
   updateTiktokAccount,
   deleteTiktokAccount,
   assignUsers,
-  getAccountStats
-} from '../api/tiktok-account';
-import { getUserList } from '../api/user';
+  getAccountStats,
+} from "../api/tiktok-account";
+import { getUserList } from "../api/user";
 import type {
   TiktokAccount,
   CreateTiktokAccountRequest,
@@ -294,8 +290,8 @@ import type {
   AccountLevel,
   AccountStatus,
   User,
-  UserPaginationResponse
-} from '../types/api';
+  UserPaginationResponse,
+} from "../types/api";
 
 // 响应式数据
 const loading = ref(false);
@@ -313,46 +309,47 @@ const currentAccount = ref<TiktokAccount | null>(null);
 const pagination = reactive({
   page: 1,
   limit: 20,
-  total: 0
+  total: 0,
 });
 
 // 搜索表单
 const searchForm = reactive<TiktokAccountQueryParams>({
-  search: '',
+  search: "",
   accountLevel: undefined,
-  status: undefined
+  status: undefined,
 });
 
 // 账号表单
 const accountForm = reactive<CreateTiktokAccountRequest>({
-  accountUrl: '',
-  accountName: '',
-  username: '',
-  accountLevel: 'A' as AccountLevel,
-  status: 'active' as AccountStatus,
-  region: '',
-  language: '',
-  notes: ''
+  accountUrl: "",
+  accountName: "",
+  username: "",
+  accountLevel: "A" as AccountLevel,
+  status: "active" as AccountStatus,
+  region: "",
+  language: "",
+  notes: "",
 });
 
 // 分配表单
-const assignForm = reactive<AssignUserRequest>({
+const assignForm = reactive<{
+  operationsUserId?: string;
+  conversionUserId?: string;
+}>({
   operationsUserId: undefined,
-  conversionUserId: undefined
+  conversionUserId: undefined,
 });
 
 // 分配角色选择
-const assignRole = ref<'operator' | 'converter'>('operator');
+const assignRole = ref<"operator" | "converter">("operator");
 
 // 表单验证规则
 const accountRules = {
   accountUrl: [
-    { required: true, message: '请输入账号链接', trigger: 'blur' },
-    { pattern: /^https?:\/\/.+/, message: '请输入有效的URL', trigger: 'blur' }
+    { required: true, message: "请输入账号链接", trigger: "blur" },
+    { pattern: /^https?:\/\/.+/, message: "请输入有效的URL", trigger: "blur" },
   ],
-  accountLevel: [
-    { required: true, message: '请选择账号等级', trigger: 'change' }
-  ]
+  accountLevel: [{ required: true, message: "请选择账号等级", trigger: "change" }],
 };
 
 // 获取账号列表
@@ -365,13 +362,13 @@ const fetchAccounts = async () => {
       // 过滤掉空值参数
       ...(searchForm.search ? { search: searchForm.search } : {}),
       ...(searchForm.accountLevel ? { accountLevel: searchForm.accountLevel } : {}),
-      ...(searchForm.status ? { status: searchForm.status } : {})
+      ...(searchForm.status ? { status: searchForm.status } : {}),
     };
     const response = await getTiktokAccounts(params);
     accounts.value = response.data.items || [];
     pagination.total = response.data.total;
   } catch {
-    ElMessage.error('获取账号列表失败');
+    ElMessage.error("获取账号列表失败");
   } finally {
     loading.value = false;
   }
@@ -384,7 +381,7 @@ const fetchUsers = async () => {
     const data = response.data as unknown as UserPaginationResponse;
     users.value = data.users;
   } catch {
-    ElMessage.error('获取用户列表失败');
+    ElMessage.error("获取用户列表失败");
   }
 };
 
@@ -393,9 +390,9 @@ const fetchStats = async () => {
   try {
     const response = await getAccountStats();
     stats.value = response.data;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    ElMessage.error('获取统计数据失败');
+    ElMessage.error("获取统计数据失败");
   }
 };
 
@@ -413,9 +410,9 @@ const handleSearch = () => {
 // 重置搜索
 const resetSearch = () => {
   Object.assign(searchForm, {
-    search: '',
+    search: "",
     accountLevel: undefined,
-    status: undefined
+    status: undefined,
   });
   handleSearch();
 };
@@ -436,15 +433,15 @@ const editAccount = (account: TiktokAccount) => {
   editingAccount.value = account;
   Object.assign(accountForm, {
     accountUrl: account.accountUrl,
-    accountName: account.accountName || '',
-    username: account.username || '',
+    accountName: account.accountName || "",
+    username: account.username || "",
     accountLevel: account.accountLevel,
     status: account.status,
-    region: account.region || '',
-    language: account.language || '',
-    notes: account.notes || '',
+    region: account.region || "",
+    language: account.language || "",
+    notes: account.notes || "",
     operationsUserId: account.operationsUserId,
-    conversionUserId: account.conversionUserId
+    conversionUserId: account.conversionUserId,
   });
   showCreateDialog.value = true;
 };
@@ -453,47 +450,52 @@ const editAccount = (account: TiktokAccount) => {
 const submitAccount = async () => {
   try {
     submitting.value = true;
-    
+
     // 处理表单数据
     const formData = { ...accountForm };
-    
-    console.log('提交账号表单:', formData);
+
+    console.log("提交账号表单:", formData);
     if (editingAccount.value) {
       // 更新账号
-      console.log('更新账号:', editingAccount.value.id, formData);
+      console.log("更新账号:", editingAccount.value.id, formData);
       await updateTiktokAccount(editingAccount.value.id, formData as UpdateTiktokAccountRequest);
-      ElMessage.success('账号更新成功');
+      ElMessage.success("账号更新成功");
     } else {
       // 创建账号
-      console.log('创建账号:', formData);
+      console.log("创建账号:", formData);
       await createTiktokAccount(formData);
-      ElMessage.success('账号创建成功');
+      ElMessage.success("账号创建成功");
     }
     showCreateDialog.value = false;
     resetAccountForm();
     fetchAccounts();
   } catch (error: unknown) {
-        console.error('提交账号失败:', error);
-        let axiosError: { response?: { data?: unknown; status?: number }; config?: unknown } | null = null;
-        
-        if (error && typeof error === 'object' && 'response' in error) {
-          axiosError = error as { response?: { data?: unknown; status?: number }; config?: unknown };
-          console.error('错误详情:', axiosError.response?.data);
-          console.error('错误状态:', axiosError.response?.status);
-          console.error('错误配置:', axiosError.config);
-        }
-        
-        // 输出详细的错误消息
-        if (axiosError?.response?.data && typeof axiosError.response.data === 'object' && 'message' in axiosError.response.data) {
-          const errorData = axiosError.response.data as { message: string | string[] };
-          console.error('详细错误消息:', errorData.message);
-          if (Array.isArray(errorData.message)) {
-            errorData.message.forEach((msg: string, index: number) => {
-              console.error(`错误消息 ${index + 1}:`, msg);
-            });
-          }
-        }
-    ElMessage.error(editingAccount.value ? '账号更新失败' : '账号创建失败');
+    console.error("提交账号失败:", error);
+    let axiosError: { response?: { data?: unknown; status?: number }; config?: unknown } | null =
+      null;
+
+    if (error && typeof error === "object" && "response" in error) {
+      axiosError = error as { response?: { data?: unknown; status?: number }; config?: unknown };
+      console.error("错误详情:", axiosError.response?.data);
+      console.error("错误状态:", axiosError.response?.status);
+      console.error("错误配置:", axiosError.config);
+    }
+
+    // 输出详细的错误消息
+    if (
+      axiosError?.response?.data &&
+      typeof axiosError.response.data === "object" &&
+      "message" in axiosError.response.data
+    ) {
+      const errorData = axiosError.response.data as { message: string | string[] };
+      console.error("详细错误消息:", errorData.message);
+      if (Array.isArray(errorData.message)) {
+        errorData.message.forEach((msg: string, index: number) => {
+          console.error(`错误消息 ${index + 1}:`, msg);
+        });
+      }
+    }
+    ElMessage.error(editingAccount.value ? "账号更新失败" : "账号创建失败");
   } finally {
     submitting.value = false;
   }
@@ -503,16 +505,16 @@ const submitAccount = async () => {
 const resetAccountForm = () => {
   editingAccount.value = null;
   Object.assign(accountForm, {
-    accountUrl: '',
-    accountName: '',
-    username: '',
-    accountLevel: 'A' as AccountLevel,
-    status: 'active' as AccountStatus,
-    region: '',
-    language: '',
-    notes: '',
+    accountUrl: "",
+    accountName: "",
+    username: "",
+    accountLevel: "A" as AccountLevel,
+    status: "active" as AccountStatus,
+    region: "",
+    language: "",
+    notes: "",
     operationsUserId: undefined,
-    conversionUserId: undefined
+    conversionUserId: undefined,
   });
 };
 
@@ -521,28 +523,52 @@ const assignUser = (account: TiktokAccount) => {
   currentAccount.value = account;
   assignForm.operationsUserId = undefined;
   assignForm.conversionUserId = undefined;
-  assignRole.value = 'operator';
+  assignRole.value = "operator";
   showAssignDialog.value = true;
 };
 
 // 提交分配
 const submitAssign = async () => {
-  const selectedUserId = assignRole.value === 'operator' ? assignForm.operationsUserId : assignForm.conversionUserId;
+  const selectedUserId =
+    assignRole.value === "operator" ? assignForm.operationsUserId : assignForm.conversionUserId;
   if (!selectedUserId) {
-    ElMessage.warning('请选择用户');
+    ElMessage.warning("请选择用户");
     return;
   }
   if (!currentAccount.value) return;
-  
+
+  // 构建正确的分配数据
+  const assignData: AssignUserRequest = {};
+  if (assignRole.value === "operator") {
+    assignData.operationsUserId = assignForm.operationsUserId
+      ? parseInt(assignForm.operationsUserId)
+      : undefined;
+  } else {
+    assignData.conversionUserId = assignForm.conversionUserId
+      ? parseInt(assignForm.conversionUserId)
+      : undefined;
+  }
+
   try {
     assigning.value = true;
-    await assignUsers(currentAccount.value.id, assignForm);
-    ElMessage.success('用户分配成功');
+    console.log("分配数据:", assignData);
+    console.log("账号ID:", currentAccount.value.id);
+    await assignUsers(currentAccount.value.id, assignData);
+    ElMessage.success("用户分配成功");
     showAssignDialog.value = false;
     fetchAccounts();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
-    ElMessage.error('用户分配失败');
+  } catch (error: unknown) {
+    console.error("分配失败:", error);
+    let axiosError: { response?: { data?: unknown; status?: number }; config?: unknown } | null =
+      null;
+
+    if (error && typeof error === "object" && "response" in error) {
+      axiosError = error as { response?: { data?: unknown; status?: number }; config?: unknown };
+      console.error("错误详情:", axiosError.response?.data);
+      console.error("错误状态:", axiosError.response?.status);
+    }
+
+    ElMessage.error("用户分配失败");
   } finally {
     assigning.value = false;
   }
@@ -553,20 +579,20 @@ const deleteAccount = async (account: TiktokAccount) => {
   try {
     await ElMessageBox.confirm(
       `确定要删除账号 "${account.accountName || account.username}" 吗？`,
-      '确认删除',
+      "确认删除",
       {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
     );
-    
+
     await deleteTiktokAccount(account.id);
-    ElMessage.success('账号删除成功');
+    ElMessage.success("账号删除成功");
     fetchAccounts();
   } catch (error) {
-    if (error !== 'cancel') {
-      ElMessage.error('账号删除失败');
+    if (error !== "cancel") {
+      ElMessage.error("账号删除失败");
     }
   }
 };
@@ -574,38 +600,38 @@ const deleteAccount = async (account: TiktokAccount) => {
 // 工具函数
 const getLevelTagType = (level: string) => {
   const types: Record<string, string> = {
-    A: 'danger',
-    B: 'warning',
-    C: 'success',
-    D: 'info'
+    A: "danger",
+    B: "warning",
+    C: "success",
+    D: "info",
   };
-  return types[level] || 'info';
+  return types[level] || "info";
 };
 
 const getStatusTagType = (status: string) => {
   const types: Record<string, string> = {
-    active: 'success',
-    inactive: 'info',
-    banned: 'danger',
-    pending: 'warning'
+    active: "success",
+    inactive: "info",
+    banned: "danger",
+    pending: "warning",
   };
-  return types[status] || 'info';
+  return types[status] || "info";
 };
 
 const getStatusText = (status: string) => {
   const texts: Record<string, string> = {
-    active: '活跃',
-    inactive: '非活跃',
-    banned: '封禁',
-    pending: '待审核'
+    active: "活跃",
+    inactive: "非活跃",
+    banned: "封禁",
+    pending: "待审核",
   };
   return texts[status] || status;
 };
 
 const formatNumber = (num?: number) => {
-  if (!num) return '0';
+  if (!num) return "0";
   if (num >= 10000) {
-    return (num / 10000).toFixed(1) + 'w';
+    return (num / 10000).toFixed(1) + "w";
   }
   return num.toString();
 };

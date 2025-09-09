@@ -1,4 +1,4 @@
-import request from '../utils/request';
+import request from "../utils/request";
 import type {
   TiktokAccount,
   CreateTiktokAccountRequest,
@@ -10,16 +10,18 @@ import type {
   TiktokAccountStats,
   ApiResponse,
   PaginationResponse,
-  AccountStatus
-} from '../types/api';
+  AccountStatus,
+} from "../types/api";
 
 /**
  * 获取TikTok账号列表
  * @param params 查询参数
  * @returns 分页的TikTok账号列表
  */
-export const getTiktokAccounts = (params?: TiktokAccountQueryParams): Promise<ApiResponse<PaginationResponse<TiktokAccount>>> => {
-  return request.get('/tiktok-accounts', { params });
+export const getTiktokAccounts = (
+  params?: TiktokAccountQueryParams,
+): Promise<ApiResponse<PaginationResponse<TiktokAccount>>> => {
+  return request.get("/tiktok-accounts", { params });
 };
 
 /**
@@ -27,8 +29,10 @@ export const getTiktokAccounts = (params?: TiktokAccountQueryParams): Promise<Ap
  * @param data 创建账号的数据
  * @returns 创建的账号信息
  */
-export const createTiktokAccount = (data: CreateTiktokAccountRequest): Promise<ApiResponse<TiktokAccount>> => {
-  return request.post('/tiktok-accounts', data);
+export const createTiktokAccount = (
+  data: CreateTiktokAccountRequest,
+): Promise<ApiResponse<TiktokAccount>> => {
+  return request.post("/tiktok-accounts", data);
 };
 
 /**
@@ -46,7 +50,10 @@ export const getTiktokAccountById = (id: string): Promise<ApiResponse<TiktokAcco
  * @param data 更新的数据
  * @returns 更新后的账号信息
  */
-export const updateTiktokAccount = (id: string, data: UpdateTiktokAccountRequest): Promise<ApiResponse<TiktokAccount>> => {
+export const updateTiktokAccount = (
+  id: string,
+  data: UpdateTiktokAccountRequest,
+): Promise<ApiResponse<TiktokAccount>> => {
   return request.patch(`/tiktok-accounts/${id}`, data);
 };
 
@@ -65,7 +72,10 @@ export const deleteTiktokAccount = (id: string): Promise<ApiResponse<void>> => {
  * @param data 分配用户的数据
  * @returns 更新后的账号信息
  */
-export const assignUsers = (id: string, data: AssignUserRequest): Promise<ApiResponse<TiktokAccount>> => {
+export const assignUsers = (
+  id: string,
+  data: AssignUserRequest,
+): Promise<ApiResponse<TiktokAccount>> => {
   return request.post(`/tiktok-accounts/${id}/assign`, data);
 };
 
@@ -93,7 +103,10 @@ export const getAccountsByUser = (userId: string): Promise<ApiResponse<TiktokAcc
  * @param data 统计数据
  * @returns 更新后的账号信息
  */
-export const updateAccountStats = (id: string, data: UpdateStatsRequest): Promise<ApiResponse<TiktokAccount>> => {
+export const updateAccountStats = (
+  id: string,
+  data: UpdateStatsRequest,
+): Promise<ApiResponse<TiktokAccount>> => {
   return request.patch(`/tiktok-accounts/${id}/stats`, data);
 };
 
@@ -103,7 +116,10 @@ export const updateAccountStats = (id: string, data: UpdateStatsRequest): Promis
  * @param status 新状态
  * @returns 更新后的账号信息
  */
-export const updateAccountStatus = (id: string, status: AccountStatus): Promise<ApiResponse<TiktokAccount>> => {
+export const updateAccountStatus = (
+  id: string,
+  status: AccountStatus,
+): Promise<ApiResponse<TiktokAccount>> => {
   return request.patch(`/tiktok-accounts/${id}/status`, { status });
 };
 
@@ -113,7 +129,7 @@ export const updateAccountStatus = (id: string, status: AccountStatus): Promise<
  * @returns 匹配的账号信息
  */
 export const findAccountByUrl = (url: string): Promise<ApiResponse<TiktokAccount | null>> => {
-  return request.get('/tiktok-accounts/find-by-url', { params: { url } });
+  return request.get("/tiktok-accounts/find-by-url", { params: { url } });
 };
 
 /**
@@ -122,7 +138,7 @@ export const findAccountByUrl = (url: string): Promise<ApiResponse<TiktokAccount
  * @returns 匹配的账号列表
  */
 export const findAccountsByPhone = (phone: string): Promise<ApiResponse<TiktokAccount[]>> => {
-  return request.get('/tiktok-accounts/find-by-phone', { params: { phone } });
+  return request.get("/tiktok-accounts/find-by-phone", { params: { phone } });
 };
 
 /**
@@ -130,5 +146,5 @@ export const findAccountsByPhone = (phone: string): Promise<ApiResponse<TiktokAc
  * @returns 账号统计数据
  */
 export const getAccountStats = (): Promise<ApiResponse<TiktokAccountStats>> => {
-  return request.get('/tiktok-accounts/statistics/overview');
+  return request.get("/tiktok-accounts/statistics/overview");
 };

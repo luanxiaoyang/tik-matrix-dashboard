@@ -21,24 +21,24 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { House, ArrowLeft } from '@element-plus/icons-vue'
+import { useRouter } from "vue-router";
+import { House, ArrowLeft } from "@element-plus/icons-vue";
 
-const router = useRouter()
+const router = useRouter();
 
 /**
  * 返回首页
  */
 const goHome = () => {
-  router.push('/')
-}
+  router.push("/");
+};
 
 /**
  * 返回上一页
  */
 const goBack = () => {
-  router.go(-1)
-}
+  router.go(-1);
+};
 </script>
 
 <style scoped>
@@ -100,20 +100,20 @@ const goBack = () => {
   .not-found-content {
     padding: 40px 20px;
   }
-  
+
   .error-code {
     font-size: 80px;
   }
-  
+
   .error-message h2 {
     font-size: 24px;
   }
-  
+
   .error-actions {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .error-actions .el-button {
     width: 200px;
   }

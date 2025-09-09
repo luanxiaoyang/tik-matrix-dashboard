@@ -6,7 +6,7 @@
         <h3 v-if="!isCollapse">Matrix Dashboard</h3>
         <h3 v-else>MD</h3>
       </div>
-      
+
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
@@ -18,7 +18,7 @@
           <el-icon><House /></el-icon>
           <template #title>首页</template>
         </el-menu-item>
-        
+
         <el-sub-menu index="user-management" v-if="authStore.hasPermission('user:read')">
           <template #title>
             <el-icon><User /></el-icon>
@@ -26,47 +26,52 @@
           </template>
           <el-menu-item index="/users">用户列表</el-menu-item>
         </el-sub-menu>
-        
-        <el-sub-menu index="rbac-management" v-if="authStore.hasPermission('role:read') || authStore.hasPermission('permission:read')">
+
+        <el-sub-menu
+          index="rbac-management"
+          v-if="authStore.hasPermission('role:read') || authStore.hasPermission('permission:read')"
+        >
           <template #title>
             <el-icon><Key /></el-icon>
             <span>权限管理</span>
           </template>
-          <el-menu-item index="/roles" v-if="authStore.hasPermission('role:read')">角色管理</el-menu-item>
-          <el-menu-item index="/permissions" v-if="authStore.hasPermission('permission:read')">权限管理</el-menu-item>
+          <el-menu-item index="/roles" v-if="authStore.hasPermission('role:read')"
+            >角色管理</el-menu-item
+          >
+          <el-menu-item index="/permissions" v-if="authStore.hasPermission('permission:read')"
+            >权限管理</el-menu-item
+          >
         </el-sub-menu>
-        
+
         <el-menu-item index="/tiktok-accounts" v-if="authStore.hasPermission('tiktok:read')">
           <el-icon><VideoCamera /></el-icon>
           <template #title>TikTok账号管理</template>
         </el-menu-item>
-        
+
         <el-menu-item index="/recharge-sync" v-if="authStore.hasPermission('recharge:read')">
           <el-icon><CreditCard /></el-icon>
           <template #title>充值同步</template>
         </el-menu-item>
       </el-menu>
     </el-aside>
-    
+
     <!-- 主内容区 -->
     <el-container class="main-container">
       <!-- 顶部导航栏 -->
       <el-header class="header">
         <div class="header-left">
-          <el-button
-            type="text"
-            @click="toggleCollapse"
-            class="collapse-btn"
-          >
+          <el-button type="text" @click="toggleCollapse" class="collapse-btn">
             <el-icon><Expand v-if="isCollapse" /><Fold v-else /></el-icon>
           </el-button>
-          
+
           <el-breadcrumb separator="/" class="breadcrumb">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="currentRouteName !== 'home'">{{ currentRouteTitle }}</el-breadcrumb-item>
+            <el-breadcrumb-item v-if="currentRouteName !== 'home'">{{
+              currentRouteTitle
+            }}</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        
+
         <div class="header-right">
           <!-- 用户信息下拉菜单 -->
           <el-dropdown @command="handleCommand">
@@ -74,7 +79,9 @@
               <el-avatar :size="32" :src="authStore.user?.avatar">
                 {{ authStore.user?.nickname?.[0] || authStore.user?.username?.[0] }}
               </el-avatar>
-              <span class="username">{{ authStore.user?.nickname || authStore.user?.username }}</span>
+              <span class="username">{{
+                authStore.user?.nickname || authStore.user?.username
+              }}</span>
               <el-icon><ArrowDown /></el-icon>
             </div>
             <template #dropdown>
@@ -96,7 +103,7 @@
           </el-dropdown>
         </div>
       </el-header>
-      
+
       <!-- 主内容 -->
       <el-main class="main-content">
         <router-view />
@@ -106,40 +113,40 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { ElMessageBox } from 'element-plus'
-import { useAuthStore } from '@/stores/auth'
+import { ref, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { ElMessageBox } from "element-plus";
+import { useAuthStore } from "@/stores/auth";
 
-const route = useRoute()
-const router = useRouter()
-const authStore = useAuthStore()
+const route = useRoute();
+const router = useRouter();
+const authStore = useAuthStore();
 
 // 侧边栏折叠状态
-const isCollapse = ref(false)
+const isCollapse = ref(false);
 
 // 当前激活的菜单
-const activeMenu = computed(() => route.path)
+const activeMenu = computed(() => route.path);
 
 // 当前路由名称和标题
-const currentRouteName = computed(() => route.name as string)
+const currentRouteName = computed(() => route.name as string);
 const currentRouteTitle = computed(() => {
   const routeTitleMap: Record<string, string> = {
-    users: '用户管理',
-    roles: '角色管理',
-    permissions: '权限管理',
-    'tiktok-accounts': 'TikTok账号管理',
-    'recharge-sync': '充值同步'
-  }
-  return routeTitleMap[currentRouteName.value] || ''
-})
+    users: "用户管理",
+    roles: "角色管理",
+    permissions: "权限管理",
+    "tiktok-accounts": "TikTok账号管理",
+    "recharge-sync": "充值同步",
+  };
+  return routeTitleMap[currentRouteName.value] || "";
+});
 
 /**
  * 切换侧边栏折叠状态
  */
 const toggleCollapse = () => {
-  isCollapse.value = !isCollapse.value
-}
+  isCollapse.value = !isCollapse.value;
+};
 
 /**
  * 处理用户下拉菜单命令
@@ -147,51 +154,47 @@ const toggleCollapse = () => {
  */
 const handleCommand = async (command: string) => {
   switch (command) {
-    case 'profile':
+    case "profile":
       // TODO: 打开个人信息弹窗
       // 打开个人信息
-      break
-    case 'settings':
+      break;
+    case "settings":
       // TODO: 打开系统设置
       // 打开系统设置
-      break
-    case 'logout':
-      await handleLogout()
-      break
+      break;
+    case "logout":
+      await handleLogout();
+      break;
   }
-}
+};
 
 /**
  * 处理退出登录
  */
 const handleLogout = async () => {
   try {
-    await ElMessageBox.confirm(
-      '确定要退出登录吗？',
-      '提示',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }
-    )
-    
-    await authStore.userLogout()
+    await ElMessageBox.confirm("确定要退出登录吗？", "提示", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    });
+
+    await authStore.userLogout();
   } catch {
     // 用户取消退出
     // 用户取消退出登录
   }
-}
+};
 
 // 组件挂载时恢复认证状态
 onMounted(() => {
-  authStore.restoreAuth()
-  
+  authStore.restoreAuth();
+
   // 如果未登录，跳转到登录页
   if (!authStore.isAuthenticated) {
-    router.push('/login')
+    router.push("/login");
   }
-})
+});
 </script>
 
 <style scoped>

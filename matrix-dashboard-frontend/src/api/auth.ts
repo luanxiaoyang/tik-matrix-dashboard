@@ -1,5 +1,5 @@
-import request from '@/utils/request'
-import type { LoginRequest, LoginResponse, User } from '@/types/api'
+import request from "@/utils/request";
+import type { LoginRequest, LoginResponse, User } from "@/types/api";
 
 /**
  * 用户登录
@@ -7,16 +7,16 @@ import type { LoginRequest, LoginResponse, User } from '@/types/api'
  * @returns 登录响应数据
  */
 export const login = (data: LoginRequest) => {
-  return request.post<LoginResponse>('/auth/login', data)
-}
+  return request.post<LoginResponse>("/auth/login", data);
+};
 
 /**
  * 获取当前用户信息
  * @returns 用户信息
  */
 export const getProfile = () => {
-  return request.get<User>('/auth/profile')
-}
+  return request.get<User>("/auth/profile");
+};
 
 /**
  * 获取飞书授权URL
@@ -24,11 +24,12 @@ export const getProfile = () => {
  * @returns 授权URL
  */
 export const getLarkAuthUrl = (provider?: string) => {
-  const endpoint = provider === 'yaychat' 
-    ? '/auth/lark/yaychat/url'
-    : `/auth/lark/url${provider ? `?provider=${provider}` : ''}`
-  return request.get<{ authUrl: string; provider: string }>(endpoint)
-}
+  const endpoint =
+    provider === "yaychat"
+      ? "/auth/lark/yaychat/url"
+      : `/auth/lark/url${provider ? `?provider=${provider}` : ""}`;
+  return request.get<{ authUrl: string; provider: string }>(endpoint);
+};
 
 /**
  * 飞书扫码登录
@@ -37,11 +38,11 @@ export const getLarkAuthUrl = (provider?: string) => {
  * @returns 登录响应数据
  */
 export const larkLogin = (code: string, provider?: string) => {
-  return request.post<LoginResponse>('/auth/lark/login', { 
+  return request.post<LoginResponse>("/auth/lark/login", {
     code,
-    provider: provider || 'lark'
-  })
-}
+    provider: provider || "lark",
+  });
+};
 
 /**
  * 绑定飞书账号
@@ -49,16 +50,16 @@ export const larkLogin = (code: string, provider?: string) => {
  * @returns 绑定结果
  */
 export const bindLark = (code: string) => {
-  return request.post<{ success: boolean }>('/auth/lark/bind', { code })
-}
+  return request.post<{ success: boolean }>("/auth/lark/bind", { code });
+};
 
 /**
  * 解绑飞书账号
  * @returns 解绑结果
  */
 export const unbindLark = () => {
-  return request.post<{ success: boolean }>('/auth/lark/unbind')
-}
+  return request.post<{ success: boolean }>("/auth/lark/unbind");
+};
 
 /**
  * 刷新token
@@ -66,15 +67,15 @@ export const unbindLark = () => {
  * @returns 新的token信息
  */
 export const refreshToken = (refreshToken: string) => {
-  return request.post<{ accessToken: string; refreshToken: string }>('/auth/refresh', {
-    refreshToken
-  })
-}
+  return request.post<{ accessToken: string; refreshToken: string }>("/auth/refresh", {
+    refreshToken,
+  });
+};
 
 /**
  * 退出登录
  * @returns 退出结果
  */
 export const logout = () => {
-  return request.post<{ success: boolean }>('/auth/logout')
-}
+  return request.post<{ success: boolean }>("/auth/logout");
+};

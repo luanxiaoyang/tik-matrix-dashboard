@@ -1,12 +1,5 @@
-import request from "@/utils/request";
-import type {
-  User,
-  CreateUserRequest,
-  UpdateUserRequest,
-  UserPaginationResponse,
-  GetUsersParams,
-  ApiResponse,
-} from "@/types/api";
+import request from '@/utils/request'
+import type { User, CreateUserRequest, UpdateUserRequest, UserPaginationResponse, GetUsersParams, ApiResponse } from '@/types/api'
 
 /**
  * 获取用户列表
@@ -14,8 +7,8 @@ import type {
  * @returns 用户列表
  */
 export const getUserList = (params: GetUsersParams) => {
-  return request.get<ApiResponse<UserPaginationResponse>>("/users", { params });
-};
+  return request.get<ApiResponse<UserPaginationResponse>>('/users', { params })
+}
 
 /**
  * 根据ID获取用户详情
@@ -23,8 +16,8 @@ export const getUserList = (params: GetUsersParams) => {
  * @returns 用户详情
  */
 export const getUserById = (id: number) => {
-  return request.get<User>(`/users/${id}`);
-};
+  return request.get<User>(`/users/${id}`)
+}
 
 /**
  * 创建用户
@@ -32,8 +25,8 @@ export const getUserById = (id: number) => {
  * @returns 创建结果
  */
 export const createUser = (data: CreateUserRequest) => {
-  return request.post<User>("/users", data);
-};
+  return request.post<User>('/users', data)
+}
 
 /**
  * 更新用户信息
@@ -42,8 +35,8 @@ export const createUser = (data: CreateUserRequest) => {
  * @returns 更新结果
  */
 export const updateUser = (id: number, data: UpdateUserRequest) => {
-  return request.patch<User>(`/users/${id}`, data);
-};
+  return request.patch<User>(`/users/${id}`, data)
+}
 
 /**
  * 删除用户
@@ -51,8 +44,8 @@ export const updateUser = (id: number, data: UpdateUserRequest) => {
  * @returns 删除结果
  */
 export const deleteUser = (id: number) => {
-  return request.delete<{ success: boolean }>(`/users/${id}`);
-};
+  return request.delete<{ success: boolean }>(`/users/${id}`)
+}
 
 /**
  * 重置用户密码
@@ -62,9 +55,9 @@ export const deleteUser = (id: number) => {
  */
 export const resetUserPassword = (id: number, newPassword: string) => {
   return request.post<{ success: boolean }>(`/users/${id}/reset-password`, {
-    newPassword,
-  });
-};
+    newPassword
+  })
+}
 
 /**
  * 批量删除用户
@@ -72,5 +65,5 @@ export const resetUserPassword = (id: number, newPassword: string) => {
  * @returns 删除结果
  */
 export const batchDeleteUsers = (ids: number[]) => {
-  return request.post<{ success: boolean }>("/users/batch-delete", { ids });
-};
+  return request.post<{ success: boolean }>('/users/batch-delete', { ids })
+}

@@ -183,6 +183,12 @@ export const useAuthStore = defineStore("auth", () => {
    * @returns 是否有权限
    */
   const hasPermission = (permission: string): boolean => {
+    // 检查用户是否具有超级管理员角色
+    if (userRoles.value.some(role => role.code === 'admin')) {
+      return true;
+    }
+    
+    // 对于非超级管理员用户，检查具体权限
     return userPermissions.value.includes(permission);
   };
 

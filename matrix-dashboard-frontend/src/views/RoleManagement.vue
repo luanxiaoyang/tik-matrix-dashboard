@@ -73,27 +73,31 @@
             {{ formatDate(row.createdAt) }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="120" fixed="right">
           <template #default="{ row }">
-            <el-button
-              type="primary"
-              size="small"
-              @click="showEditDialog(row)"
-              v-if="authStore.hasPermission('role:update')"
-            >
-              编辑
-            </el-button>
-            <el-button type="info" size="small" @click="showPermissionDialog(row)">
-              权限
-            </el-button>
-            <el-button
-              type="danger"
-              size="small"
-              @click="deleteRole(row)"
-              v-if="authStore.hasPermission('role:delete')"
-            >
-              删除
-            </el-button>
+            <div class="action-buttons">
+              <el-button
+                type="primary"
+                size="small"
+                @click="showEditDialog(row)"
+                v-if="authStore.hasPermission('role:update')"
+                block
+              >
+                编辑
+              </el-button>
+              <el-button type="info" size="small" @click="showPermissionDialog(row)" block>
+                权限
+              </el-button>
+              <el-button
+                type="danger"
+                size="small"
+                @click="deleteRole(row)"
+                v-if="authStore.hasPermission('role:delete')"
+                block
+              >
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -676,6 +680,18 @@ onMounted(() => {
   background: #f5f5f5;
   padding: 2px 6px;
   border-radius: 4px;
+}
+
+/* 操作按钮垂直排列样式 */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-buttons .el-button {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 @media (max-width: 768px) {

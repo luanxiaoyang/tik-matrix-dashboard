@@ -142,11 +142,13 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="120" fixed="right">
           <template #default="{ row }">
-            <el-button size="small" @click="editAccount(row)">编辑</el-button>
-            <el-button size="small" type="success" @click="assignUser(row)">分配</el-button>
-            <el-button size="small" type="danger" @click="deleteAccount(row)">删除</el-button>
+            <div class="action-buttons">
+              <el-button size="small" @click="editAccount(row)" block>编辑</el-button>
+              <el-button size="small" type="success" @click="assignUser(row)" block>分配</el-button>
+              <el-button size="small" type="danger" @click="deleteAccount(row)" block>删除</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -719,5 +721,17 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+
+/* 操作按钮垂直排列样式 */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-buttons .el-button {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 </style>

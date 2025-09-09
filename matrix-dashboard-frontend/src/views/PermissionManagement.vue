@@ -68,24 +68,28 @@
             {{ formatDate(row.createdAt) }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150" fixed="right">
+        <el-table-column label="操作" width="120" fixed="right">
           <template #default="{ row }">
-            <el-button
-              type="primary"
-              size="small"
-              @click="showEditDialog(row)"
-              v-if="authStore.hasPermission('permission:update')"
-            >
-              编辑
-            </el-button>
-            <el-button
-              type="danger"
-              size="small"
-              @click="deletePermission(row)"
-              v-if="authStore.hasPermission('permission:delete')"
-            >
-              删除
-            </el-button>
+            <div class="action-buttons">
+              <el-button
+                type="primary"
+                size="small"
+                @click="showEditDialog(row)"
+                v-if="authStore.hasPermission('permission:update')"
+                block
+              >
+                编辑
+              </el-button>
+              <el-button
+                type="danger"
+                size="small"
+                @click="deletePermission(row)"
+                v-if="authStore.hasPermission('permission:delete')"
+                block
+              >
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -433,6 +437,18 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+
+/* 操作按钮垂直排列样式 */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-buttons .el-button {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 @media (max-width: 768px) {

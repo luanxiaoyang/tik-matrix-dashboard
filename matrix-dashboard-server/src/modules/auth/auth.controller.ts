@@ -194,12 +194,12 @@ export class AuthController {
       const result = await this.authService.larkLogin(user);
 
       // 重定向到前端回调页面，携带JWT令牌
-      const redirectUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/login/callback?token=${result.accessToken}&refreshToken=${result.refreshToken}&userId=${user.id}&username=${encodeURIComponent(user.username)}`;
+      const redirectUrl = `${process.env.FRONTEND_URL || 'http://localhost:5818'}/login?token=${result.accessToken}&refreshToken=${result.refreshToken}&userId=${user.id}&username=${encodeURIComponent(user.username)}`;
       
       return { url: redirectUrl };
     } catch (error) {
       // 重定向到错误页面
-      const errorUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/login/error?message=${encodeURIComponent(error.message)}`;
+      const errorUrl = `${process.env.FRONTEND_URL || 'http://localhost:5818'}/login?error=${encodeURIComponent(error.message)}`;
       return { url: errorUrl };
     }
   }

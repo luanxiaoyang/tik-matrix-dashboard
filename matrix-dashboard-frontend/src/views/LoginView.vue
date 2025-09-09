@@ -294,6 +294,7 @@ const handleLogin = async () => {
 onMounted(() => {
   // 检查是否已登录
   const token = localStorage.getItem("access_token");
+  const user = localStorage.getItem("user_info");
   if (token) {
     // 已登录，跳转到首页
     router.push("/");
@@ -303,8 +304,60 @@ onMounted(() => {
   const url = new URL(window.location.href);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
+  const urlToken = url.searchParams.get("token");
+  const refreshToken = url.searchParams.get("refreshToken");
+  const userId = url.searchParams.get("userId");
+  const username = url.searchParams.get("username");
+  const error = url.searchParams.get("error");
   const cacheState = localStorage.getItem("auth_state");
   const cacheFlag = localStorage.getItem("auth_flag");
+
+  // 处理登录错误
+  if (error) {
+    console.error("登录错误:", error);
+    ElMessage.error(`登录失败: ${error}`);
+    // 清理URL参数
+    window.history.replaceState({}, document.title, window.location.pathname);
+    return;
+  }
+
+  // 处理后端重定向回来的token
+  if (urlToken && refreshToken && userId && username) {
+    console.log("检测到后端重定向的token，开始保存登录状态...");
+    
+    // 保存token到localStorage（使用与auth store一致的key）
+    localStorage.setItem("access_token", urlToken);
+    localStorage.setItem("refresh_token", refreshToken);
+    localStorage.setItem("user_id", userId);
+    localStorage.setItem("username", decodeURIComponent(username));
+    
+    // 构建用户信息对象并保存
+    const userInfo = {
+      id: userId,
+      username: decodeURIComponent(username)
+    };
+    localStorage.setItem("user_info", JSON.stringify(userInfo));
+    
+    // 更新store状态
+      if (refreshToken) {
+        authStore.setTokens(urlToken, refreshToken);
+      }
+    
+    // 清理URL参数
+    window.history.replaceState({}, document.title, window.location.pathname);
+    
+    // 清理临时状态
+    localStorage.removeItem("auth_state");
+    localStorage.removeItem("auth_flag");
+    localStorage.removeItem("auth_provider");
+    
+    ElMessage.success("登录成功");
+    
+    // 跳转到首页
+    const redirect = (route.query.redirect as string) || "/";
+    router.push(redirect);
+    return;
+  }
 
   if (state === cacheState && code) {
     console.log("检测到Lark授权回调，开始处理登录...", { code, state, cacheFlag });

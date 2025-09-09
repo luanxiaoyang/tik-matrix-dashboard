@@ -167,6 +167,39 @@
         </el-timeline>
       </el-card>
     </div>
+
+    <!-- 开发者信息 -->
+    <div class="developers-section">
+      <el-card>
+        <template #header>
+          <div class="card-header">
+            <span>开发团队</span>
+          </div>
+        </template>
+        <div class="developers-content">
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <div class="developer-item">
+                <el-icon class="developer-icon"><User /></el-icon>
+                <div class="developer-info">
+                  <div class="developer-role">前端开发</div>
+                  <div class="developer-name">cigar</div>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="developer-item">
+                <el-icon class="developer-icon"><User /></el-icon>
+                <div class="developer-info">
+                  <div class="developer-role">后端开发</div>
+                  <div class="developer-name">devilbao</div>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </el-card>
+    </div>
   </div>
 </template>
 
@@ -416,6 +449,50 @@ onMounted(() => {
 
 .recent-activities-section {
   margin: 0 20px 20px 20px;
+}
+
+.developers-section {
+  margin: 0 20px 20px 20px;
+}
+
+.developers-content {
+  padding: 20px 0;
+}
+
+.developer-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.developer-item:hover {
+  border-color: #409eff;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.2);
+}
+
+.developer-icon {
+  font-size: 24px;
+  color: #409eff;
+  margin-right: 16px;
+}
+
+.developer-info {
+  flex: 1;
+}
+
+.developer-role {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.developer-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
 }
 
 :deep(.el-timeline-item__timestamp) {

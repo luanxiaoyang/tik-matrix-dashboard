@@ -33,7 +33,7 @@ export class LarkOAuthService {
   constructor(
     private configService: ConfigService,
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    public userRepository: Repository<User>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
   ) {
@@ -194,10 +194,23 @@ export class LarkOAuthService {
     }
     
     // 重新查询用户以包含关联的角色信息
-    return this.userRepository.findOne({
+    const userWithRoles = await this.userRepository.findOne({
       where: { id: savedUser.id },
       relations: ['roles', 'roles.permissions'],
     });
+    
+    // 确保角色权限被正确加载
+    if (userWithRoles && userWithRoles.roles) {
+      // 显式加载每个角色的权限
+      for (const role of userWithRoles.roles) {
+        if (role.permissions) {
+          // 确保权限数据被加载
+          await Promise.all(role.permissions.map(p => p.id));
+        }
+      }
+    }
+    
+    return userWithRoles;
   }
 
   async bindLarkAccount(userId: number, larkUserInfo: LarkUserInfo): Promise<User> {

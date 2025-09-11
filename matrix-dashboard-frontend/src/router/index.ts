@@ -68,6 +68,15 @@ const router = createRouter({
           },
         },
         {
+          path: "report-submissions",
+          name: "report-submissions",
+          component: () => import("../views/ReportSubmissionView.vue"),
+          meta: {
+            title: "转化记录提交",
+            permission: "report:read",
+          },
+        },
+        {
           path: "tiktok-accounts",
           name: "tiktok-accounts",
           component: () => import("../views/TiktokAccountManagement.vue"),

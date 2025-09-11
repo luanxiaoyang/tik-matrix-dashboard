@@ -294,7 +294,6 @@ const handleLogin = async () => {
 onMounted(() => {
   // 检查是否已登录
   const token = localStorage.getItem("access_token");
-  const user = localStorage.getItem("user_info");
   if (token) {
     // 已登录，跳转到首页
     router.push("/");

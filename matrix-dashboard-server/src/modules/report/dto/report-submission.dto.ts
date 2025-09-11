@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsNumber, IsOptional, IsObject } from 'class-validator';
 
 export class CreateReportSubmissionDto {
   @ApiProperty({ description: '关联的TikTok账号ID' })
@@ -9,6 +9,11 @@ export class CreateReportSubmissionDto {
   @ApiProperty({ description: 'YAYChat用户ID' })
   @IsNumber()
   yaychatUserId: number;
+
+  @ApiProperty({ description: '提交数据', type: 'object' })
+  @IsOptional()
+  @IsObject()
+  submissionData?: Record<string, any>;
 }
 
 export class ReportQueryDto {

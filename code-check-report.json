@@ -1,12 +1,13 @@
 {
-  "timestamp": "2025-09-08T08:26:10.847Z",
-  "errors": [],
-  "warnings": [
+  "timestamp": "2025-09-10T02:37:33.762Z",
+  "errors": [
     {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\components\\TheWelcome.vue",
-      "line": 9,
-      "message": "变量声明可能缺少分号"
-    },
+      "file": "ESLint",
+      "line": 0,
+      "message": "ESLint检查失败"
+    }
+  ],
+  "warnings": [
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\components\\TheWelcome.vue",
       "line": 0,
@@ -29,32 +30,32 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 30,
+      "line": 46,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 39,
+      "line": 51,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 44,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 52,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 54,
+      "line": 56,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
       "line": 64,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
+      "line": 66,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
+      "line": 68,
       "message": "可能存在未闭合的标签: el"
     },
     {
@@ -69,47 +70,42 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 81,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
       "line": 82,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 86,
+      "line": 84,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 90,
+      "line": 93,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 101,
+      "line": 94,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 114,
-      "message": "变量声明可能缺少分号"
+      "line": 98,
+      "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 115,
-      "message": "变量声明可能缺少分号"
+      "line": 102,
+      "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 125,
-      "message": "变量声明可能缺少分号"
+      "line": 113,
+      "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\DashboardView.vue",
-      "line": 127,
+      "line": 152,
       "message": "可能存在未闭合的标签: string"
     },
     {
@@ -234,12 +230,27 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\HomeView.vue",
-      "line": 200,
-      "message": "变量声明可能缺少分号"
+      "line": 173,
+      "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\HomeView.vue",
-      "line": 226,
+      "line": 180,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\HomeView.vue",
+      "line": 181,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\HomeView.vue",
+      "line": 190,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\HomeView.vue",
+      "line": 233,
       "message": "变量声明可能缺少分号"
     },
     {
@@ -254,212 +265,87 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 32,
+      "line": 33,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 35,
+      "line": 60,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 62,
+      "line": 70,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 72,
+      "line": 83,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 85,
+      "line": 104,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 106,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 132,
+      "line": 135,
       "message": "可能存在未闭合的标签: string"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 136,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 137,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 140,
+      "line": 143,
       "message": "可能存在未闭合的标签: InstanceType"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 140,
+      "line": 148,
       "message": "变量声明可能缺少分号"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 141,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 146,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 160,
+      "line": 162,
       "message": "可能存在未闭合的标签: LoginRequest"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 181,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 188,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 191,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 192,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 194,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 195,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 196,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 216,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 223,
+      "line": 225,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 227,
+      "line": 229,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 248,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 251,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 252,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 254,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 255,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 256,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 265,
+      "line": 267,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 278,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 284,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 294,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 301,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 302,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 303,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 304,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 308,
+      "line": 316,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 331,
+      "line": 325,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
+      "line": 362,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
+      "line": 385,
       "message": "变量声明可能缺少分号"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 336,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\LoginView.vue",
-      "line": 341,
+      "line": 396,
       "message": "包含console语句，生产环境应移除"
     },
     {
@@ -479,37 +365,27 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 10,
+      "line": 22,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 18,
+      "line": 23,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 19,
+      "line": 24,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 20,
+      "line": 32,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 28,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 36,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 37,
+      "line": 40,
       "message": "可能存在未闭合的标签: el"
     },
     {
@@ -519,22 +395,27 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 50,
+      "line": 45,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 62,
+      "line": 54,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 67,
+      "line": 66,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 116,
+      "line": 71,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
+      "line": 112,
       "message": "可能存在未闭合的标签: el"
     },
     {
@@ -544,73 +425,28 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 126,
+      "line": 122,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 137,
+      "line": 129,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 155,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 156,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 157,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 158,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 159,
+      "line": 166,
       "message": "可能存在未闭合的标签: Permission"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 159,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 160,
+      "line": 167,
       "message": "可能存在未闭合的标签: Permission"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 160,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 161,
+      "line": 168,
       "message": "可能存在未闭合的标签: FormInstance"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 217,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 297,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
-      "line": 298,
-      "message": "变量声明可能缺少分号"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\PermissionManagement.vue",
@@ -709,198 +545,98 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 145,
+      "line": 137,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 147,
+      "line": 141,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 152,
+      "line": 143,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 157,
+      "line": 148,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 184,
+      "line": 153,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 185,
+      "line": 175,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 191,
+      "line": 176,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 218,
+      "line": 177,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 229,
+      "line": 188,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 241,
+      "line": 204,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 244,
+      "line": 227,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 246,
+      "line": 228,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 252,
+      "line": 231,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 280,
-      "message": "变量声明可能缺少分号"
+      "line": 233,
+      "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 281,
-      "message": "变量声明可能缺少分号"
+      "line": 239,
+      "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 282,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 283,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 284,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 285,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 286,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 287,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 288,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 289,
+      "line": 276,
       "message": "可能存在未闭合的标签: RechargeFeature"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 289,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 290,
+      "line": 277,
       "message": "可能存在未闭合的标签: SyncHistoryRecord"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 290,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 291,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 292,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 293,
+      "line": 280,
       "message": "可能存在未闭合的标签: File"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 293,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 294,
+      "line": 281,
       "message": "可能存在未闭合的标签: UploadInstance"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 333,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 351,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 370,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 443,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 465,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 501,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 502,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
-      "line": 504,
-      "message": "变量声明可能缺少分号"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RechargeSyncView.vue",
@@ -988,38 +724,203 @@
       "message": "未使用的API导入: testApiConnection as testApiConnectionApi"
     },
     {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 22,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 23,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 24,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 32,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 40,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 41,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 47,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 48,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 52,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 61,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 73,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 75,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 82,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 92,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 97,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 102,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 151,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 157,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 178,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 190,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 204,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 208,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 209,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 259,
+      "message": "可能存在未闭合的标签: ReportSubmission"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 261,
+      "message": "可能存在未闭合的标签: ReportSubmission"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 282,
+      "message": "可能存在未闭合的标签: ReportSubmission"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 285,
+      "message": "可能存在未闭合的标签: TiktokAccount"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 318,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 328,
+      "message": "可能存在未闭合的标签: string"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 338,
+      "message": "可能存在未闭合的标签: string"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 347,
+      "message": "可能存在未闭合的标签: string"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 380,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 435,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 459,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\ReportSubmissionView.vue",
+      "line": 484,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 10,
+      "line": 22,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 18,
+      "line": 23,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 19,
+      "line": 24,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 20,
+      "line": 32,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 28,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 36,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 37,
+      "line": 40,
       "message": "可能存在未闭合的标签: el"
     },
     {
@@ -1029,22 +930,52 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 50,
+      "line": 45,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 62,
+      "line": 54,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 67,
+      "line": 66,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 72,
+      "line": 71,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
+      "line": 76,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
+      "line": 88,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
+      "line": 120,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
+      "line": 121,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
+      "line": 122,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
+      "line": 125,
       "message": "可能存在未闭合的标签: el"
     },
     {
@@ -1054,177 +985,47 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 131,
+      "line": 182,
       "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 137,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 148,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 193,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 212,
-      "message": "变量声明可能缺少分号"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
       "line": 213,
-      "message": "变量声明可能缺少分号"
+      "message": "可能存在未闭合的标签: Role"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
       "line": 214,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 215,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 216,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 217,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 218,
-      "message": "可能存在未闭合的标签: Role"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 218,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 219,
       "message": "可能存在未闭合的标签: Permission"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 219,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 220,
+      "line": 215,
       "message": "可能存在未闭合的标签: Role"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 220,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 221,
+      "line": 216,
       "message": "可能存在未闭合的标签: Role"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 221,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 222,
+      "line": 217,
       "message": "可能存在未闭合的标签: number"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 222,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 223,
+      "line": 218,
       "message": "可能存在未闭合的标签: FormInstance"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 223,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 279,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 280,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 283,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 297,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 313,
+      "line": 310,
       "message": "可能存在未闭合的标签: string"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 342,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 362,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 430,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 431,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 454,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 455,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 547,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\RoleManagement.vue",
-      "line": 567,
+      "line": 565,
       "message": "包含console语句，生产环境应移除"
     },
     {
@@ -1389,37 +1190,47 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 101,
+      "line": 93,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 103,
+      "line": 96,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 109,
+      "line": 98,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 114,
+      "line": 108,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 119,
+      "line": 113,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 127,
+      "line": 118,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 142,
+      "line": 126,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 145,
+      "message": "可能存在未闭合的标签: el"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 176,
       "message": "可能存在未闭合的标签: el"
     },
     {
@@ -1504,83 +1315,63 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 266,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 304,
+      "line": 302,
       "message": "可能存在未闭合的标签: TiktokAccount"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 305,
+      "line": 303,
       "message": "可能存在未闭合的标签: User"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 306,
+      "line": 304,
       "message": "可能存在未闭合的标签: TiktokAccountStats"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 309,
+      "line": 307,
       "message": "可能存在未闭合的标签: TiktokAccount"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 310,
+      "line": 308,
       "message": "可能存在未闭合的标签: TiktokAccount"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 310,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 311,
-      "message": "可能存在未闭合的标签: TiktokAccount"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 321,
+      "line": 318,
       "message": "可能存在未闭合的标签: TiktokAccountQueryParams"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 328,
+      "line": 325,
       "message": "可能存在未闭合的标签: CreateTiktokAccountRequest"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 340,
-      "message": "可能存在未闭合的标签: AssignUserRequest"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 461,
+      "line": 459,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 464,
+      "line": 462,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 469,
+      "line": 467,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 477,
+      "line": 475,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 480,
-      "message": "包含console语句，生产环境应移除"
+      "line": 476,
+      "message": "变量声明可能缺少分号"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
@@ -1594,27 +1385,67 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 487,
+      "line": 483,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 490,
+      "line": 493,
       "message": "包含console语句，生产环境应移除"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 574,
+      "line": 496,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 534,
+      "message": "变量声明可能缺少分号"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 556,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 557,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 563,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 564,
+      "message": "变量声明可能缺少分号"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 569,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 570,
+      "message": "包含console语句，生产环境应移除"
+    },
+    {
+      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
+      "line": 604,
       "message": "可能存在未闭合的标签: string"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 584,
+      "line": 614,
       "message": "可能存在未闭合的标签: string"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\TiktokAccountManagement.vue",
-      "line": 594,
+      "line": 624,
       "message": "可能存在未闭合的标签: string"
     },
     {
@@ -1674,47 +1505,37 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 10,
+      "line": 22,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 18,
+      "line": 23,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 19,
+      "line": 24,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 20,
+      "line": 32,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 28,
+      "line": 40,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 36,
+      "line": 41,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 37,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 43,
-      "message": "可能存在未闭合的标签: el"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 44,
+      "line": 47,
       "message": "可能存在未闭合的标签: el"
     },
     {
@@ -1724,142 +1545,117 @@
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 57,
+      "line": 52,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 66,
+      "line": 61,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 68,
+      "line": 70,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 76,
+      "line": 72,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 89,
+      "line": 80,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 91,
+      "line": 93,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 96,
+      "line": 95,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 101,
+      "line": 100,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 158,
+      "line": 105,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 165,
+      "line": 155,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 168,
+      "line": 156,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 171,
+      "line": 157,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 179,
+      "line": 160,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 194,
+      "line": 163,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 195,
+      "line": 166,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 203,
+      "line": 174,
       "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 222,
-      "message": "变量声明可能缺少分号"
+      "line": 189,
+      "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 223,
-      "message": "变量声明可能缺少分号"
+      "line": 190,
+      "message": "可能存在未闭合的标签: el"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 224,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 225,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 226,
+      "line": 234,
       "message": "可能存在未闭合的标签: User"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 226,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 227,
+      "line": 235,
       "message": "可能存在未闭合的标签: Role"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 227,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 228,
+      "line": 236,
       "message": "可能存在未闭合的标签: User"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 228,
-      "message": "变量声明可能缺少分号"
-    },
-    {
-      "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 229,
+      "line": 237,
       "message": "可能存在未闭合的标签: FormInstance"
     },
     {
       "file": "D:\\矩阵\\看板1.0\\tik-matrix-dashboard\\matrix-dashboard-frontend\\src\\views\\UserManagement.vue",
-      "line": 246,
+      "line": 254,
       "message": "可能存在未闭合的标签: CreateUserRequest"
     },
     {
@@ -1899,7 +1695,7 @@
     }
   ],
   "summary": {
-    "totalErrors": 0,
-    "totalWarnings": 379
+    "totalErrors": 1,
+    "totalWarnings": 337
   }
 }

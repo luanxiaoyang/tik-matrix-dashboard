@@ -41,6 +41,7 @@ export class ReportSubmissionService {
       submitterId,
       tiktokAccountId: createDto.tiktokAccountId,
       yaychatUserId: createDto.yaychatUserId,
+      submissionData: createDto.submissionData || {},
     });
 
     return this.reportRepository.save(report);
@@ -82,7 +83,7 @@ export class ReportSubmissionService {
     const [reports, total] = await queryBuilder.getManyAndCount();
 
     return {
-      reports,
+      items: reports,
       total,
       page,
       limit,

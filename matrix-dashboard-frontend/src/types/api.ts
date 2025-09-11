@@ -317,3 +317,66 @@ export interface TiktokAccountStats {
   assignedCount: number;
   unassignedCount: number;
 }
+
+// 转化记录提交相关类型
+export interface ReportSubmission {
+  id: number;
+  yaychatUserId: number;
+  tiktokAccountId: number;
+  submissionData: Record<string, unknown>;
+  status: 'pending' | 'approved' | 'rejected';
+  submittedAt: string;
+  reviewedAt?: string;
+  reviewedBy?: string;
+  reviewNotes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// 创建转化记录提交请求
+export interface CreateReportSubmissionRequest {
+  yaychatUserId: number;
+  tiktokAccountId: number;
+  submissionData: Record<string, unknown>;
+  status?: 'pending' | 'approved' | 'rejected';
+}
+
+// 更新转化记录提交请求
+export interface UpdateReportSubmissionRequest {
+  yaychatUserId?: number;
+  tiktokAccountId?: number;
+  submissionData?: Record<string, unknown>;
+  status?: 'pending' | 'approved' | 'rejected';
+  reviewNotes?: string;
+}
+
+// 转化记录提交查询参数
+export interface GetReportSubmissionsParams {
+  page?: number;
+  limit?: number;
+  yaychatUserId?: number;
+  tiktokAccountId?: number;
+  status?: 'pending' | 'approved' | 'rejected';
+  startDate?: string;
+  endDate?: string;
+}
+
+// 转化记录提交分页响应
+export interface ReportSubmissionPaginationResponse {
+  items: ReportSubmission[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+// 转化记录统计信息
+export interface ReportSubmissionStatistics {
+  totalSubmissions: number;
+  pendingCount: number;
+  approvedCount: number;
+  rejectedCount: number;
+  todaySubmissions: number;
+  weeklySubmissions: number;
+  monthlySubmissions: number;
+}

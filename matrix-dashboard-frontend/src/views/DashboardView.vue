@@ -52,6 +52,11 @@
           <el-icon><CreditCard /></el-icon>
           <template #title>充值同步</template>
         </el-menu-item>
+
+        <el-menu-item index="/report-submissions" v-if="authStore.hasPermission('report:read')">
+          <el-icon><Document /></el-icon>
+          <template #title>转化记录提交</template>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 
@@ -117,6 +122,19 @@ import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
 import { useAuthStore } from "@/stores/auth";
+import {
+  House,
+  User,
+  Key,
+  VideoCamera,
+  CreditCard,
+  Document,
+  Expand,
+  Fold,
+  ArrowDown,
+  Setting,
+  SwitchButton
+} from "@element-plus/icons-vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -137,6 +155,7 @@ const currentRouteTitle = computed(() => {
     permissions: "权限管理",
     "tiktok-accounts": "TikTok账号管理",
     "recharge-sync": "充值同步",
+    "report-submissions": "转化记录提交",
   };
   return routeTitleMap[currentRouteName.value] || "";
 });

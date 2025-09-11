@@ -91,10 +91,14 @@ export const batchAssignUsers = (data: BatchAssignRequest): Promise<ApiResponse<
 /**
  * 根据用户ID获取分配的账号
  * @param userId 用户ID
+ * @param type 账号类型 - operations: 运营账号, conversion: 转化账号
  * @returns 用户分配的账号列表
  */
-export const getAccountsByUser = (userId: string): Promise<ApiResponse<TiktokAccount[]>> => {
-  return request.get(`/tiktok-accounts/user/${userId}`);
+export const getAccountsByUser = (
+  userId: string, 
+  type: 'operations' | 'conversion' = 'operations'
+): Promise<ApiResponse<TiktokAccount[]>> => {
+  return request.get(`/tiktok-accounts/user/${userId}`, { params: { type } });
 };
 
 /**
